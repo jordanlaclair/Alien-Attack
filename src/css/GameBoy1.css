@@ -1,0 +1,72 @@
+.gameboy__outer__shell {
+	height: 100vh;
+	background-color: rgb(116, 117, 113);
+	border-radius: 35px;
+	border-bottom-right-radius: 90px;
+	-moz-box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	-webkit-box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	width: 600px; /* change later with media query */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.gameboy__inner__shell {
+	height: 98%;
+	width: 97%;
+	background-color: rgb(180, 184, 176);
+	border-radius: 35px;
+	border-bottom-right-radius: 90px;
+	-moz-box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	-webkit-box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.gameboy__upperhalf {
+	margin-top: 3rem;
+	height: 50%;
+}
+.gameboy__lowerhalf {
+	height: 50%;
+}
+.gameboy__display__wrapper {
+	width: 500px; /* change later with media query */
+	border-radius: 35px;
+	border-bottom-right-radius: 90px;
+	box-shadow: inset 0 0 10px rgb(68, 66, 66);
+
+	height: 100%;
+	background-color: gray;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.gameboy__display__circle {
+	width: 4%;
+	margin: 0px;
+	background-color: rgb(43, 41, 41);
+	border-radius: 50%;
+}
+.gameboy__display__borderwrapper {
+	margin: 0 15px; /* if bugs with circle change 15 to auto */
+	height: 80%;
+	width: 75%;
+	border: 5px solid;
+	border-color: rgb(102, 99, 99) rgb(179, 175, 175) rgb(179, 175, 175)
+		rgb(102, 99, 99);
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
+.gameboy__display {
+	height: 98.8%;
+	width: 99%;
+	background-color: rgb(89, 153, 29);
+	border-width: 2px;
+	border-style: solid;
+	border-color: #494536;
+}

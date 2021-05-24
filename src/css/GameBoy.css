@@ -1,0 +1,9 @@
+.image__container {
+	height: 100vh;
+}
+
+.gameboy__image {
+	display: block;
+	height: 100%;
+	width: auto;
+}
