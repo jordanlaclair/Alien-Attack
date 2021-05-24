@@ -29,9 +29,12 @@
 .gameboy__upperhalf {
 	margin-top: 3rem;
 	height: 50%;
+	width: auto;
 }
 .gameboy__lowerhalf {
 	height: 50%;
+	width: auto;
+	display: flex;
 }
 .gameboy__display__wrapper {
 	width: 500px; /* change later with media query */
@@ -69,4 +72,32 @@
 	border-width: 2px;
 	border-style: solid;
 	border-color: #494536;
+}
+.gameboy__lowerhalf__left {
+	height: 100%;
+	width: 50%;
+}
+.gameboy__start {
+	cursor: pointer;
+	width: 10%;
+	height: 12%;
+	box-shadow: 1px 1px 1px rgb(0 0 0 / 20%);
+	background-color: green;
+	border: 1px solid black;
+	border-radius: 50%;
+}
+
+.gameboy__start:hover {
+	background-color: #3e8e41;
+}
+
+.gameboy__start:active {
+	background-color: #3e8e41;
+	box-shadow: 0 5px #666;
+	transform: translateY(4px);
+}
+
+.gameboy__lowerhalf__right {
+	height: 100%;
+	width: 50%;
 }

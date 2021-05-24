@@ -14,7 +14,12 @@ function GameBoy1() {
 							</div>
 						</div>
 					</div>
-					<div class="gameboy__lowerhalf"></div>
+					<div class="gameboy__lowerhalf">
+						<div class="gameboy__lowerhalf__left">
+							<button class="gameboy__start">Click me</button>
+						</div>
+						<div class="gameboy__lowerhalf__right">sfsddf</div>
+					</div>
 				</div>
 			</div>
 		</div>
