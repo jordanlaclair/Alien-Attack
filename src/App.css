@@ -1,4 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 .App {
+	font-family: "VT323", monospace;
 	background-color: #282c34;
 	min-height: 100vh;
 	color: white;
