@@ -235,7 +235,7 @@
 .gameboy__pause:active {
 	background-color: rgb(194, 30, 30);
 	outline: 0;
-	box-shadow: inset 0 10px 5px rgb(0 0 0 / 80%);
+	box-shadow: inset 0 10px 3px rgb(0 0 0 / 80%);
 }
 *:focus {
 	outline: 0;
@@ -243,4 +243,189 @@
 .gameboy__lowerhalf__right {
 	height: 100%;
 	width: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.gameboy__controls__wrapper {
+	width: 90%;
+	height: 55%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+.gameboy__controls__row1 {
+	height: 33%;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+.gameboy__controls__row2 {
+	height: 33%;
+	display: flex;
+	width: 100%;
+	justify-content: space-around;
+	align-items: center;
+}
+.gameboy__controls__row3 {
+	height: 33%;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.gameboy__uparrow1 {
+	cursor: pointer;
+	width: 30%;
+	height: 95%;
+	box-shadow: inset 0px -5px 5px black;
+	border: 1px solid black;
+	background-color: rgb(170, 5, 5);
+	border-radius: 50%;
+}
+
+.gameboy__uparrow1:hover {
+	background-color: rgb(194, 30, 30);
+}
+
+.gameboy__uparrow1:active {
+	background-color: rgb(194, 30, 30);
+	outline: 0;
+	box-shadow: inset 0 5px 2px rgb(0 0 0 / 80%);
+}
+
+.gameboy__uparrow1__active {
+	cursor: pointer;
+	width: 30%;
+	height: 95%;
+	border: 1px solid black;
+	border-radius: 50%;
+	background-color: rgb(194, 30, 30);
+	outline: 0;
+	box-shadow: inset 0 5px 2px rgb(0 0 0 / 80%);
+}
+
+.gameboy__arrows__wrapper {
+	width: 25%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.gameboy__arrows__row1 {
+	height: 33%;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+.gameboy__arrows__row2 {
+	height: 33%;
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+}
+.gameboy__arrows__row3 {
+	height: 33%;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+.gameboy__arrow__up {
+	width: 10%;
+	height: 0;
+	padding-left: 10%;
+	padding-bottom: 10%;
+	overflow: hidden;
+	border: none;
+	background-color: transparent;
+}
+.gameboy__arrow__up::after {
+	content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	margin-left: -500px;
+	border-left: 500px solid transparent;
+	border-right: 500px solid transparent;
+	border-bottom: 500px solid black;
+}
+.gameboy__arrow__left {
+	width: 10%;
+	height: 0;
+	padding-left: 10%;
+	padding-bottom: 10%;
+	overflow: hidden;
+	border: none;
+	background-color: transparent;
+	transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg); /* IE 9 */
+	-moz-transform: rotate(-90deg); /* Firefox */
+	-webkit-transform: rotate(-90deg); /* Safari and Chrome */
+	-o-transform: rotate(-90deg); /* Opera */
+}
+.gameboy__arrow__left::after {
+	content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	margin-left: -500px;
+	border-left: 500px solid transparent;
+	border-right: 500px solid transparent;
+	border-bottom: 500px solid black;
+}
+.gameboy__arrow__right {
+	width: 10%;
+	height: 0;
+	padding-left: 10%;
+	padding-top: 10%;
+	background-color: transparent;
+	overflow: hidden;
+	border: none;
+	transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg); /* IE 9 */
+	-moz-transform: rotate(-90deg); /* Firefox */
+	-webkit-transform: rotate(-90deg); /* Safari and Chrome */
+	-o-transform: rotate(-90deg); /* Opera */
+}
+.gameboy__arrow__right::after {
+	content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	margin-left: -500px;
+	margin-top: -500px;
+	border-left: 500px solid transparent;
+	border-right: 500px solid transparent;
+	border-top: 500px solid black;
+	background-color: transparent;
+}
+
+.gameboy__arrow__down {
+	width: 10%;
+	height: 0;
+	padding-left: 10%;
+	padding-top: 10%;
+	background-color: transparent;
+	overflow: hidden;
+	border: none;
+}
+.gameboy__arrow__down::after {
+	content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	margin-left: -500px;
+	margin-top: -500px;
+	border-left: 500px solid transparent;
+	border-right: 500px solid transparent;
+	border-top: 500px solid black;
+	background-color: transparent;
 }
