@@ -1,12 +1,12 @@
+import Notepad from "./Components/Notepad";
 import GameBoy from "./Components/GameBoy";
-import GameBoy1 from "./Components/GameBoy1";
 import "./App.css";
 
 function App() {
 	return (
 		<div className="App">
+			<Notepad />
 			<GameBoy />
-			<GameBoy1 />
 		</div>
 	);
 }

@@ -1,0 +1,69 @@
+.notepad__wrapper {
+	background-color: rgb(254, 243, 136);
+	color: black;
+	height: 80vh;
+	width: 600px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+	position: relative;
+}
+
+.header__wrapper {
+	height: 10%;
+	width: 100%;
+	border-width: 0px;
+	border-bottom-width: 2px;
+	border-color: rgb(12, 180, 180);
+	border-style: solid;
+}
+.lines__wrapper {
+	height: 90%;
+	width: 100%;
+}
+.redlines__wrapper {
+	position: absolute;
+	height: 100%;
+	top: 0px;
+	left: 5%;
+	width: 10%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.redlines__inner__wrapper {
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	align-content: center;
+}
+.redline {
+	height: 100%;
+	width: 2px;
+	margin: 0px;
+	border-width: 0px;
+	border-left: 2px;
+	border-style: solid;
+	border-color: rgb(187, 18, 18);
+	background: transparent;
+}
+.line {
+	padding-left: 13%;
+	height: 5%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	border-width: 0px;
+	border-bottom-width: 2px;
+	border-color: rgb(12, 180, 180);
+	border-style: solid;
+	font-size: 1.5rem;
+}
