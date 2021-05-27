@@ -44,10 +44,8 @@
 	width: 75px;
 	height: 8px;
 	background: #f1f1f1;
-	top: 90.5%;
-	margin-top: 75px;
-	margin-right: 60px;
-	right: 5%;
+	bottom: 0.5%;
+	right: 15%;
 	box-shadow: inset 0 -4px 1px rgba(0, 0, 0, 0.3),
 		-1px -1px 1px rgba(0, 0, 0, 0.2), 0 2px 0 rgba(0, 0, 0, 0.3);
 }
@@ -57,5 +55,64 @@
 	z-index: 1;
 	position: absolute;
 	width: 5vw;
+	height: auto;
+}
+
+.chalk__equations {
+	top: 20%;
+	left: 45%;
+	z-index: 1;
+	position: absolute;
+
+	width: 15vw;
+	image-rendering: crisp-edges;
+	height: auto;
+}
+
+.chalk__scribble1 {
+	bottom: 20%;
+	left: 47%;
+	transform: rotate(-45deg);
+	z-index: 1;
+	position: absolute;
+	width: 7vw;
+	height: auto;
+}
+
+.chalk__scribble2 {
+	bottom: 35%;
+	transform: rotate(45deg);
+	right: 5%;
+	z-index: 1;
+	position: absolute;
+	width: 8vw;
+	height: auto;
+}
+
+.chalk__math {
+	bottom: 10%;
+	left: 4%;
+	z-index: 1;
+	position: absolute;
+	width: 8vw;
+	height: auto;
+}
+.chalk__cross {
+	bottom: 12%;
+	left: 4%;
+	opacity: 0.9;
+	z-index: 1;
+	position: absolute;
+	width: 8vw;
+	height: auto;
+}
+.chalk__cross1 {
+	top: 17%;
+	left: 45%;
+	z-index: 1;
+	position: absolute;
+	transform: rotate(-25deg);
+	width: 12vw;
+	image-rendering: crisp-edges;
 	height: auto;
 }

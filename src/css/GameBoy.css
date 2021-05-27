@@ -18,6 +18,26 @@
 	user-select: none;
 }
 
+.gameboy__outer__shell__bigger {
+	height: 90vh;
+	background-color: rgb(116, 117, 113);
+	border-radius: 35px;
+	border-bottom-right-radius: 90px;
+	-moz-box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	-webkit-box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	box-shadow: inset 0 0 10px rgb(209, 194, 194);
+	width: 50vw; /* change later with media query */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+}
+
 .gameboy__inner__shell {
 	z-index: 1;
 
@@ -58,7 +78,8 @@
 	justify-content: center;
 }
 .gameboy__display__circle {
-	width: 3%;
+	width: 5px;
+	height: 5px;
 	margin: 0px;
 	background-color: rgb(43, 41, 41);
 	border-radius: 50%;
@@ -196,7 +217,17 @@
 	outline: 0;
 	box-shadow: inset 0 3px 2px rgb(0 0 0 / 80%);
 }
-
+.gameboy__start__active {
+	cursor: pointer;
+	width: 40px;
+	height: 40px;
+	box-shadow: inset 0px -3px 2px black;
+	border: 1px solid black;
+	border-radius: 50%;
+	background-color: rgb(58, 155, 58);
+	outline: 0;
+	box-shadow: inset 0 3px 2px rgb(0 0 0 / 80%);
+}
 .gameboy__restart {
 	cursor: pointer;
 	width: 40px;
@@ -217,6 +248,18 @@
 	outline: 0;
 	box-shadow: inset 0 3px 2px rgb(0 0 0 / 80%);
 }
+.gameboy__restart__active {
+	cursor: pointer;
+	width: 40px;
+	height: 40px;
+	box-shadow: inset 0px -3px 2px black;
+
+	border: 1px solid black;
+	border-radius: 50%;
+	background-color: rgb(194, 30, 30);
+	outline: 0;
+	box-shadow: inset 0 3px 2px rgb(0 0 0 / 80%);
+}
 .gameboy__pause__wrapper {
 	height: 75%;
 	width: 100%;
@@ -227,8 +270,8 @@
 }
 .gameboy__pause {
 	cursor: pointer;
-	width: 73%;
-	height: 100%;
+	width: 150px;
+	height: 150px;
 	box-shadow: inset 0px -5px 5px black;
 
 	border: 1px solid black;
@@ -241,6 +284,18 @@
 }
 
 .gameboy__pause:active {
+	background-color: rgb(194, 30, 30);
+	outline: 0;
+	box-shadow: inset 0 10px 3px rgb(0 0 0 / 80%);
+}
+.gameboy__pause__active {
+	cursor: pointer;
+	width: 150px;
+	height: 150px;
+	box-shadow: inset 0px -5px 5px black;
+
+	border: 1px solid black;
+	border-radius: 50%;
 	background-color: rgb(194, 30, 30);
 	outline: 0;
 	box-shadow: inset 0 10px 3px rgb(0 0 0 / 80%);
@@ -287,7 +342,7 @@
 
 .gameboy__uparrow1 {
 	cursor: pointer;
-	width: 30%;
+	width: 33%;
 	height: 95%;
 	box-shadow: inset 0px -5px 5px black;
 	border: 1px solid black;
@@ -302,18 +357,19 @@
 .gameboy__uparrow1:active {
 	background-color: rgb(194, 30, 30);
 	outline: 0;
-	box-shadow: inset 0 5px 2px rgb(0 0 0 / 80%);
+	box-shadow: inset 0 5px 8px rgb(0 0 0 / 80%);
 }
 
 .gameboy__uparrow1__active {
 	cursor: pointer;
-	width: 30%;
+	width: 29%;
 	height: 95%;
+	box-shadow: inset 0px -5px 5px black;
 	border: 1px solid black;
 	border-radius: 50%;
 	background-color: rgb(194, 30, 30);
 	outline: 0;
-	box-shadow: inset 0 5px 2px rgb(0 0 0 / 80%);
+	box-shadow: inset 0 5px 8px rgb(0 0 0 / 80%);
 }
 
 .gameboy__arrows__wrapper {
@@ -436,4 +492,47 @@
 	border-right: 500px solid transparent;
 	border-top: 500px solid black;
 	background-color: transparent;
+}
+@media screen and (min-width: 1024px) {
+	.gameboy__uparrow1 {
+		width: 29%;
+	}
+}
+
+@media screen and (max-width: 1867px) {
+	.gameboy__outer__shell {
+		width: 50vw; /* change later with media query */
+	}
+}
+
+@media screen and (max-width: 1023px) {
+	.gameboy__outer__shell {
+		width: 100vw; /* change later with media query */
+	}
+	.gameboy__upperhalf {
+		width: 90%;
+	}
+	.gameboy__display__borderwrapper {
+		width: 65%;
+	}
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+	.gameboy__outer__shell {
+		width: 70vw; /* change later with media query */
+	}
+}
+@media screen and (min-width: 900px) and (max-width: 1867px) {
+	.gameboy__outer__shell {
+		width: 45vw; /* change later with media query */
+	}
+}
+@media screen and (max-width: 320px) {
+	.gameboy__pause {
+		width: 100px;
+		height: 100px; /* change later with media query */
+	}
+	.gameboy__pause__wrapper {
+		height: 75%;
+		margin-top: 20%;
+	}
 }

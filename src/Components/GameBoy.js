@@ -31,6 +31,16 @@ function GameBoy() {
 			move.play();
 			document.getElementById("leftarrow").className =
 				"gameboy__uparrow1__active";
+		} else if (event.key === "s" || event.key === "S") {
+			start.play();
+			document.getElementById("start").className = "gameboy__start__active";
+		} else if (event.key === "r" || event.key === "R") {
+			restart.play();
+			document.getElementById("restart").className = "gameboy__restart__active";
+		} else if (event.key === "p" || event.key === "P") {
+			move.load();
+			move.play();
+			document.getElementById("pause").className = "gameboy__pause__active";
 		}
 	};
 	const handleKeyUp = (event) => {
@@ -42,6 +52,12 @@ function GameBoy() {
 			document.getElementById("downarrow").className = "gameboy__uparrow1";
 		} else if (event.key === "ArrowLeft") {
 			document.getElementById("leftarrow").className = "gameboy__uparrow1";
+		} else if (event.key === "S" || event.key === "s") {
+			document.getElementById("start").className = "gameboy__start";
+		} else if (event.key === "R" || event.key === "r") {
+			document.getElementById("restart").className = "gameboy__restart";
+		} else if (event.key === "P" || event.key === "p") {
+			document.getElementById("pause").className = "gameboy__pause";
 		}
 	};
 
@@ -72,7 +88,6 @@ function GameBoy() {
 				<div className="gameboy__inner__shell">
 					<div className="gameboy__upperhalf">
 						<div className="gameboy__display__wrapper">
-							&nbsp;
 							<div class="gameboy__display__circle">&nbsp;</div>
 							<div className="gameboy__display__borderwrapper">
 								<div className="gameboy__display">&nbsp;</div>
@@ -85,6 +100,7 @@ function GameBoy() {
 								<div className="gameboy__buttons">
 									<div className="gameboy__start__wrapper">
 										<button
+											id="start"
 											onMouseDown={handleStartButtonPress}
 											className="gameboy__start"
 										></button>
@@ -94,6 +110,7 @@ function GameBoy() {
 									</div>
 									<div className="gameboy__start__wrapper">
 										<button
+											id="restart"
 											onMouseDown={handleRestartButtonPress}
 											className="gameboy__restart"
 										></button>
@@ -106,6 +123,7 @@ function GameBoy() {
 							<div className="gameboy__lowerhalf__left__bottom">
 								<div className="gameboy__pause__wrapper">
 									<button
+										id="pause"
 										onMouseDown={handleButtonPress}
 										className="gameboy__pause"
 									></button>

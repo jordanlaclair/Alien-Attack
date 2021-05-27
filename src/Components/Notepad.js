@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/Notepad.css";
 function Notepad1() {
-	const [width, setWidth] = useState(0);
+	const [width, setWidth] = useState(window.innerWidth);
 
 	useEffect(() => {
 		window.addEventListener("resize", handleResize);
@@ -15,7 +15,7 @@ function Notepad1() {
 
 	console.log(width);
 
-	if (width > 1024) {
+	if (width > 1867) {
 		return (
 			<div className="notepad__wrapper">
 				<div className="img-tape img-tape--3">
