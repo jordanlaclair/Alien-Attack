@@ -1,4 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Walter+Turncoat&display=swap");
 .notepad__wrapper {
+	font-family: "Walter Turncoat", cursive;
 	z-index: 8 !important;
 
 	background-color: rgb(254, 243, 136);
@@ -93,10 +95,7 @@
 	-moz-border-radius: 8px;
 	border-radius: 8px;
 }
-.keycap span {
-	position: absolute;
-	top: 13%;
-}
+
 .keycap:before {
 	content: "";
 
@@ -117,7 +116,7 @@
 }
 
 .keycap .right {
-	padding-top: 7%;
+	padding-top: 25%;
 
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
@@ -125,7 +124,7 @@
 }
 
 .keycap .left {
-	padding-top: 7%;
+	padding-top: 25%;
 
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);
@@ -133,6 +132,7 @@
 }
 
 .keycap .down {
+	padding-top: 25%;
 	-webkit-transform: rotate(180deg);
 	-moz-transform: rotate(180deg);
 	transform: rotate(180deg);

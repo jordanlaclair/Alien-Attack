@@ -1,4 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Give+You+Glory&display=swap");
 .chalk__wrapper {
+	font-family: "Give You Glory", cursive;
 	position: absolute;
 	z-index: 1;
 	top: 0%;
@@ -54,7 +56,17 @@
 	left: 5%;
 	z-index: 1;
 	position: absolute;
-	width: 5vw;
+	width: 6vw;
+	height: auto;
+}
+
+.chalk__letter__c {
+	transform: rotate(20deg);
+	top: 8.5%;
+	left: 7%;
+	z-index: 1;
+	position: absolute;
+	width: 2vw;
 	height: auto;
 }
 
@@ -115,4 +127,68 @@
 	width: 12vw;
 	image-rendering: crisp-edges;
 	height: auto;
+}
+.chalk__hate__school__wrapper1 {
+	opacity: 0.9;
+	font-size: 2rem;
+	top: 35%;
+	left: 5%;
+	z-index: 1;
+	position: absolute;
+	width: 5vw;
+	height: auto;
+	transform: rotate(-25deg);
+}
+.chalk__hate__school__wrapper2 {
+	font-size: 2rem;
+	opacity: 0.9;
+
+	top: 40%;
+	left: 5%;
+	z-index: 1;
+	position: absolute;
+	width: 5vw;
+	height: auto;
+	transform: rotate(-15deg);
+}
+.rotate1 {
+	position: absolute;
+
+	left: 0%;
+	transform: rotate(-25deg);
+}
+
+.rotate2 {
+	position: absolute;
+
+	left: 20%;
+	transform: rotate(10deg);
+}
+
+.rotate3 {
+	position: absolute;
+	left: 45%;
+
+	transform: rotate(25deg);
+}
+.rotate4 {
+	position: absolute;
+	left: 65%;
+	transform: rotate(40deg);
+}
+.rotate5 {
+	position: absolute;
+	left: 85%;
+	transform: rotate(-25deg);
+}
+.rotate6 {
+	position: absolute;
+	left: 100%;
+	transform: rotate(-25deg);
+}
+
+@media screen and (max-width: 1280px) {
+	.chalk__hate__school__outer__wrapper {
+		display: none;
+	}
 }
