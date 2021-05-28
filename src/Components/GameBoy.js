@@ -38,6 +38,8 @@ function GameBoy() {
 			document.getElementById("start").className = "gameboy__start__active";
 		} else if (event.key === "r" || event.key === "R") {
 			restart.play();
+			dispatch({ type: "restart" });
+
 			document.getElementById("restart").className = "gameboy__restart__active";
 		} else if (event.key === "p" || event.key === "P") {
 			move.load();
@@ -74,6 +76,7 @@ function GameBoy() {
 	};
 	const handleRestartButtonPress = (e) => {
 		restart.play();
+		dispatch({ type: "restart" });
 	};
 
 	function loginReducer(state, action) {
@@ -90,10 +93,40 @@ function GameBoy() {
 						minute: "2-digit",
 					}),
 				};
+			case "restart":
+				if (state.start) {
+					return {
+						...state,
+						restart: true,
+						time: "",
+						minutes: 0,
+						seconds: 0,
+						score: 0,
+						totalSeconds: 0,
+					};
+				} else {
+					return { ...state };
+				}
+
 			case "update":
 				return {
 					...state,
 					[action.field]: action.value,
+				};
+			case "updateTotalSeconds":
+				return {
+					...state,
+					totalSeconds: state.totalSeconds + 1,
+				};
+			case "updateSeconds":
+				return {
+					...state,
+					seconds: pad(state.totalSeconds % 60),
+				};
+			case "updateMinutes":
+				return {
+					...state,
+					minutes: pad(parseInt(state.totalSeconds / 60)),
 				};
 
 			default:
@@ -111,28 +144,35 @@ function GameBoy() {
 		minutes: 0,
 		seconds: 0,
 		score: 0,
-		showTime: false,
 		showTimer: false,
+		showTime: false,
 		totalSeconds: 0,
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
 
+	function updateTimer() {
+		dispatch({
+			type: "updateTotalSeconds",
+		});
+
+		dispatch({
+			type: "updateSeconds",
+		});
+
+		dispatch({
+			type: "updateMinutes",
+		});
+	}
+
 	function updateTime() {
 		dispatch({
 			type: "update",
-			field: "totalSeconds",
-			value: (prevValue) => prevValue + 1,
-		});
-		dispatch({
-			type: "update",
-			field: "seconds",
-			value: pad(state.totalSeconds % 60),
-		});
-		dispatch({
-			type: "update",
-			field: "minutes",
-			value: pad(parseInt(state.totalSeconds / 60)),
+			field: "time",
+			value: new Date().toLocaleTimeString([], {
+				hour: "2-digit",
+				minute: "2-digit",
+			}),
 		});
 	}
 
@@ -141,23 +181,28 @@ function GameBoy() {
 		if (valString.length < 2) {
 			return "0" + valString;
 		} else {
-			return valString;
+			return parseInt(valString);
 		}
+	}
+
+	function getHours(time) {
+		return time.slice(0, 2);
+	}
+
+	function getMinutes(time) {
+		return time.slice(3, 5);
+	}
+
+	function getAMPM(time) {
+		return time.slice(time.length - 2);
 	}
 
 	useEffect(() => {
 		let interval = setInterval(() => {
 			if (state.start) {
-				updateTime();
+				updateTimer();
 
-				dispatch({
-					type: "update",
-					field: "time",
-					value: new Date().toLocaleTimeString([], {
-						hour: "2-digit",
-						minute: "2-digit",
-					}),
-				});
+				updateTime();
 			}
 			/* dispatch({
 				type: "start",
@@ -186,11 +231,12 @@ function GameBoy() {
 			document.removeEventListener("keyup", handleKeyUp);
 			clearInterval(interval);
 		};
-	}, []);
+	}, [state.start]);
 
-	useEffect(() => {
+	/* useEffect(() => {
 		console.log(state);
-	}, [state]);
+	}, [state]); */
+
 	return (
 		<div>
 			<div className="gameboy__outer__shell">
@@ -201,18 +247,96 @@ function GameBoy() {
 							<div className="gameboy__display__borderwrapper">
 								<div className="gameboy__display">
 									&nbsp;
-									<div className="gameboy__display__top"></div>
-									<div className="gameboy__display__bottom">
-										<div className="gameboy__timer">
-											<div className="timer__minutes">
-												{state.showTimer == true ? state.minutes : null}
+									{state.start ? (
+										<>
+											<div className="gameboy__display__top__start"></div>
+											<div className="gameboy__display__bottom__start">
+												{state.showTimer ? (
+													<div className="gameboy__timer">
+														<div className="timer__minutes">
+															{state.minutes}
+														</div>
+														<div className="timer__colon">:</div>
+														<div className="timer__seconds">
+															{state.seconds}
+														</div>
+													</div>
+												) : null}
+												{state.showTimer ? (
+													<div className="gameboy__time">
+														<div className="time__hours">
+															{getHours(state.time)}
+														</div>
+														<div className="timer__colon">:</div>
+														<div className="time__minutes">
+															{getMinutes(state.time) +
+																" " +
+																getAMPM(state.time)}
+														</div>
+													</div>
+												) : null}
 											</div>
-											<div className="timer__seconds">
-												{state.showTimer == true ? state.seconds : null}
+										</>
+									) : (
+										<div className="gameboy__display__inner">
+											<div className="gameboy__display__top__menu"></div>
+											<div className="mountain__wrapper">
+												<div className="mountain1"></div>
+												<div className="mountain2"></div>
+												<div className="mountain3"></div>
+												<div className="mountain4"></div>
+												<div className="mountain5"></div>
+												<div className="mountain6"></div>
+												<div className="mountain7"></div>
+												<div className="mountain8"></div>
+												<div className="mountain9"></div>
+												<div className="mountain10"></div>
+												<div className="mountain11"></div>
+												<div className="mountain12"></div>
+												<div className="mountain13"></div>
+												<div className="mountain14"></div>
+												<div className="mountain15"></div>
+												<div className="mountain16"></div>
+												<div className="mountain17"></div>
+												<div className="mountain18"></div>
+												<div className="mountain19"></div>
+												<div className="mountain20"></div>
+												<div className="mountain21"></div>
+												<div className="mountain22"></div>
+												<div className="mountain23"></div>
+												<div className="mountain24"></div>
+												<div className="mountain25"></div>
+												<div className="mountain26"></div>
+												<div className="mountain27"></div>
+												<div className="mountain28"></div>
+												<div className="mountain29"></div>
+												<div className="mountain30"></div>
+												<div className="mountain31"></div>
+												<div className="mountain32"></div>
+												<div className="mountain33"></div>
+												<div className="mountain34"></div>
+												<div className="mountain35"></div>
+												<div className="mountain36"></div>
+												<div className="mountain37"></div>
+												<div className="mountain38"></div>
+												<div className="mountain39"></div>
+												<div className="mountain40"></div>
+												<div className="mountain41"></div>
+												<div className="mountain42"></div>
+												<div className="mountain43"></div>
+												<div className="mountain44"></div>
+												<div className="mountain45"></div>
+												<div className="mountain46"></div>
 											</div>
+
+											<div className="gameboy__display__bottom__line1"></div>
+											<div className="gameboy__display__bottom__line2"></div>
+
+											<div className="gameboy__display__bottom__line3"></div>
+
+											<div className="gameboy__display__bottom__menu"></div>
 										</div>
-										<div className="gameboy__time">{state.time}</div>
-									</div>
+									)}
 								</div>
 							</div>
 						</div>
