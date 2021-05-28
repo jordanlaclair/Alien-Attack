@@ -39,7 +39,7 @@ function Chalk() {
 				<img
 					draggable="false"
 					className="chalk__scribble2"
-					src={ScribbleChalk}
+					src={CrossChalk}
 					alt="chalk of scribble"
 				/>
 				<img
@@ -51,7 +51,7 @@ function Chalk() {
 				<img
 					draggable="false"
 					className="chalk__cross1"
-					src={CrossChalk1}
+					src={CrossChalk}
 					alt="chalk of cross"
 				/>
 				<img

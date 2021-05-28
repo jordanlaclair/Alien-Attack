@@ -341,7 +341,10 @@ function GameBoy() {
 
 											<div className="gameboy__display__bottom__line3"></div>
 
-											<div className="gameboy__display__bottom__menu"></div>
+											<div className="gameboy__display__bottom__menu">
+												<div className="year">1993 </div>
+												<div className="year1">&copy;</div>
+											</div>
 										</div>
 									)}
 								</div>

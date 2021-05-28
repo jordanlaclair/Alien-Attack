@@ -92,6 +92,7 @@
 }
 
 .chalk__scribble2 {
+	opacity: 0.9;
 	bottom: 35%;
 	transform: rotate(45deg);
 	right: 5%;
@@ -120,11 +121,12 @@
 }
 .chalk__cross1 {
 	top: 17%;
+	opacity: 0.9;
 	left: 45%;
 	z-index: 1;
 	position: absolute;
-	transform: rotate(-25deg);
-	width: 12vw;
+	transform: rotate(-1deg);
+	width: 9vw;
 	image-rendering: crisp-edges;
 	height: auto;
 }
