@@ -125,6 +125,7 @@
 }
 .gameboy__display {
 	display: flex;
+	position: relative;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -548,11 +549,30 @@
 	height: 4%;
 }
 .gameboy__display__top__start {
+	position: absolute;
+	top: 0px;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
 	background: transparent;
 	width: 100%;
 	height: 75%;
 }
+.bullet__left {
+	width: 3.33%;
+	z-index: 1;
+	background-color: rgb(46, 27, 65);
+}
+
+.bullet__right {
+	width: 3.33%;
+	height: 15%;
+	z-index: 1;
+	background-color: rgb(46, 27, 65);
+}
 .gameboy__display__bottom__start {
+	position: absolute;
+	bottom: 0px;
 	background-color: rgb(89, 153, 29);
 	z-index: 2;
 	display: flex;

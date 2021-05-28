@@ -3,6 +3,7 @@ import ArrowPress from "../sounds/gameboy_arrowkey.mp3";
 import Restart from "../sounds/gameboy_restart.mp3";
 import Start from "../sounds/gameboy_start.mp3";
 import UFO from "../images/gameboy__ufo.png";
+import $ from "jquery";
 
 import "../css/GameBoy.css";
 
@@ -129,6 +130,16 @@ function GameBoy() {
 					...state,
 					minutes: pad(parseInt(state.totalSeconds / 60)),
 				};
+			case "updateSpaceShipsLengths":
+				return {
+					...state,
+					spaceShipsLengths: [...state.spaceShipsLengths, action.value],
+				};
+			case "setNewSpaceShipsLengths":
+				return {
+					...state,
+					spaceShipsLengths: [action.value],
+				};
 
 			default:
 				break;
@@ -148,6 +159,7 @@ function GameBoy() {
 		showTimer: false,
 		showTime: false,
 		totalSeconds: 0,
+		spaceShipsLengths: [],
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -198,32 +210,74 @@ function GameBoy() {
 		return time.slice(time.length - 2);
 	}
 
+	function getRandomArbitrary(min, max) {
+		return Math.floor(Math.random() * (max - min) + min);
+	}
+	function renderRandom() {
+		for (let i = 0; i < 10; i++) {
+			dispatch({
+				type: "updateSpaceShipsLengths",
+				value: getRandomArbitrary(10, 30),
+			});
+		}
+	}
+
+	function shuffle(array) {
+		var newArray = [...array];
+		var currentIndex = newArray.length,
+			temporaryValue,
+			randomIndex;
+
+		while (0 !== currentIndex) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+			//swaps
+			temporaryValue = newArray[currentIndex];
+			newArray[currentIndex] = newArray[randomIndex];
+			newArray[randomIndex] = temporaryValue;
+		}
+
+		dispatch({ type: "setNewSpaceShipsLengths", value: newArray });
+	}
+
+	function randomMargin() {
+		$(".bullet__left").each(function () {
+			randomizeLeftBullet(this);
+		});
+		$(".bullet__right").each(function () {
+			randomizeRightBullet(this);
+		});
+	}
+
+	function randomizeLeftBullet(el) {
+		var randomnumber1 = Math.floor(Math.random() * 11);
+		console.log(randomnumber1);
+		var randomnumber2 = Math.floor(Math.random() * 11);
+		console.log(randomnumber2);
+		$(el).css({
+			"margin-left": randomnumber2 + "px",
+		});
+	}
+	function randomizeRightBullet(el) {
+		var randomnumber1 = Math.floor(Math.random() * 11);
+		console.log(randomnumber1);
+		var randomnumber2 = Math.floor(Math.random() * 11);
+		console.log(randomnumber2);
+		$(el).css({
+			"margin-right": randomnumber2 + "px",
+		});
+	}
+
 	useEffect(() => {
-		let interval = setInterval(() => {
-			if (state.start) {
+		let interval;
+		if (state.start) {
+			interval = setInterval(() => {
 				updateTimer();
-
 				updateTime();
-			}
-			/* dispatch({
-				type: "start",
-				field: "time",
-				value: new Date().toLocaleTimeString([], {
-					hour: "2-digit",
-					minute: "2-digit",
-				}),
-			});  */
-
-			/* dispatch({
-				type: "start",
-				field: "timer",
-				value: new Date().toLocaleTimeString([], {
-					hour: "2-digit",
-					minute: "2-digit",
-				}),
-			}); */
-			//console.log(date.slice(0, date.length - 2));
-		}, 1000);
+				randomMargin();
+			}, 1000);
+			renderRandom();
+		}
 
 		document.addEventListener("keydown", handleKeyDown);
 		document.addEventListener("keyup", handleKeyUp);
@@ -234,9 +288,9 @@ function GameBoy() {
 		};
 	}, [state.start]);
 
-	/* useEffect(() => {
-		console.log(state);
-	}, [state]); */
+	useEffect(() => {
+		console.log(state.spaceShipsLengths);
+	}, [state.spaceShipsLengths]);
 
 	return (
 		<div>
@@ -250,7 +304,18 @@ function GameBoy() {
 									&nbsp;
 									{state.start ? (
 										<>
-											<div className="gameboy__display__top__start"></div>
+											<div className="gameboy__display__top__start">
+												{state.spaceShipsLengths.length == 10 ? (
+													<>
+														<div
+															style={{ height: "10%" }}
+															className="bullet__left"
+														></div>
+
+														<div className="bullet__right"></div>
+													</>
+												) : null}
+											</div>
 											<div className="gameboy__display__bottom__start">
 												{state.showTimer ? (
 													<div className="gameboy__timer">
