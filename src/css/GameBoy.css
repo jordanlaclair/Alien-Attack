@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 .gameboy__outer__shell {
 	height: 90vh;
 	background-color: rgb(116, 117, 113);
@@ -157,10 +158,59 @@
 	position: relative;
 }
 .gameboy__display__top__menu {
+	font-family: "Press Start 2P", cursive;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	background: transparent;
 	width: 100%;
 	height: 75%;
 }
+
+.gameboy__title {
+	color: rgb(32, 70, 49);
+	font-size: 1.3em;
+	z-index: 2;
+	text-align: center;
+	position: absolute;
+	top: 0px;
+	margin: 0;
+	margin-left: auto;
+	margin-top: 5%;
+
+	-webkit-text-stroke: 1px rgba(255, 255, 255, 0.747); /* width and color */
+}
+.gameboy__UFO__wrapper {
+	-webkit-transform: scaleX(-1);
+	transform: rotate(15deg) scaleX(-1);
+
+	background: transparent;
+
+	z-index: 1;
+	margin-right: auto;
+	height: auto;
+	width: 45%;
+}
+.ufo {
+	width: 100%;
+}
+.start__wrapper {
+	align-self: flex-end;
+	animation: blink 1.5s step-start 0s infinite;
+	-webkit-animation: blink 1.5s step-start 0s infinite;
+	color: rgb(32, 70, 49) !important ;
+	text-transform: uppercase;
+	font-size: 1.3em;
+	width: 75%;
+	margin-left: auto !important;
+	margin-bottom: 3%;
+	margin-right: 2%;
+	z-index: 1;
+	color: white;
+	text-align: center;
+	-webkit-text-stroke: 0.4px rgba(255, 255, 255, 0.747); /* width and color */
+}
+
 .mountain__wrapper {
 	display: flex;
 	justify-content: center;
@@ -917,7 +967,22 @@
 		width: 45vw; /* change later with media query */
 	}
 }
+
+@media screen and (max-width: 420px) {
+	.start__wrapper {
+		white-space: nowrap;
+		font-size: 0.9em;
+	}
+}
+
 @media screen and (max-width: 320px) {
+	.gameboy__title {
+		font-size: 0.8em;
+	}
+	.start__wrapper {
+		font-size: 0.7em;
+		white-space: nowrap;
+	}
 	.gameboy__pause {
 		width: 100px;
 		height: 100px; /* change later with media query */
@@ -925,5 +990,11 @@
 	.gameboy__pause__wrapper {
 		height: 75%;
 		margin-top: 20%;
+	}
+}
+
+@media screen and (min-width: 320px) and (max-width: 420px) {
+	.gameboy__title {
+		font-size: 0.9em;
 	}
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from "react";
 import ArrowPress from "../sounds/gameboy_arrowkey.mp3";
 import Restart from "../sounds/gameboy_restart.mp3";
 import Start from "../sounds/gameboy_start.mp3";
+import UFO from "../images/gameboy__ufo.png";
 
 import "../css/GameBoy.css";
 
@@ -279,7 +280,13 @@ function GameBoy() {
 										</>
 									) : (
 										<div className="gameboy__display__inner">
-											<div className="gameboy__display__top__menu"></div>
+											<div className="gameboy__display__top__menu">
+												<div className="gameboy__title">Alien Attack</div>
+												<div className="gameboy__UFO__wrapper">
+													<img className="ufo" src={UFO} alt="ufo" />
+												</div>
+												<div className="start__wrapper">Push Start</div>
+											</div>
 											<div className="mountain__wrapper">
 												<div className="mountain1"></div>
 												<div className="mountain2"></div>
