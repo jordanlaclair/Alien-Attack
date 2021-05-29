@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import ArrowPress from "../sounds/gameboy_arrowkey.mp3";
 import Restart from "../sounds/gameboy_restart.mp3";
 import Start from "../sounds/gameboy_start.mp3";
@@ -140,6 +140,11 @@ function GameBoy() {
 					...state,
 					spaceShipsLengths: [action.value],
 				};
+			case "addBulletElement":
+				return {
+					...state,
+					bullets: [action.value],
+				};
 
 			default:
 				break;
@@ -160,6 +165,7 @@ function GameBoy() {
 		showTime: false,
 		totalSeconds: 0,
 		spaceShipsLengths: [],
+		bullets: [],
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -214,7 +220,7 @@ function GameBoy() {
 		return Math.floor(Math.random() * (max - min) + min);
 	}
 	function renderRandom() {
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 30; i++) {
 			dispatch({
 				type: "updateSpaceShipsLengths",
 				value: getRandomArbitrary(10, 30),
@@ -247,27 +253,30 @@ function GameBoy() {
 		$(".bullet__right").each(function () {
 			randomizeRightBullet(this);
 		});
+		$(".bullet__middle").each(function () {
+			randomizeMiddleBullet(this);
+		});
 	}
 
 	function randomizeLeftBullet(el) {
-		var randomnumber1 = Math.floor(Math.random() * 11);
-		console.log(randomnumber1);
 		var randomnumber2 = Math.floor(Math.random() * 11);
-		console.log(randomnumber2);
 		$(el).css({
 			"margin-left": randomnumber2 + "px",
 		});
 	}
 	function randomizeRightBullet(el) {
-		var randomnumber1 = Math.floor(Math.random() * 11);
-		console.log(randomnumber1);
 		var randomnumber2 = Math.floor(Math.random() * 11);
-		console.log(randomnumber2);
 		$(el).css({
 			"margin-right": randomnumber2 + "px",
 		});
 	}
-
+	function randomizeMiddleBullet(el) {
+		var randomnumber2 = Math.floor(Math.random() * 11);
+		$(el).css({
+			"margin-right": randomnumber2 + "px",
+			"margin-left": randomnumber2 + "px",
+		});
+	}
 	useEffect(() => {
 		let interval;
 		if (state.start) {
@@ -305,16 +314,38 @@ function GameBoy() {
 									{state.start ? (
 										<>
 											<div className="gameboy__display__top__start">
-												{state.spaceShipsLengths.length == 10 ? (
-													<>
-														<div
-															style={{ height: "10%" }}
-															className="bullet__left"
-														></div>
-
-														<div className="bullet__right"></div>
-													</>
-												) : null}
+												{state.spaceShipsLengths.length == 30
+													? state.spaceShipsLengths.forEach((height, index) => {
+															if (index === 0) {
+																setState((prevState) => [
+																	...prevState,
+																	<div
+																		style={{ height: `${height}%` }}
+																		className="bullet__left"
+																	></div>,
+																]);
+															} else if (
+																index ===
+																state.spaceShipsLengths.length - 1
+															) {
+																setState((prevState) => [
+																	...prevState,
+																	<div
+																		style={{ height: `${height}%` }}
+																		className="bullet__right"
+																	></div>,
+																]);
+															} else {
+																setState((prevState) => [
+																	...prevState,
+																	<div
+																		style={{ height: `${height}%` }}
+																		className="bullet__middle"
+																	></div>,
+																]);
+															}
+													  })
+													: null}
 											</div>
 											<div className="gameboy__display__bottom__start">
 												{state.showTimer ? (

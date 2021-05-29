@@ -566,7 +566,11 @@
 
 .bullet__right {
 	width: 3.33%;
-	height: 15%;
+	z-index: 1;
+	background-color: rgb(46, 27, 65);
+}
+.bullet__middle {
+	width: 3.33%;
 	z-index: 1;
 	background-color: rgb(46, 27, 65);
 }
