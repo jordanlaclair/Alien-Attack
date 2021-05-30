@@ -2,7 +2,6 @@ import React from "react";
 import HeartChalk from "../images/chalk__heart.png";
 import ScribbleChalk from "../images/chalk__scribble.png";
 import CrossChalk from "../images/chalk__cross.png";
-import CrossChalk1 from "../images/chalk__cross1.png";
 import MathChalk from "../images/chalk__math.png";
 import EquationsChalk from "../images/chalk__equations.png";
 import CLetterChalk from "../images/chalk__c.png";

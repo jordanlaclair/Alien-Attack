@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Notepad from "./Components/Notepad";
 import GameBoy from "./Components/GameBoy";
 import Chalk from "./Components/Chalk";
+
 import "./App.css";
 
 function App() {

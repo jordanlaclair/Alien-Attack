@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
+import Bullets from "../Components/Bullets";
 import ArrowPress from "../sounds/gameboy_arrowkey.mp3";
 import Restart from "../sounds/gameboy_restart.mp3";
 import Start from "../sounds/gameboy_start.mp3";
@@ -9,6 +10,8 @@ import $ from "jquery";
 import "../css/GameBoy.css";
 
 function GameBoy() {
+	var bullet;
+	var barrier;
 	var move = new Audio(ArrowPress);
 	var restart = new Audio(Restart);
 	var start = new Audio(Start);
@@ -100,6 +103,8 @@ function GameBoy() {
 		} else {
 			restart.play();
 			dispatch({ type: "restart" });
+			setNewLengths(state.spaceShipsLengths);
+			resetBoard();
 		}
 	};
 
@@ -122,7 +127,6 @@ function GameBoy() {
 				if (state.start) {
 					return {
 						...state,
-						restart: true,
 						time: "",
 						minutes: 0,
 						seconds: 0,
@@ -158,15 +162,10 @@ function GameBoy() {
 					...state,
 					spaceShipsLengths: [...state.spaceShipsLengths, action.value],
 				};
-			case "setNewSpaceShipsLengths":
+			case "setNewArr":
 				return {
 					...state,
 					spaceShipsLengths: [action.value],
-				};
-			case "addBulletElement":
-				return {
-					...state,
-					bullets: [action.value],
 				};
 
 			default:
@@ -178,7 +177,6 @@ function GameBoy() {
 	const initialState = {
 		start: false,
 		startButtonActivated: false,
-		restart: false,
 		menu: true,
 		pause: false,
 		time: "",
@@ -189,7 +187,6 @@ function GameBoy() {
 		showTime: false,
 		totalSeconds: 0,
 		spaceShipsLengths: [],
-		bullets: [],
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -244,30 +241,14 @@ function GameBoy() {
 		return Math.floor(Math.random() * (max - min) + min);
 	}
 	function renderRandom() {
-		for (let i = 0; i < 20; i++) {
+		dispatch({ type: "setNewSpaceShipsLengths" });
+
+		for (let i = 0; i < 15; i++) {
 			dispatch({
 				type: "updateSpaceShipsLengths",
 				value: getRandomArbitrary(10, 15),
 			});
 		}
-	}
-
-	function shuffle(array) {
-		var newArray = [...array];
-		var currentIndex = newArray.length,
-			temporaryValue,
-			randomIndex;
-
-		while (0 !== currentIndex) {
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex -= 1;
-			//swaps
-			temporaryValue = newArray[currentIndex];
-			newArray[currentIndex] = newArray[randomIndex];
-			newArray[randomIndex] = temporaryValue;
-		}
-
-		dispatch({ type: "setNewSpaceShipsLengths", value: newArray });
 	}
 
 	function randomMargin() {
@@ -279,6 +260,24 @@ function GameBoy() {
 		});
 		$(".bullet__middle").each(function () {
 			randomizeMiddleBullet(this);
+		});
+	}
+
+	function resetBoard() {
+		$(".bullet__left").each(function () {
+			bringElementToTop(this);
+		});
+		$(".bullet__right").each(function () {
+			bringElementToTop(this);
+		});
+		$(".bullet__middle").each(function () {
+			bringElementToTop(this);
+		});
+	}
+
+	function bringElementToTop(el) {
+		$(el).css({
+			"margin-top": "0px",
 		});
 	}
 
@@ -351,6 +350,29 @@ function GameBoy() {
 		if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
 		return true;
 	}
+
+	function shuffle(array) {
+		var currentIndex = array.length,
+			randomIndex;
+
+		while (0 !== currentIndex) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex--;
+
+			[array[currentIndex], array[randomIndex]] = [
+				array[randomIndex],
+				array[currentIndex],
+			];
+		}
+
+		return array;
+	}
+
+	function setNewLengths(arr) {
+		let newArr = shuffle(arr);
+		dispatch({ type: "setNewArray", value: newArr });
+	}
+
 	useEffect(() => {
 		let interval;
 		if (state.start) {
@@ -358,17 +380,18 @@ function GameBoy() {
 				updateTimer();
 				updateTime();
 				randomMargin();
-				var barrier = $(".gameboy__controls__row1");
-				var bullet = $(".bullet__middle, .bullet__right, .bullet__left");
+				barrier = $(".bullets__barrier");
+				bullet = $(
+					".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3 "
+				);
 
 				let bool;
 				bullet.each(function () {
 					bool = checkCollision($(this), $(barrier));
+					if (bool) {
+						$(this).remove();
+					}
 				});
-
-				if (bool) {
-					bullet.remove();
-				}
 			}, 1000);
 			renderRandom();
 		}
@@ -392,42 +415,25 @@ function GameBoy() {
 				<div className="gameboy__inner__shell">
 					<div className="gameboy__upperhalf">
 						<div className="gameboy__display__wrapper">
-							<div class="gameboy__display__circle">&nbsp;</div>
+							<div className="gameboy__display__circle">&nbsp;</div>
 							<div className="gameboy__display__borderwrapper">
 								<div className="gameboy__display">
 									&nbsp;
 									{state.start ? (
 										<>
 											<div className="gameboy__display__top__start">
-												{state.spaceShipsLengths.length === 20
-													? state.spaceShipsLengths.map((height, index) => {
-															if (index === 0) {
-																return (
-																	<div
-																		style={{ height: `${height}%` }}
-																		className="bullet__left"
-																	></div>
-																);
-															} else if (
-																index ===
-																state.spaceShipsLengths.length - 1
-															) {
-																return (
-																	<div
-																		style={{ height: `${height}%` }}
-																		className="bullet__right"
-																	></div>
-																);
-															} else {
-																return (
-																	<div
-																		style={{ height: `${height}%` }}
-																		className="bullet__middle"
-																	></div>
-																);
-															}
-													  })
-													: null}
+												<Bullets
+													row={1}
+													bulletState={state.spaceShipsLengths}
+												/>
+												<Bullets
+													row={2}
+													bulletState={state.spaceShipsLengths}
+												/>
+												<Bullets
+													row={3}
+													bulletState={state.spaceShipsLengths}
+												/>
 											</div>
 											<div className="gameboy__display__bottom__start">
 												{state.showTimer ? (
@@ -454,7 +460,7 @@ function GameBoy() {
 														</div>
 													</div>
 												) : null}
-												<div id="bullets__barrier"></div>
+												<div className="bullets__barrier">&nbsp;</div>
 											</div>
 										</>
 									) : (
