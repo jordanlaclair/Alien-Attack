@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useRef, useReducer } from "react";
 import Bullets from "../Components/Bullets";
 import ArrowPress from "../sounds/gameboy_arrowkey.mp3";
 import Restart from "../sounds/gameboy_restart.mp3";
@@ -12,56 +12,61 @@ import "../css/GameBoy.css";
 function GameBoy() {
 	var bullet;
 	var barrier;
-	var move = new Audio(ArrowPress);
-	var restart = new Audio(Restart);
-	var start = new Audio(Start);
-	var buttonClick = new Audio(ButtonPress);
+	const buttonClickSoundRef = useRef(new Audio(ButtonPress));
+	const muteSoundRef = useRef(new Audio(ButtonPress));
+	const startSoundRef = useRef(new Audio(Start));
+	const restartSoundRef = useRef(new Audio(Restart));
+	const moveSoundRef = useRef(new Audio(ArrowPress));
 
 	const handleKeyDown = (event) => {
 		if (event.key === "ArrowUp") {
-			move.load();
-			move.play();
+			moveSoundRef.current.load();
+			moveSoundRef.current.play();
 			document.getElementById("uparrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowRight") {
-			move.load();
-			move.play();
+			moveSoundRef.current.load();
+			moveSoundRef.current.play();
 			document.getElementById("rightarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowDown") {
-			move.load();
-			move.play();
+			moveSoundRef.current.load();
+			moveSoundRef.current.play();
 			document.getElementById("downarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowLeft") {
-			move.load();
-			move.play();
+			moveSoundRef.current.load();
+			moveSoundRef.current.play();
 			document.getElementById("leftarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "s" || event.key === "S") {
 			if (!state.startButtonActivated) {
-				start.play();
+				startSoundRef.current.play();
 				dispatch({ type: "start" });
 			} else {
-				buttonClick.load();
-				buttonClick.play();
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
 			}
 
 			document.getElementById("start").className = "gameboy__start__active";
 		} else if (event.key === "r" || event.key === "R") {
 			if (!state.startButtonActivated) {
-				buttonClick.load();
-				buttonClick.play();
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
 			} else {
-				restart.play();
+				restartSoundRef.current.play();
 				dispatch({ type: "restart" });
 			}
 
 			document.getElementById("restart").className = "gameboy__restart__active";
 		} else if (event.key === "p" || event.key === "P") {
-			move.load();
-			move.play();
+			moveSoundRef.current.load();
+			moveSoundRef.current.play();
 			document.getElementById("pause").className = "gameboy__pause__active";
+		} else if (event.key === "m" || event.key === "M") {
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
+			document.getElementById("mute").className = "gameboy__mute__active";
 		}
 	};
 	const handleKeyUp = (event) => {
@@ -79,33 +84,45 @@ function GameBoy() {
 			document.getElementById("restart").className = "gameboy__restart";
 		} else if (event.key === "P" || event.key === "p") {
 			document.getElementById("pause").className = "gameboy__pause";
+		} else if (event.key === "M" || event.key === "m") {
+			document.getElementById("mute").className = "gameboy__mute";
 		}
 	};
 
 	const handleButtonPress = (e) => {
-		move.load();
-		move.play();
+		moveSoundRef.current.load();
+		moveSoundRef.current.play();
 	};
 
 	const handleStartButtonPress = (e) => {
 		if (!state.startButtonActivated) {
-			start.play();
+			startSoundRef.current.play();
 			dispatch({ type: "start" });
 		} else {
-			buttonClick.load();
-			buttonClick.play();
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
 		}
 	};
 	const handleRestartButtonPress = (e) => {
 		if (!state.startButtonActivated) {
-			buttonClick.load();
-			buttonClick.play();
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
 		} else {
-			restart.play();
+			restartSoundRef.current.play();
 			dispatch({ type: "restart" });
 			setNewLengths(state.spaceShipsLengths);
 			resetBoard();
 		}
+	};
+
+	const handleMuteButtonPress = (e) => {
+		muteSoundRef.current.load();
+		muteSoundRef.current.play();
+
+		startSoundRef.current.muted = !startSoundRef.current.muted;
+		restartSoundRef.current.muted = !restartSoundRef.current.muted;
+		buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
+		moveSoundRef.current.muted = !moveSoundRef.current.muted;
 	};
 
 	function loginReducer(state, action) {
@@ -280,7 +297,7 @@ function GameBoy() {
 
 	function moveElementDown(el) {
 		let previousTopPosition = el.css("top");
-		console.log("original top", previousTopPosition);
+		//console.log("original top", previousTopPosition);
 		let newPosition;
 
 		previousTopPosition = previousTopPosition.slice(
@@ -288,7 +305,7 @@ function GameBoy() {
 			previousTopPosition.length - 2
 		);
 		newPosition = parseInt(previousTopPosition) + 10;
-		console.log("new top", newPosition);
+		//console.log("new top", newPosition);
 		$(el).css({
 			top: newPosition + "px",
 		});
@@ -408,218 +425,209 @@ function GameBoy() {
 		};
 	}, [state.start]);
 
-	useEffect(() => {
-		console.log(state.spaceShipsLengths);
-	}, [state.spaceShipsLengths]);
-
 	return (
-		<div>
-			<div className="gameboy__outer__shell">
-				<div className="gameboy__inner__shell">
-					<div className="gameboy__upperhalf">
-						<div className="gameboy__display__wrapper">
-							<div className="gameboy__display__circle">&nbsp;</div>
-							<div className="gameboy__display__borderwrapper">
-								<div className="gameboy__display">
-									&nbsp;
-									{state.start ? (
-										<>
-											<div className="gameboy__display__top__start">
-												<Bullets
-													row={1}
-													bulletState={state.spaceShipsLengths}
-												/>
-												<Bullets
-													row={2}
-													bulletState={state.spaceShipsLengths}
-												/>
-												<Bullets
-													row={3}
-													bulletState={state.spaceShipsLengths}
-												/>
-											</div>
-											<div className="gameboy__display__bottom__start">
-												{state.showTimer ? (
-													<div className="gameboy__timer">
-														<div className="timer__minutes">
-															{state.minutes}
-														</div>
-														<div className="timer__colon">:</div>
-														<div className="timer__seconds">
-															{state.seconds}
-														</div>
-													</div>
-												) : null}
-												{state.showTimer ? (
-													<div className="gameboy__time">
-														<div className="time__hours">
-															{getHours(state.time)}
-														</div>
-														<div className="timer__colon">:</div>
-														<div className="time__minutes">
-															{getMinutes(state.time) +
-																" " +
-																getAMPM(state.time)}
-														</div>
-													</div>
-												) : null}
-												<div className="bullets__barrier">&nbsp;</div>
-											</div>
-										</>
-									) : (
-										<div className="gameboy__display__inner">
-											<div className="gameboy__display__top__menu">
-												<div className="gameboy__title">Alien Attack</div>
-												<div className="gameboy__UFO__wrapper">
-													<img className="ufo" src={UFO} alt="ufo" />
-												</div>
-												<div className="start__wrapper">Push Start</div>
-											</div>
-											<div className="mountain__wrapper">
-												<div className="mountain1"></div>
-												<div className="mountain2"></div>
-												<div className="mountain3"></div>
-												<div className="mountain4"></div>
-												<div className="mountain5"></div>
-												<div className="mountain6"></div>
-												<div className="mountain7"></div>
-												<div className="mountain8"></div>
-												<div className="mountain9"></div>
-												<div className="mountain10"></div>
-												<div className="mountain11"></div>
-												<div className="mountain12"></div>
-												<div className="mountain13"></div>
-												<div className="mountain14"></div>
-												<div className="mountain15"></div>
-												<div className="mountain16"></div>
-												<div className="mountain17"></div>
-												<div className="mountain18"></div>
-												<div className="mountain19"></div>
-												<div className="mountain20"></div>
-												<div className="mountain21"></div>
-												<div className="mountain22"></div>
-												<div className="mountain23"></div>
-												<div className="mountain24"></div>
-												<div className="mountain25"></div>
-												<div className="mountain26"></div>
-												<div className="mountain27"></div>
-												<div className="mountain28"></div>
-												<div className="mountain29"></div>
-												<div className="mountain30"></div>
-												<div className="mountain31"></div>
-												<div className="mountain32"></div>
-												<div className="mountain33"></div>
-												<div className="mountain34"></div>
-												<div className="mountain35"></div>
-												<div className="mountain36"></div>
-												<div className="mountain37"></div>
-												<div className="mountain38"></div>
-												<div className="mountain39"></div>
-												<div className="mountain40"></div>
-												<div className="mountain41"></div>
-												<div className="mountain42"></div>
-												<div className="mountain43"></div>
-												<div className="mountain44"></div>
-												<div className="mountain45"></div>
-												<div className="mountain46"></div>
-											</div>
-
-											<div className="gameboy__display__bottom__line1"></div>
-											<div className="gameboy__display__bottom__line2"></div>
-
-											<div className="gameboy__display__bottom__line3"></div>
-
-											<div className="gameboy__display__bottom__menu">
-												<div className="year">1993 </div>
-												<div className="year1">&copy;</div>
-											</div>
+		<div className="gameboy__outer__shell">
+			<div className="gameboy__inner__shell">
+				<div className="gameboy__upperhalf">
+					<div className="gameboy__display__wrapper">
+						<div className="gameboy__display__circle">&nbsp;</div>
+						<div className="gameboy__display__borderwrapper">
+							<div className="gameboy__display">
+								&nbsp;
+								{state.start ? (
+									<>
+										<div className="gameboy__display__top__start">
+											<Bullets row={1} bulletState={state.spaceShipsLengths} />
+											<Bullets row={2} bulletState={state.spaceShipsLengths} />
+											<Bullets row={3} bulletState={state.spaceShipsLengths} />
 										</div>
-									)}
+										<div className="gameboy__display__bottom__start">
+											{state.showTimer ? (
+												<div className="gameboy__timer">
+													<div className="timer__minutes">{state.minutes}</div>
+													<div className="timer__colon">:</div>
+													<div className="timer__seconds">{state.seconds}</div>
+												</div>
+											) : null}
+											{state.showTimer ? (
+												<div className="gameboy__time">
+													<div className="time__hours">
+														{getHours(state.time)}
+													</div>
+													<div className="timer__colon">:</div>
+													<div className="time__minutes">
+														{getMinutes(state.time) + " " + getAMPM(state.time)}
+													</div>
+												</div>
+											) : null}
+											<div className="bullets__barrier">&nbsp;</div>
+										</div>
+									</>
+								) : (
+									<div className="gameboy__display__inner">
+										<div className="gameboy__display__top__menu">
+											<div className="gameboy__title">Alien Attack</div>
+											<div className="gameboy__UFO__wrapper">
+												<img className="ufo" src={UFO} alt="ufo" />
+											</div>
+											<div className="start__wrapper">Push Start</div>
+										</div>
+										<div className="mountain__wrapper">
+											<div className="mountain1"></div>
+											<div className="mountain2"></div>
+											<div className="mountain3"></div>
+											<div className="mountain4"></div>
+											<div className="mountain5"></div>
+											<div className="mountain6"></div>
+											<div className="mountain7"></div>
+											<div className="mountain8"></div>
+											<div className="mountain9"></div>
+											<div className="mountain10"></div>
+											<div className="mountain11"></div>
+											<div className="mountain12"></div>
+											<div className="mountain13"></div>
+											<div className="mountain14"></div>
+											<div className="mountain15"></div>
+											<div className="mountain16"></div>
+											<div className="mountain17"></div>
+											<div className="mountain18"></div>
+											<div className="mountain19"></div>
+											<div className="mountain20"></div>
+											<div className="mountain21"></div>
+											<div className="mountain22"></div>
+											<div className="mountain23"></div>
+											<div className="mountain24"></div>
+											<div className="mountain25"></div>
+											<div className="mountain26"></div>
+											<div className="mountain27"></div>
+											<div className="mountain28"></div>
+											<div className="mountain29"></div>
+											<div className="mountain30"></div>
+											<div className="mountain31"></div>
+											<div className="mountain32"></div>
+											<div className="mountain33"></div>
+											<div className="mountain34"></div>
+											<div className="mountain35"></div>
+											<div className="mountain36"></div>
+											<div className="mountain37"></div>
+											<div className="mountain38"></div>
+											<div className="mountain39"></div>
+											<div className="mountain40"></div>
+											<div className="mountain41"></div>
+											<div className="mountain42"></div>
+											<div className="mountain43"></div>
+											<div className="mountain44"></div>
+											<div className="mountain45"></div>
+											<div className="mountain46"></div>
+										</div>
+
+										<div className="gameboy__display__bottom__line1"></div>
+										<div className="gameboy__display__bottom__line2"></div>
+
+										<div className="gameboy__display__bottom__line3"></div>
+
+										<div className="gameboy__display__bottom__menu">
+											<div className="year">1993 </div>
+											<div className="year1">&copy;</div>
+										</div>
+									</div>
+								)}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="gameboy__lowerhalf">
+					<div className="gameboy__lowerhalf__left">
+						<div className="gameboy__lowerhalf__left__top">
+							<div className="gameboy__buttons">
+								<div className="gameboy__start__wrapper">
+									<button
+										id="start"
+										onMouseDown={handleStartButtonPress}
+										className="gameboy__start"
+									></button>
+									<div className="gameboy__start__borderwrapper">
+										<div className="gameboy__start__label">Start</div>
+									</div>
+								</div>
+								<div className="gameboy__start__wrapper">
+									<button
+										id="restart"
+										onMouseDown={handleRestartButtonPress}
+										className="gameboy__restart"
+									></button>
+									<div className="gameboy__restart__borderwrapper">
+										<div className="gameboy__restart__label">Restart</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className="gameboy__lowerhalf__left__bottom">
+							<div className="gameboy__pause__wrapper">
+								<button
+									id="pause"
+									onMouseDown={handleButtonPress}
+									className="gameboy__pause"
+								></button>
+								<div className="gameboy__pause__borderwrapper">
+									<div className="gameboy__pause__label">Pause</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div className="gameboy__lowerhalf">
-						<div className="gameboy__lowerhalf__left">
-							<div className="gameboy__lowerhalf__left__top">
-								<div className="gameboy__buttons">
-									<div className="gameboy__start__wrapper">
-										<button
-											id="start"
-											onMouseDown={handleStartButtonPress}
-											className="gameboy__start"
-										></button>
-										<div className="gameboy__start__borderwrapper">
-											<div className="gameboy__start__label">Start</div>
-										</div>
-									</div>
-									<div className="gameboy__start__wrapper">
-										<button
-											id="restart"
-											onMouseDown={handleRestartButtonPress}
-											className="gameboy__restart"
-										></button>
-										<div className="gameboy__restart__borderwrapper">
-											<div className="gameboy__restart__label">Restart</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className="gameboy__lowerhalf__left__bottom">
-								<div className="gameboy__pause__wrapper">
-									<button
-										id="pause"
-										onMouseDown={handleButtonPress}
-										className="gameboy__pause"
-									></button>
-									<div className="gameboy__pause__borderwrapper">
-										<div className="gameboy__pause__label">Pause</div>
-									</div>
+
+					<div className="gameboy__lowerhalf__right">
+						<div className="lowerhalf__right__top">
+							<div className="gameboy__start__wrapper">
+								<button
+									id="mute"
+									onMouseDown={handleMuteButtonPress}
+									className="gameboy__mute"
+								></button>
+								<div className="gameboy__start__borderwrapper">
+									<div className="gameboy__start__label">Mute</div>
 								</div>
 							</div>
 						</div>
-
-						<div className="gameboy__lowerhalf__right">
-							<div className="gameboy__controls__wrapper">
-								<div className="gameboy__controls__row1">
-									<button
-										id="uparrow"
-										onMouseDown={handleButtonPress}
-										className="gameboy__uparrow1"
-									></button>
-								</div>
-								<div className="gameboy__controls__row2">
-									<button
-										id="leftarrow"
-										onMouseDown={handleButtonPress}
-										className="gameboy__uparrow1"
-									></button>
-									<div className="gameboy__arrows__wrapper">
-										<div className="gameboy__arrows__row1">
-											<button className="gameboy__arrow__up"></button>
-										</div>
-										<div className="gameboy__arrows__row2">
-											<button className="gameboy__arrow__left"></button>
-											&nbsp;
-											<button className="gameboy__arrow__right"></button>
-										</div>
-										<div className="gameboy__arrows__row3">
-											<button className="gameboy__arrow__down"></button>
-										</div>
+						<div className="gameboy__controls__wrapper">
+							<div className="gameboy__controls__row1">
+								<button
+									id="uparrow"
+									onMouseDown={handleButtonPress}
+									className="gameboy__uparrow1"
+								></button>
+							</div>
+							<div className="gameboy__controls__row2">
+								<button
+									id="leftarrow"
+									onMouseDown={handleButtonPress}
+									className="gameboy__uparrow1"
+								></button>
+								<div className="gameboy__arrows__wrapper">
+									<div className="gameboy__arrows__row1">
+										<button className="gameboy__arrow__up"></button>
 									</div>
-									<button
-										id="rightarrow"
-										onMouseDown={handleButtonPress}
-										className="gameboy__uparrow1"
-									></button>
+									<div className="gameboy__arrows__row2">
+										<button className="gameboy__arrow__left"></button>
+										&nbsp;
+										<button className="gameboy__arrow__right"></button>
+									</div>
+									<div className="gameboy__arrows__row3">
+										<button className="gameboy__arrow__down"></button>
+									</div>
 								</div>
-								<div className="gameboy__controls__row3">
-									<button
-										id="downarrow"
-										onMouseDown={handleButtonPress}
-										className="gameboy__uparrow1"
-									></button>
-								</div>
+								<button
+									id="rightarrow"
+									onMouseDown={handleButtonPress}
+									className="gameboy__uparrow1"
+								></button>
+							</div>
+							<div className="gameboy__controls__row3">
+								<button
+									id="downarrow"
+									onMouseDown={handleButtonPress}
+									className="gameboy__uparrow1"
+								></button>
 							</div>
 						</div>
 					</div>

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 .gameboy__outer__shell {
 	height: 90vh;
 	background-color: rgb(116, 117, 113);
@@ -17,31 +18,10 @@
 	-moz-user-select: none; /* Old versions of Firefox */
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none;
-}
-
-.gameboy__outer__shell__bigger {
-	height: 90vh;
-	background-color: rgb(116, 117, 113);
-	border-radius: 35px;
-	border-bottom-right-radius: 90px;
-	-moz-box-shadow: inset 0 0 10px rgb(209, 194, 194);
-	-webkit-box-shadow: inset 0 0 10px rgb(209, 194, 194);
-	box-shadow: inset 0 0 10px rgb(209, 194, 194);
-	width: 50vw; /* change later with media query */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Safari */
-	-khtml-user-select: none; /* Konqueror HTML */
-	-moz-user-select: none; /* Old versions of Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none;
+	z-index: 2;
 }
 
 .gameboy__inner__shell {
-	z-index: 2;
-
 	height: 98%;
 	width: 97%;
 	background-color: rgb(180, 184, 176);
@@ -71,7 +51,7 @@
 	flex-direction: row;
 }
 .gameboy__display__wrapper {
-	z-index: 2 !important;
+	z-index: 2;
 	width: 100%;
 	border: 3px groove rgb(134, 131, 131);
 
@@ -100,7 +80,7 @@
 	border-color: rgb(102, 99, 99) rgb(179, 175, 175) rgb(179, 175, 175)
 		rgb(102, 99, 99);
 	display: flex;
-	align-content: center;
+	align-items: center;
 	justify-content: center;
 }
 .gameboy__start__borderwrapper {
@@ -109,17 +89,22 @@
 	border-color: rgb(102, 99, 99) rgb(179, 175, 175) rgb(179, 175, 175)
 		rgb(102, 99, 99);
 	display: flex;
-	align-content: center;
+	align-items: center;
 	justify-content: center;
+	height: 35%;
+	width: 70%;
 }
+
 .gameboy__restart__borderwrapper {
 	margin-top: 10px;
 	border: 5px solid;
 	border-color: rgb(102, 99, 99) rgb(179, 175, 175) rgb(179, 175, 175)
 		rgb(102, 99, 99);
 	display: flex;
-	align-content: center;
+	align-items: center;
 	justify-content: center;
+	height: 35%;
+	width: 85%;
 }
 .gameboy__pause__borderwrapper {
 	margin-top: 10px;
@@ -127,7 +112,7 @@
 	border-color: rgb(102, 99, 99) rgb(179, 175, 175) rgb(179, 175, 175)
 		rgb(102, 99, 99);
 	display: flex;
-	align-content: center;
+	align-items: center;
 	justify-content: center;
 }
 .gameboy__display {
@@ -622,6 +607,7 @@
 }
 .gameboy__lowerhalf__left__top {
 	height: 25%;
+	width: 100%;
 }
 .gameboy__lowerhalf__left__bottom {
 	display: flex;
@@ -631,6 +617,8 @@
 	height: 75%;
 }
 .gameboy__start__wrapper {
+	width: 50%;
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -638,6 +626,8 @@
 }
 
 .gameboy__restart__wrapper {
+	width: 50%;
+	height: 50%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -645,8 +635,11 @@
 }
 
 .gameboy__buttons {
+	height: 100%;
+	width: 100%;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-between;
+	align-items: center;
 }
 .gameboy__start {
 	cursor: pointer;
@@ -657,10 +650,42 @@
 	background-color: rgb(5, 170, 5);
 	border-radius: 50%;
 }
+.gameboy__mute {
+	cursor: pointer;
+	width: 80px;
+	height: 30px;
+	box-shadow: inset 0px -3px 2px black;
+	border: 1px solid black;
+	background-color: rgb(72, 80, 72);
+	border-radius: 5%;
+}
+.gameboy__mute:hover {
+	background-color: rgb(114, 116, 114);
+}
+
+.gameboy__mute:active {
+	background-color: rgb(114, 116, 114);
+	outline: 0;
+	box-shadow: inset 0 3px 2px rgb(0 0 0 / 80%);
+}
+.gameboy__mute__active {
+	cursor: pointer;
+	width: 80px;
+	height: 30px;
+	box-shadow: inset 0px -3px 2px black;
+	border: 1px solid black;
+	border-radius: 5%;
+	background-color: rgb(114, 116, 114);
+	outline: 0;
+	box-shadow: inset 0 3px 2px rgb(0 0 0 / 80%);
+}
 
 .gameboy__start__label {
 	width: 100%;
-	padding: 5px 10px 5px 10px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 7%;
 	background-color: rgb(89, 153, 29);
 	color: black;
 	border-width: 2px;
@@ -672,14 +697,19 @@
 
 .gameboy__restart__label {
 	width: 100%;
-	padding: 5px 10px 5px 10px;
+	max-height: 100%;
+
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 7%;
 	background-color: rgb(89, 153, 29);
 	color: black;
 	border-width: 2px;
 	border-style: solid;
 	border-color: #494536;
 	text-align: center;
-	font-size: 1.35rem;
+	font-size: 1.4rem;
 }
 
 .gameboy__pause__label {
@@ -786,18 +816,31 @@
 	outline: 0;
 	box-shadow: inset 0 10px 3px rgb(0 0 0 / 80%);
 }
+
 *:focus {
 	outline: 0;
 }
 .gameboy__lowerhalf__right {
 	height: 100%;
+	flex-direction: column;
 	width: 50%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
+.lowerhalf__right__top {
+	position: relative;
+	bottom: 8%;
+	width: 100%;
+	height: 30%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.mute__wrapper {
+}
 .gameboy__controls__wrapper {
-	width: 90%;
+	width: 100%;
 	height: 55%;
 	display: flex;
 	flex-direction: column;
@@ -1002,7 +1045,7 @@
 		width: 65%;
 	}
 }
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+@media screen and (min-width: 600px) and (max-width: 1024px) {
 	.gameboy__outer__shell {
 		width: 70vw; /* change later with media query */
 	}
@@ -1024,10 +1067,12 @@
 	.gameboy__title {
 		font-size: 0.8em;
 	}
+
 	.start__wrapper {
 		font-size: 0.7em;
 		white-space: nowrap;
 	}
+
 	.gameboy__pause {
 		width: 100px;
 		height: 100px; /* change later with media query */
@@ -1041,5 +1086,19 @@
 @media screen and (min-width: 320px) and (max-width: 420px) {
 	.gameboy__title {
 		font-size: 0.9em;
+	}
+	.gameboy__start__label {
+		font-size: 1.1rem;
+	}
+	.gameboy__restart__label {
+		font-size: 1rem;
+	}
+}
+@media screen and (max-width: 280px) {
+	.gameboy__restart__label {
+		font-size: 0.9rem;
+	}
+	.gameboy__start__label {
+		font-size: 0.9rem;
 	}
 }
