@@ -246,7 +246,7 @@ function GameBoy() {
 		for (let i = 0; i < 15; i++) {
 			dispatch({
 				type: "updateSpaceShipsLengths",
-				value: getRandomArbitrary(10, 15),
+				value: getRandomArbitrary(80, 100),
 			});
 		}
 	}
@@ -260,6 +260,37 @@ function GameBoy() {
 		});
 		$(".bullet__middle").each(function () {
 			randomizeMiddleBullet(this);
+		});
+	}
+
+	function moveElementsDown() {
+		let row1 = $(".bullets__wrapper__row1");
+		let row2 = $(".bullets__wrapper__row2");
+		let row3 = $(".bullets__wrapper__row3");
+		if (row1.length > 0) {
+			moveElementDown(row1);
+		}
+		if (row2.length > 0) {
+			moveElementDown(row2);
+		}
+		if (row3.length > 0) {
+			moveElementDown(row3);
+		}
+	}
+
+	function moveElementDown(el) {
+		let previousTopPosition = el.css("top");
+		console.log("original top", previousTopPosition);
+		let newPosition;
+
+		previousTopPosition = previousTopPosition.slice(
+			0,
+			previousTopPosition.length - 2
+		);
+		newPosition = parseInt(previousTopPosition) + 10;
+		console.log("new top", newPosition);
+		$(el).css({
+			top: newPosition + "px",
 		});
 	}
 
@@ -283,54 +314,25 @@ function GameBoy() {
 
 	function randomizeLeftBullet(el) {
 		var randomnumber2 = Math.floor(Math.random() * 3);
-		let previousTopMargin = $(el).css("margin-top");
-		let newMargin;
 
-		previousTopMargin = previousTopMargin.slice(
-			0,
-			previousTopMargin.length - 2
-		);
-		newMargin = parseInt(previousTopMargin) + 10;
-		console.log(newMargin);
 		$(el).css({
 			"margin-left": randomnumber2 + "px",
-			"margin-top": newMargin + "px",
 		});
 	}
 	function randomizeRightBullet(el) {
 		var randomnumber2 = Math.floor(Math.random() * 3);
-		let previousTopMargin = $(el).css("margin-top");
-		let newMargin;
 
-		previousTopMargin = previousTopMargin.slice(
-			0,
-			previousTopMargin.length - 2
-		);
-		newMargin = parseInt(previousTopMargin) + 10;
-		console.log(newMargin);
 		$(el).css({
 			"margin-right": randomnumber2 + "px",
-			"margin-top": newMargin + "px",
 		});
 	}
+
 	function randomizeMiddleBullet(el) {
 		var randomnumber2 = Math.floor(Math.random() * 3);
-		let previousTopMargin = $(el).css("margin-top");
-		console.log(previousTopMargin);
-		let newMargin;
-
-		previousTopMargin = previousTopMargin.slice(
-			0,
-			previousTopMargin.length - 2
-		);
-		console.log(previousTopMargin);
-		newMargin = parseInt(previousTopMargin) + 10;
-		console.log(newMargin);
 
 		$(el).css({
 			"margin-right": randomnumber2 + "px",
 			"margin-left": randomnumber2 + "px",
-			"margin-top": newMargin + "px",
 		});
 	}
 
@@ -380,9 +382,10 @@ function GameBoy() {
 				updateTimer();
 				updateTime();
 				randomMargin();
+				moveElementsDown();
 				barrier = $(".bullets__barrier");
 				bullet = $(
-					".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3 "
+					".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3"
 				);
 
 				let bool;
