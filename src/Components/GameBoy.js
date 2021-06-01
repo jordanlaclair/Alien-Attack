@@ -6,6 +6,7 @@ import Start from "../sounds/gameboy_start.mp3";
 import UFO from "../images/gameboy__ufo.png";
 import ButtonPress from "../sounds/gameboy__buttonclick.mp3";
 import $ from "jquery";
+import { Fragment } from "react";
 
 import "../css/GameBoy.css";
 
@@ -184,6 +185,11 @@ function GameBoy() {
 					...state,
 					spaceShipsLengths: [action.value],
 				};
+			case "renderNewBullet":
+				return {
+					...state,
+					bulletCountArr: [...state.bulletCountArr, action.value + 1],
+				};
 
 			default:
 				break;
@@ -204,6 +210,7 @@ function GameBoy() {
 		showTime: false,
 		totalSeconds: 0,
 		spaceShipsLengths: [],
+		bulletCountArr: [],
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -258,12 +265,10 @@ function GameBoy() {
 		return Math.floor(Math.random() * (max - min) + min);
 	}
 	function renderRandom() {
-		dispatch({ type: "setNewSpaceShipsLengths" });
-
-		for (let i = 0; i < 15; i++) {
+		for (let i = 0; i < 10; i++) {
 			dispatch({
 				type: "updateSpaceShipsLengths",
-				value: getRandomArbitrary(80, 100),
+				value: getRandomArbitrary(80, 120),
 			});
 		}
 	}
@@ -284,6 +289,9 @@ function GameBoy() {
 		let row1 = $(".bullets__wrapper__row1");
 		let row2 = $(".bullets__wrapper__row2");
 		let row3 = $(".bullets__wrapper__row3");
+		let row4 = $(".bullets__wrapper__row4");
+		let row5 = $(".bullets__wrapper__row5");
+
 		if (row1.length > 0) {
 			moveElementDown(row1);
 		}
@@ -292,6 +300,12 @@ function GameBoy() {
 		}
 		if (row3.length > 0) {
 			moveElementDown(row3);
+		}
+		if (row4.length > 0) {
+			moveElementDown(row4);
+		}
+		if (row5.length > 0) {
+			moveElementDown(row5);
 		}
 	}
 
@@ -387,13 +401,26 @@ function GameBoy() {
 		return array;
 	}
 
+	function createNewBullets() {
+		dispatch({ type: "renderNewBullet", value: 0 });
+	}
 	function setNewLengths(arr) {
 		let newArr = shuffle(arr);
 		dispatch({ type: "setNewArray", value: newArr });
 	}
 
+	function getRandomHeight(arr) {
+		var item = arr[Math.floor(Math.random() * arr.length)];
+		return item;
+	}
+
+	useEffect(() => {
+		console.log(state.bulletsArray);
+	}, [state.bulletsArray]);
+
 	useEffect(() => {
 		let interval;
+		let bulletInterval;
 		if (state.start) {
 			interval = setInterval(() => {
 				updateTimer();
@@ -402,17 +429,21 @@ function GameBoy() {
 				moveElementsDown();
 				barrier = $(".bullets__barrier");
 				bullet = $(
-					".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3"
+					".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
 				);
 
 				let bool;
 				bullet.each(function () {
 					bool = checkCollision($(this), $(barrier));
 					if (bool) {
-						$(this).remove();
+						$(this).css({ top: "0px" });
 					}
 				});
 			}, 1000);
+			createNewBullets();
+			bulletInterval = setInterval(() => {
+				createNewBullets();
+			}, 5000);
 			renderRandom();
 		}
 
@@ -422,8 +453,13 @@ function GameBoy() {
 			document.removeEventListener("keydown", handleKeyDown);
 			document.removeEventListener("keyup", handleKeyUp);
 			clearInterval(interval);
+			clearInterval(bulletInterval);
 		};
 	}, [state.start]);
+
+	useEffect(() => {
+		console.log(state.bulletCountArr);
+	}, [state.bulletCountArr]);
 
 	return (
 		<div className="gameboy__outer__shell">
@@ -437,9 +473,59 @@ function GameBoy() {
 								{state.start ? (
 									<>
 										<div className="gameboy__display__top__start">
-											<Bullets row={1} bulletState={state.spaceShipsLengths} />
-											<Bullets row={2} bulletState={state.spaceShipsLengths} />
-											<Bullets row={3} bulletState={state.spaceShipsLengths} />
+											{state.bulletCountArr.map((count, index) => {
+												return (
+													<Fragment key={index}>
+														<div
+															className={`bullets__wrapper__row${index + 1}`}
+														>
+															{state.spaceShipsLengths.length === 10
+																? state.spaceShipsLengths.map(
+																		(height, index) => {
+																			let randomHeight = getRandomHeight(
+																				state.spaceShipsLengths
+																			);
+																			if (index === 0) {
+																				return (
+																					<div
+																						key={index}
+																						style={{
+																							height: `${randomHeight}%`,
+																						}}
+																						className="bullet__left"
+																					></div>
+																				);
+																			} else if (
+																				index ===
+																				state.spaceShipsLengths.length - 1
+																			) {
+																				return (
+																					<div
+																						key={index}
+																						style={{
+																							height: `${randomHeight}%`,
+																						}}
+																						className="bullet__right"
+																					></div>
+																				);
+																			} else {
+																				return (
+																					<div
+																						key={index}
+																						style={{
+																							height: `${randomHeight}%`,
+																						}}
+																						className="bullet__middle"
+																					></div>
+																				);
+																			}
+																		}
+																  )
+																: null}
+														</div>
+													</Fragment>
+												);
+											})}
 										</div>
 										<div className="gameboy__display__bottom__start">
 											{state.showTimer ? (
