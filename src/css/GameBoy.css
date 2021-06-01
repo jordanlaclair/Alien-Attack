@@ -566,12 +566,28 @@
 	bottom: 0px;
 	background-color: rgb(89, 153, 29);
 	z-index: 2;
+
+	color: black;
+	width: 100%;
+	height: 25%;
+}
+.gameboy__menu {
+	font-size: 1.5rem;
+
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
 	color: black;
+
 	width: 100%;
-	height: 25%;
+	height: 100%;
+	background: transparent;
+	animation-name: blink;
+	animation-duration: 0.7s;
+	animation-timing-function: step-start;
+	animation-delay: 0s;
+
+	animation-iteration-count: 4;
 }
 .bullets__barrier {
 	position: absolute;
@@ -665,18 +681,58 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 1.5rem;
+}
+.colon__wrapper1 {
+	margin: 8%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.colon__wrapper2 {
+	margin: 12%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .timer__colon {
+	position: absolute;
 	animation: blink 1.5s step-start 0s infinite;
 	-webkit-animation: blink 1.5s step-start 0s infinite;
+}
+
+.timer__colon__off {
+	position: absolute;
+
+	opacity: 0.4;
+}
+.time__minutes {
+	white-space: nowrap;
 }
 
 .gameboy__timer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 1.5rem;
+}
+.score__wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.placeholder__hundred__thousands {
+	opacity: 0.4;
+}
+.placeholder__ten__thousands {
+	opacity: 0.4;
+}
+.placeholder__thousands {
+	opacity: 0.4;
+}
+.placeholder__hundreds {
+	opacity: 0.4;
+}
+.placeholder__tenths {
+	opacity: 0.4;
 }
 .gameboy__lowerhalf__left {
 	height: 100%;
@@ -1137,6 +1193,9 @@
 	.start__wrapper {
 		white-space: nowrap;
 		font-size: 0.9em;
+	}
+	.gameboy__menu {
+		font-size: 1rem;
 	}
 }
 

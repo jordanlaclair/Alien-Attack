@@ -1,23 +1,21 @@
 import React, { useEffect, useRef, useReducer } from "react";
 import Bullets from "../Components/Bullets";
-import ArrowPress from "../sounds/gameboy_arrowkey.mp3";
-import Restart from "../sounds/gameboy_restart.mp3";
-import Start from "../sounds/gameboy_start.mp3";
+
 import UFO from "../images/gameboy__ufo.png";
-import ButtonPress from "../sounds/gameboy__buttonclick.mp3";
 import $ from "jquery";
 import { Fragment } from "react";
 
 import "../css/GameBoy.css";
 
-function GameBoy() {
+function GameBoy({
+	moveSoundRef,
+	restartSoundRef,
+	muteSoundRef,
+	startSoundRef,
+	buttonClickSoundRef,
+}) {
 	var bullet;
 	var barrier;
-	const buttonClickSoundRef = useRef(new Audio(ButtonPress));
-	const muteSoundRef = useRef(new Audio(ButtonPress));
-	const startSoundRef = useRef(new Audio(Start));
-	const restartSoundRef = useRef(new Audio(Restart));
-	const moveSoundRef = useRef(new Audio(ArrowPress));
 
 	const handleKeyDown = (event) => {
 		if (event.key === "ArrowUp") {
@@ -61,13 +59,20 @@ function GameBoy() {
 
 			document.getElementById("restart").className = "gameboy__restart__active";
 		} else if (event.key === "p" || event.key === "P") {
+			dispatch({ type: "pause" });
+
 			moveSoundRef.current.load();
 			moveSoundRef.current.play();
+
 			document.getElementById("pause").className = "gameboy__pause__active";
 		} else if (event.key === "m" || event.key === "M") {
 			buttonClickSoundRef.current.load();
 			buttonClickSoundRef.current.play();
 			document.getElementById("mute").className = "gameboy__mute__active";
+			startSoundRef.current.muted = !startSoundRef.current.muted;
+			restartSoundRef.current.muted = !restartSoundRef.current.muted;
+			buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
+			moveSoundRef.current.muted = !moveSoundRef.current.muted;
 		}
 	};
 	const handleKeyUp = (event) => {
@@ -111,7 +116,6 @@ function GameBoy() {
 		} else {
 			restartSoundRef.current.play();
 			dispatch({ type: "restart" });
-			setNewLengths(state.spaceShipsLengths);
 			resetBoard();
 		}
 	};
@@ -134,8 +138,7 @@ function GameBoy() {
 					start: true,
 					startButtonActivated: true,
 					menu: false,
-					showTimer: true,
-					showTime: true,
+					showMenu: true,
 					time: new Date().toLocaleTimeString([], {
 						hour: "2-digit",
 						minute: "2-digit",
@@ -153,6 +156,13 @@ function GameBoy() {
 					};
 				} else {
 					return { ...state };
+				}
+			case "pause":
+				if (state.start) {
+					return {
+						...state,
+						paused: !state.paused,
+					};
 				}
 
 			case "update":
@@ -180,15 +190,31 @@ function GameBoy() {
 					...state,
 					spaceShipsLengths: [...state.spaceShipsLengths, action.value],
 				};
-			case "setNewArr":
-				return {
-					...state,
-					spaceShipsLengths: [action.value],
-				};
+
 			case "renderNewBullet":
 				return {
 					...state,
 					bulletCountArr: [...state.bulletCountArr, action.value + 1],
+				};
+			case "increaseScore":
+				return {
+					...state,
+					score: state.score + 11,
+				};
+			case "toggleMenuInterval":
+				return {
+					...state,
+					menuInterval: action.value,
+				};
+			case "toggleBulletInterval":
+				return {
+					...state,
+					bulletInterval: action.value,
+				};
+			case "setTimeInterval":
+				return {
+					...state,
+					timeInterval: action.value,
 				};
 
 			default:
@@ -201,16 +227,18 @@ function GameBoy() {
 		start: false,
 		startButtonActivated: false,
 		menu: true,
-		pause: false,
+		paused: false,
 		time: "",
 		minutes: 0,
 		seconds: 0,
 		score: 0,
-		showTimer: false,
-		showTime: false,
+		showMenu: false,
 		totalSeconds: 0,
 		spaceShipsLengths: [],
 		bulletCountArr: [],
+		menuInterval: 0,
+		timeInterval: 0,
+		bulletInterval: 0,
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -239,7 +267,9 @@ function GameBoy() {
 			}),
 		});
 	}
-
+	function updateScore() {
+		dispatch({ type: "increaseScore" });
+	}
 	function pad(val) {
 		var valString = val + "";
 		if (valString.length < 2) {
@@ -404,46 +434,43 @@ function GameBoy() {
 	function createNewBullets() {
 		dispatch({ type: "renderNewBullet", value: 0 });
 	}
-	function setNewLengths(arr) {
-		let newArr = shuffle(arr);
-		dispatch({ type: "setNewArray", value: newArr });
-	}
 
 	function getRandomHeight(arr) {
 		var item = arr[Math.floor(Math.random() * arr.length)];
 		return item;
 	}
 
-	useEffect(() => {
-		console.log(state.bulletsArray);
-	}, [state.bulletsArray]);
+	function menuOnUnPause() {
+		updateTimer();
+		//updateTime();
+		updateScore();
+		randomMargin();
+		moveElementsDown();
+		barrier = $(".bullets__barrier");
+		bullet = $(
+			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
+		);
+
+		let bool;
+		bullet.each(function () {
+			bool = checkCollision($(this), $(barrier));
+			if (bool) {
+				$(this).css({ top: "0px" });
+			}
+		});
+	}
+
+	function bulletOnUnPause() {
+		createNewBullets();
+	}
 
 	useEffect(() => {
-		let interval;
-		let bulletInterval;
 		if (state.start) {
-			interval = setInterval(() => {
-				updateTimer();
-				updateTime();
-				randomMargin();
-				moveElementsDown();
-				barrier = $(".bullets__barrier");
-				bullet = $(
-					".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
-				);
-
-				let bool;
-				bullet.each(function () {
-					bool = checkCollision($(this), $(barrier));
-					if (bool) {
-						$(this).css({ top: "0px" });
-					}
-				});
-			}, 1000);
+			dispatch({
+				type: "setTimerInterval",
+				value: setInterval(updateTime, 1000),
+			});
 			createNewBullets();
-			bulletInterval = setInterval(() => {
-				createNewBullets();
-			}, 5000);
 			renderRandom();
 		}
 
@@ -452,15 +479,48 @@ function GameBoy() {
 		return () => {
 			document.removeEventListener("keydown", handleKeyDown);
 			document.removeEventListener("keyup", handleKeyUp);
-			clearInterval(interval);
-			clearInterval(bulletInterval);
+			clearInterval(state.menuInterval);
+			clearInterval(state.bulletIntervalinterval);
+			clearInterval(state.timeInterval);
 		};
 	}, [state.start]);
 
-	useEffect(() => {
-		console.log(state.bulletCountArr);
-	}, [state.bulletCountArr]);
+	/* useEffect(() => {
+		console.log(state.paused);
+		let interval;
+		if (state.paused) {
+			clearInterval(interval);
+		} else {
+			interval = setInterval(onUnPause, 1000);
+		}
+	}, [state.paused]); */
 
+	function startPause() {
+		if (!state.paused) {
+			console.log("here1");
+			dispatch({
+				type: "toggleMenuInterval",
+				value: setInterval(menuOnUnPause, 1000),
+			});
+			dispatch({
+				type: "toggleBulletInterval",
+				value: setInterval(bulletOnUnPause, 5000),
+			});
+		} else {
+			console.log("here2");
+			clearInterval(state.menuInterval);
+			clearInterval(state.bulletInterval);
+		}
+	}
+
+	useEffect(() => {
+		console.log(state.paused);
+		startPause();
+	}, [state.paused]);
+
+	useEffect(() => {
+		console.log(state.interval);
+	}, [state.interval]);
 	return (
 		<div className="gameboy__outer__shell">
 			<div className="gameboy__inner__shell">
@@ -473,11 +533,11 @@ function GameBoy() {
 								{state.start ? (
 									<>
 										<div className="gameboy__display__top__start">
-											{state.bulletCountArr.map((count, index) => {
+											{state.bulletCountArr.map((count, index1) => {
 												return (
-													<Fragment key={index}>
+													<Fragment key={index1}>
 														<div
-															className={`bullets__wrapper__row${index + 1}`}
+															className={`bullets__wrapper__row${index1 + 1}`}
 														>
 															{state.spaceShipsLengths.length === 10
 																? state.spaceShipsLengths.map(
@@ -485,6 +545,7 @@ function GameBoy() {
 																			let randomHeight = getRandomHeight(
 																				state.spaceShipsLengths
 																			);
+
 																			if (index === 0) {
 																				return (
 																					<div
@@ -528,24 +589,63 @@ function GameBoy() {
 											})}
 										</div>
 										<div className="gameboy__display__bottom__start">
-											{state.showTimer ? (
-												<div className="gameboy__timer">
-													<div className="timer__minutes">{state.minutes}</div>
-													<div className="timer__colon">:</div>
-													<div className="timer__seconds">{state.seconds}</div>
+											{state.showMenu ? (
+												<div className="gameboy__menu">
+													<div className="gameboy__timer">
+														<div className="timer__minutes">
+															{state.minutes == 0 ? "00" : state.minutes}
+														</div>
+														<div className="colon__wrapper2">
+															<div className="timer__colon">:</div>
+															<div className="timer__colon__off">:</div>
+														</div>
+														<div className="timer__seconds">
+															{state.seconds == 0 ? "00" : state.seconds}
+														</div>
+													</div>
+													<div className="score__wrapper">
+														{state.score >= 100000 ? null : (
+															<div className="placeholder__hundred__thousands">
+																0
+															</div>
+														)}
+														{state.score >= 10000 ? null : (
+															<div className="placeholder__ten__thousands">
+																0
+															</div>
+														)}
+														{state.score >= 1000 ? null : (
+															<div className="placeholder__thousands">0</div>
+														)}
+
+														{state.score >= 100 ? null : (
+															<div className="placeholder__hundreds">0</div>
+														)}
+
+														{state.score >= 10 ? null : (
+															<div className="placeholder__tenths">0</div>
+														)}
+
+														<div className="score">{state.score}</div>
+													</div>
+													<div className="gameboy__time">
+														<div className="time__hours">
+															{getHours(state.time)}
+														</div>
+														<div className="colon__wrapper1">
+															<div className="timer__colon">:</div>
+															<div className="timer__colon__off">:</div>
+														</div>
+
+														<div className="time__minutes">
+															{getMinutes(state.time) +
+																" " +
+																getAMPM(state.time)}
+														</div>
+													</div>
 												</div>
 											) : null}
-											{state.showTimer ? (
-												<div className="gameboy__time">
-													<div className="time__hours">
-														{getHours(state.time)}
-													</div>
-													<div className="timer__colon">:</div>
-													<div className="time__minutes">
-														{getMinutes(state.time) + " " + getAMPM(state.time)}
-													</div>
-												</div>
-											) : null}
+
 											<div className="bullets__barrier">&nbsp;</div>
 										</div>
 									</>
