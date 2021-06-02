@@ -556,8 +556,18 @@
 	height: 75%;
 }
 
-.kay {
+.ship__wrapper {
+	position: absolute;
+	left: 50%;
+	bottom: 0px;
+	width: 10%;
+	height: 10%;
+	background-color: transparent;
+}
+
+.ship {
 	width: 100%;
+	height: 100%;
 	background-color: red;
 }
 

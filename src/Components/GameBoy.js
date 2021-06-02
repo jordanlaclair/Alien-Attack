@@ -14,7 +14,8 @@ function GameBoy({
 	startSoundRef,
 	buttonClickSoundRef,
 }) {
-	var bullet;
+	var bulletRows;
+	var bullets;
 	var barrier;
 
 	const handleKeyDown = (event) => {
@@ -414,6 +415,36 @@ function GameBoy({
 		return true;
 	}
 
+	function checkCollisions(parent) {
+		var ship = $(".ship")[0];
+		var pos = getPositions(ship);
+
+		var pos2 = getPositions(parent);
+		var horizontalMatch = comparePositions(pos[0], pos2[0]);
+		var verticalMatch = comparePositions(pos[1], pos2[1]);
+		var match = horizontalMatch && verticalMatch;
+		if (match) {
+			console.log("hit box");
+		}
+	}
+
+	function getPositions(ship) {
+		var $ship = $(ship);
+		var pos = $ship.position();
+		var width = $ship.width();
+		var height = $ship.height();
+		return [
+			[pos.left, pos.left + width],
+			[pos.top, pos.top + height],
+		];
+	}
+
+	function comparePositions(p1, p2) {
+		var x1 = p1[0] < p2[0] ? p1 : p2;
+		var x2 = p1[0] < p2[0] ? p2 : p1;
+		return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
+	}
+
 	function shuffle(array) {
 		var currentIndex = array.length,
 			randomIndex;
@@ -441,20 +472,37 @@ function GameBoy({
 	}
 
 	function menuOnUnPause() {
+		let hitBarrier;
+		let hitShip;
+
 		updateTimer();
-		//updateTime();
 		updateScore();
 		randomMargin();
 		moveElementsDown();
 		barrier = $(".bullets__barrier");
-		bullet = $(
+		bulletRows = $(
 			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
 		);
+		let bullets = $(
+			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
+		).children();
 
-		let bool;
-		bullet.each(function () {
-			bool = checkCollision($(this), $(barrier));
-			if (bool) {
+		if (checkCollision(bullets, $(".ship"))) {
+			console.log("hit ship");
+		}
+
+		bulletRows.each(function () {
+			hitBarrier = checkCollision($(this), $(barrier));
+			let bullets = $(this.children).each(function () {
+				hitShip = checkCollision($(this), $(".ship"));
+				if (hitShip) {
+					console.log("hit ship");
+				}
+			});
+
+			//checkCollisions($(this.children));
+
+			if (hitBarrier) {
 				$(this).css({ top: "0px" });
 			}
 		});
@@ -485,19 +533,8 @@ function GameBoy({
 		};
 	}, [state.start]);
 
-	/* useEffect(() => {
-		console.log(state.paused);
-		let interval;
-		if (state.paused) {
-			clearInterval(interval);
-		} else {
-			interval = setInterval(onUnPause, 1000);
-		}
-	}, [state.paused]); */
-
 	function startPause() {
 		if (!state.paused) {
-			console.log("here1");
 			dispatch({
 				type: "toggleMenuInterval",
 				value: setInterval(menuOnUnPause, 1000),
@@ -507,7 +544,6 @@ function GameBoy({
 				value: setInterval(bulletOnUnPause, 5000),
 			});
 		} else {
-			console.log("here2");
 			clearInterval(state.menuInterval);
 			clearInterval(state.bulletInterval);
 		}
@@ -533,6 +569,9 @@ function GameBoy({
 								{state.start ? (
 									<>
 										<div className="gameboy__display__top__start">
+											<div className="ship__wrapper">
+												<div className="ship">0</div>
+											</div>
 											{state.bulletCountArr.map((count, index1) => {
 												return (
 													<Fragment key={index1}>
