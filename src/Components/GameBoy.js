@@ -12,7 +12,6 @@ function GameBoy({
 	muteSoundRef,
 	startSoundRef,
 	buttonClickSoundRef,
-	callbackFromParent,
 }) {
 	var bulletRows;
 	var bullets;
@@ -477,27 +476,6 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		if (document.getElementById("topstart1") != undefined) {
-			let rect = document.getElementById("topstart1").getBoundingClientRect();
-			callbackFromParent(
-				$(".gameboy__display__top__start").height(),
-				$(".gameboy__display__top__start").width(),
-				rect.left,
-				rect.top
-			);
-		}
-	}, [window.innerWidth, window.innerHeight]);
-
-	useEffect(() => {
-		if (document.getElementById("topstart1") != undefined) {
-			let rect = document.getElementById("topstart1").getBoundingClientRect();
-			callbackFromParent(
-				$(".gameboy__display__top__start").height(),
-				$(".gameboy__display__top__start").width(),
-				rect.left,
-				rect.top
-			);
-		}
 		if (state.start) {
 			dispatch({
 				type: "setTimerInterval",
@@ -517,17 +495,6 @@ function GameBoy({
 			clearInterval(state.timeInterval);
 		};
 	}, [state.start]);
-
-	useEffect(() => {
-		let rect = document.getElementById("topstart").getBoundingClientRect();
-
-		callbackFromParent(
-			$(".gameboy__display__top__start__clone").height(),
-			$(".gameboy__display__top__start__clone").width(),
-			rect.left,
-			rect.top
-		);
-	}, []);
 
 	function startPause() {
 		if (!state.paused) {
@@ -562,20 +529,23 @@ function GameBoy({
 						<div className="gameboy__display__borderwrapper">
 							<div className="gameboy__display">
 								&nbsp;
-								<div
-									id="topstart"
-									className="gameboy__display__top__start__clone"
-								>
-									&nbsp;
-								</div>
 								{state.start ? (
 									<>
-										<div
-											id="topstart1"
-											className="gameboy__display__top__start"
-										>
+										<div className="gameboy__display__top__start">
+											<div className="star__wrapper">
+												<div className="star"></div>
+												<div className="star"></div>
+												<div className="star"></div>
+												<div className="star"></div>
+												<div className="star"></div>
+												<div className="star"></div>
+												<div className="star"></div>
+												<div className="star"></div>
+												<div className="star"></div>
+											</div>
+
 											<div className="ship__wrapper">
-												<div className="ship">0</div>
+												<div className="ship"></div>
 											</div>
 											{state.bulletCountArr.map((count, index1) => {
 												return (
