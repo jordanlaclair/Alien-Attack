@@ -2,7 +2,7 @@
 .chalk__wrapper {
 	font-family: "Give You Glory", cursive;
 	position: absolute;
-	z-index: 2 !important;
+	z-index: 0 !important;
 	top: 0%;
 	left: 0%;
 	width: 100%;

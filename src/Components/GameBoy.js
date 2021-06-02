@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useReducer } from "react";
 import Bullets from "../Components/Bullets";
-
 import UFO from "../images/gameboy__ufo.png";
 import $ from "jquery";
 import { Fragment } from "react";
@@ -13,6 +12,7 @@ function GameBoy({
 	muteSoundRef,
 	startSoundRef,
 	buttonClickSoundRef,
+	callbackFromParent,
 }) {
 	var bulletRows;
 	var bullets;
@@ -415,36 +415,6 @@ function GameBoy({
 		return true;
 	}
 
-	function checkCollisions(parent) {
-		var ship = $(".ship")[0];
-		var pos = getPositions(ship);
-
-		var pos2 = getPositions(parent);
-		var horizontalMatch = comparePositions(pos[0], pos2[0]);
-		var verticalMatch = comparePositions(pos[1], pos2[1]);
-		var match = horizontalMatch && verticalMatch;
-		if (match) {
-			console.log("hit box");
-		}
-	}
-
-	function getPositions(ship) {
-		var $ship = $(ship);
-		var pos = $ship.position();
-		var width = $ship.width();
-		var height = $ship.height();
-		return [
-			[pos.left, pos.left + width],
-			[pos.top, pos.top + height],
-		];
-	}
-
-	function comparePositions(p1, p2) {
-		var x1 = p1[0] < p2[0] ? p1 : p2;
-		var x2 = p1[0] < p2[0] ? p2 : p1;
-		return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
-	}
-
 	function shuffle(array) {
 		var currentIndex = array.length,
 			randomIndex;
@@ -487,10 +457,6 @@ function GameBoy({
 			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
 		).children();
 
-		if (checkCollision(bullets, $(".ship"))) {
-			console.log("hit ship");
-		}
-
 		bulletRows.each(function () {
 			hitBarrier = checkCollision($(this), $(barrier));
 			let bullets = $(this.children).each(function () {
@@ -499,8 +465,6 @@ function GameBoy({
 					console.log("hit ship");
 				}
 			});
-
-			//checkCollisions($(this.children));
 
 			if (hitBarrier) {
 				$(this).css({ top: "0px" });
@@ -513,6 +477,27 @@ function GameBoy({
 	}
 
 	useEffect(() => {
+		if (document.getElementById("topstart1") != undefined) {
+			let rect = document.getElementById("topstart1").getBoundingClientRect();
+			callbackFromParent(
+				$(".gameboy__display__top__start").height(),
+				$(".gameboy__display__top__start").width(),
+				rect.left,
+				rect.top
+			);
+		}
+	}, [window.innerWidth, window.innerHeight]);
+
+	useEffect(() => {
+		if (document.getElementById("topstart1") != undefined) {
+			let rect = document.getElementById("topstart1").getBoundingClientRect();
+			callbackFromParent(
+				$(".gameboy__display__top__start").height(),
+				$(".gameboy__display__top__start").width(),
+				rect.left,
+				rect.top
+			);
+		}
 		if (state.start) {
 			dispatch({
 				type: "setTimerInterval",
@@ -533,6 +518,17 @@ function GameBoy({
 		};
 	}, [state.start]);
 
+	useEffect(() => {
+		let rect = document.getElementById("topstart").getBoundingClientRect();
+
+		callbackFromParent(
+			$(".gameboy__display__top__start__clone").height(),
+			$(".gameboy__display__top__start__clone").width(),
+			rect.left,
+			rect.top
+		);
+	}, []);
+
 	function startPause() {
 		if (!state.paused) {
 			dispatch({
@@ -550,13 +546,13 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		console.log(state.paused);
 		startPause();
 	}, [state.paused]);
 
 	useEffect(() => {
-		console.log(state.interval);
-	}, [state.interval]);
+		console.log(state.bulletInterval);
+	}, [state.bulletInterval]);
+
 	return (
 		<div className="gameboy__outer__shell">
 			<div className="gameboy__inner__shell">
@@ -566,9 +562,18 @@ function GameBoy({
 						<div className="gameboy__display__borderwrapper">
 							<div className="gameboy__display">
 								&nbsp;
+								<div
+									id="topstart"
+									className="gameboy__display__top__start__clone"
+								>
+									&nbsp;
+								</div>
 								{state.start ? (
 									<>
-										<div className="gameboy__display__top__start">
+										<div
+											id="topstart1"
+											className="gameboy__display__top__start"
+										>
 											<div className="ship__wrapper">
 												<div className="ship">0</div>
 											</div>
