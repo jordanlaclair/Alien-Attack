@@ -149,7 +149,7 @@
 	align-items: center;
 	height: 100%;
 	width: 100%;
-	background: rgb(174, 196, 64);
+	background: black;
 	position: relative;
 }
 .gameboy__display__top__menu {
@@ -163,7 +163,7 @@
 }
 
 .gameboy__title {
-	color: rgb(32, 70, 49);
+	color: rgb(180, 64, 35);
 	font-size: 1.3em;
 	z-index: 2;
 	text-align: center;
@@ -198,7 +198,7 @@
 	align-self: flex-end;
 	animation: blink 1.5s step-start 0s infinite;
 	-webkit-animation: blink 1.5s step-start 0s infinite;
-	color: rgb(32, 70, 49) !important ;
+	color: rgb(83, 42, 32) !important ;
 	text-transform: uppercase;
 	font-size: 1.3em;
 	width: 75%;
@@ -222,278 +222,326 @@
 	background: transparent;
 }
 .mountain1 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
+	border-top-width: 1px;
 	width: calc(2.17391304348% + 1px);
 	height: 50%;
 }
 .mountain2 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 54%;
 }
 .mountain3 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 60%;
 }
 .mountain4 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 65%;
 }
 .mountain5 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 60%;
 }
 .mountain6 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 54%;
 }
 .mountain7 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 49%;
 }
 .mountain8 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 55%;
 }
 .mountain9 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 61%;
 }
 .mountain10 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 65%;
 }
 .mountain11 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 70%;
 }
 .mountain12 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 73%;
 }
 .mountain13 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 75%;
 }
 .mountain14 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 80%;
 }
 .mountain15 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 84%;
 }
 .mountain16 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 88%;
 }
 .mountain17 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 84%;
 }
 .mountain18 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 82%;
 }
 .mountain19 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 77%;
 }
 .mountain20 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 71%;
 }
 .mountain21 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 65%;
 }
 .mountain22 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 60%;
 }
 .mountain23 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 56%;
 }
 .mountain24 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 52%;
 }
 .mountain25 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 49%;
 }
 .mountain26 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 50%;
 }
 .mountain27 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 54%;
 }
 .mountain28 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 58%;
 }
 .mountain29 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 65%;
 }
 .mountain30 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 72%;
 }
 .mountain31 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 75%;
 }
 .mountain32 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 81%;
 }
 .mountain33 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 86%;
 }
 .mountain34 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 90%;
 }
 .mountain35 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 95%;
 }
 .mountain36 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 99%;
 }
 .mountain37 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 95%;
 }
 .mountain38 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 90%;
 }
 .mountain39 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 85%;
 }
 .mountain40 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 80%;
 }
 .mountain41 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 74%;
 }
 .mountain42 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 68%;
 }
 .mountain43 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 65%;
 }
 .mountain44 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 62%;
 }
 .mountain45 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 55%;
 }
 .mountain46 {
-	background-color: rgb(82, 127, 57);
-
+	background-color: rgb(151, 100, 41);
+	border: 0px solid rgb(170, 67, 19);
+	border-top-width: 1px;
 	width: 2.17391304348%;
 	height: 52%;
 }
@@ -501,15 +549,17 @@
 	display: flex;
 	justify-content: flex-end;
 	align-items: flex-end;
-	background-color: rgb(32, 70, 49);
+	background-color: rgb(83, 42, 32);
 	z-index: 7;
 	width: 100%;
 	height: 25%;
 
-	-webkit-text-stroke: 0.7px rgb(239, 243, 237); /* width and color */
+	-webkit-text-stroke: 1px rgba(255, 255, 255, 0.747); /* width and color */
 }
 .year {
-	font-size: 2em;
+	color: rgb(180, 64, 35);
+
+	font-size: 2.5em;
 
 	margin: 3%;
 	margin-bottom: 1%;
@@ -517,13 +567,14 @@
 	align-self: flex-end;
 }
 .year1 {
+	color: rgb(180, 64, 35);
 	margin: 3%;
 	margin-bottom: 1%;
-	font-size: 2em;
+	font-size: 2.5em;
 	transform: scale(2, 1);
 }
 .gameboy__display__bottom__line1 {
-	background-color: rgb(32, 70, 49);
+	background-color: rgb(83, 42, 32);
 	z-index: 2;
 
 	width: 100%;
@@ -531,7 +582,7 @@
 	height: 2%;
 }
 .gameboy__display__bottom__line2 {
-	background-color: rgb(32, 70, 49);
+	background-color: rgb(83, 42, 32);
 	z-index: 2;
 
 	width: 100%;
@@ -539,7 +590,7 @@
 	height: 2%;
 }
 .gameboy__display__bottom__line3 {
-	background-color: rgb(32, 70, 49);
+	background-color: rgb(83, 42, 32);
 	z-index: 2;
 
 	width: 100%;
@@ -567,12 +618,117 @@
 	width: 100%;
 	height: 120%;
 	background: transparent;
-	-webkit-animation: falling 1s linear infinite;
-	animation: falling 1s linear infinite;
+	-webkit-animation: falling 0.3s linear infinite;
+	animation: falling 0.65s linear infinite;
+}
+
+.star__wrapper1 {
+	z-index: 0;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 90%;
+	height: 20%;
+	background: transparent;
+	-webkit-animation: left-to-right 0.5s linear infinite;
+	animation: left-to-right 0.5s linear infinite;
+}
+.star__wrapper2 {
+	z-index: 0;
+	position: absolute;
+	top: 20%;
+	left: 0%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 90%;
+	height: 20%;
+	background: transparent;
+	-webkit-animation: left-to-right 0.6s linear infinite;
+	animation: left-to-right 0.6s linear infinite;
+}
+.star__wrapper3 {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	left: 0px;
+	width: 100%;
+	height: 120%;
+	background: transparent;
+	-webkit-animation: falling 0.35s linear infinite;
+	animation: falling 0.6s linear infinite;
+}
+.star__wrapper4 {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	left: 0px;
+	width: 100%;
+	height: 120%;
+	background: transparent;
+	-webkit-animation: falling 0.35s linear infinite;
+	animation: falling 0.55s linear infinite;
+}
+.star__wrapper5 {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	left: 0px;
+	width: 100%;
+	height: 120%;
+	background: transparent;
+	-webkit-animation: falling 0.35s linear infinite;
+	animation: falling 0.5s linear infinite;
+}
+
+.star6 {
+	background-color: white;
+	margin: -2% 4%;
+
+	width: 1%;
+	height: 1%;
+}
+.star5 {
+	background-color: white;
+	margin: 3% 2%;
+	width: 1%;
+	height: 1%;
+}
+.star4 {
+	background-color: white;
+	margin: 3% 4%;
+	width: 1%;
+	height: 1%;
+}
+
+.star3 {
+	background-color: white;
+	margin: 10% 0%;
+	width: 1%;
+	height: 1%;
+}
+.star2 {
+	background-color: white;
+	margin: 2% 0%;
+	width: 1%;
+	height: 1%;
+}
+.star1 {
+	background-color: white;
+	margin: 0 1%;
+	width: 1%;
+	height: 1%;
 }
 .star {
 	background-color: white;
 	margin: 0 5%;
+
 	width: 1%;
 	height: 1%;
 }
@@ -724,6 +880,17 @@
 @-webkit-keyframes falling {
 	100% {
 		transform: translateY(100%);
+	}
+}
+
+@keyframes left-to-right {
+	100% {
+		transform: translateX(100%);
+	}
+}
+@-webkit-keyframes left-to-right {
+	100% {
+		transform: translateX(100%);
 	}
 }
 

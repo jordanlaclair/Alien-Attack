@@ -532,15 +532,60 @@ function GameBoy({
 								{state.start ? (
 									<>
 										<div className="gameboy__display__top__start">
+											<div className="star__wrapper3">
+												<div className="star5"></div>
+												<div className="star"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star6"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star5"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star6"></div>
+												<div className="star"></div>
+											</div>
 											<div className="star__wrapper">
+												<div className="star5"></div>
 												<div className="star"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star6"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star5"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star6"></div>
 												<div className="star"></div>
+											</div>
+											<div className="star__wrapper4">
+												<div className="star5"></div>
 												<div className="star"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star6"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star5"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star6"></div>
 												<div className="star"></div>
+											</div>
+											<div className="star__wrapper5">
+												<div className="star5"></div>
 												<div className="star"></div>
-												<div className="star"></div>
-												<div className="star"></div>
-												<div className="star"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star6"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star5"></div>
+												<div className="star5"></div>
+												<div className="star6"></div>
+												<div className="star6"></div>
 												<div className="star"></div>
 											</div>
 
@@ -666,7 +711,24 @@ function GameBoy({
 								) : (
 									<div className="gameboy__display__inner">
 										<div className="gameboy__display__top__menu">
+											<div className="star__wrapper1">
+												<div className="star4"></div>
+
+												<div className="star1"></div>
+												<div className="star3"></div>
+											</div>
+											<div className="star__wrapper2">
+												<div className="star3"></div>
+												<div className="star1"></div>
+
+												<div className="star4"></div>
+											</div>
+
+											<div className="star__wrapper1">
+												<div className="star2"></div>
+											</div>
 											<div className="gameboy__title">Alien Attack</div>
+
 											<div className="gameboy__UFO__wrapper">
 												<img className="ufo" src={UFO} alt="ufo" />
 											</div>
