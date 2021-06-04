@@ -202,15 +202,19 @@ function GameBoy({
 					score: state.score + 11,
 				};
 			case "toggleMenuInterval":
-				return {
-					...state,
-					menuInterval: action.value,
-				};
+				if (state.start) {
+					return {
+						...state,
+						menuInterval: action.value,
+					};
+				}
 			case "toggleBulletInterval":
-				return {
-					...state,
-					bulletInterval: action.value,
-				};
+				if (state.start) {
+					return {
+						...state,
+						bulletInterval: action.value,
+					};
+				}
 			case "setTimeInterval":
 				return {
 					...state,
@@ -295,7 +299,7 @@ function GameBoy({
 		return Math.floor(Math.random() * (max - min) + min);
 	}
 	function renderRandom() {
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 7; i++) {
 			dispatch({
 				type: "updateSpaceShipsLengths",
 				value: getRandomArbitrary(80, 120),
@@ -389,7 +393,7 @@ function GameBoy({
 	}
 
 	function randomizeMiddleBullet(el) {
-		var randomnumber2 = Math.floor(Math.random() * 3);
+		var randomnumber2 = Math.floor(Math.random() * 20);
 
 		$(el).css({
 			"margin-right": randomnumber2 + "px",
@@ -439,6 +443,9 @@ function GameBoy({
 		var item = arr[Math.floor(Math.random() * arr.length)];
 		return item;
 	}
+	useEffect(() => {
+		console.log(state.start);
+	}, [state.start]);
 
 	function menuOnUnPause() {
 		let hitBarrier;
@@ -477,6 +484,8 @@ function GameBoy({
 
 	useEffect(() => {
 		if (state.start) {
+			startPause();
+
 			dispatch({
 				type: "setTimerInterval",
 				value: setInterval(updateTime, 1000),
@@ -497,7 +506,8 @@ function GameBoy({
 	}, [state.start]);
 
 	function startPause() {
-		if (!state.paused) {
+		if (!state.paused && state.start) {
+			console.log("here1");
 			dispatch({
 				type: "toggleMenuInterval",
 				value: setInterval(menuOnUnPause, 1000),
@@ -513,6 +523,7 @@ function GameBoy({
 	}
 
 	useEffect(() => {
+		console.log(state.paused);
 		startPause();
 	}, [state.paused]);
 
@@ -531,7 +542,10 @@ function GameBoy({
 								&nbsp;
 								{state.start ? (
 									<>
-										<div className="gameboy__display__top__start">
+										<div
+											id="ship__container"
+											className="gameboy__display__top__start"
+										>
 											<div className="star__wrapper3">
 												<div className="star5"></div>
 												<div className="star"></div>
@@ -589,8 +603,8 @@ function GameBoy({
 												<div className="star"></div>
 											</div>
 
-											<div className="ship__wrapper">
-												<div className="ship"></div>
+											<div id="ship__wrapper" className="ship__wrapper">
+												<div id="ship" className="ship"></div>
 											</div>
 											{state.bulletCountArr.map((count, index1) => {
 												return (
@@ -598,7 +612,7 @@ function GameBoy({
 														<div
 															className={`bullets__wrapper__row${index1 + 1}`}
 														>
-															{state.spaceShipsLengths.length === 10
+															{state.spaceShipsLengths.length === 7
 																? state.spaceShipsLengths.map(
 																		(height, index) => {
 																			let randomHeight = getRandomHeight(
