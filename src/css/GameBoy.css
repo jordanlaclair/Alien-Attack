@@ -733,19 +733,82 @@
 	height: 1%;
 }
 
-.ship__wrapper {
+.ship {
 	position: absolute;
+	display: grid;
+	grid-template-columns: 33% 33% 33%;
+	grid-template-rows: 20% 20% 20% 20% 20%;
 	left: 50%;
 	bottom: 0px;
-	width: 10%;
-	height: 10%;
+	width: 7.5%;
+	height: 15%;
 	background-color: transparent;
 }
 
-.ship {
-	width: 100%;
-	height: 100%;
-	background-color: red;
+.ship-item1 {
+	background: transparent;
+	visibility: hidden;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item2 {
+	background-color: gray;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item3 {
+	background: transparent;
+	visibility: hidden;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item4 {
+	background-color: rgb(93, 190, 250);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item5 {
+	background-color: white;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item6 {
+	background-color: rgb(93, 190, 250);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item7 {
+	background-color: rgb(93, 190, 250);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item8 {
+	background-color: white;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item9 {
+	background-color: rgb(93, 190, 250);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item10 {
+	background-color: rgb(93, 190, 250);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item11 {
+	background-color: white;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item12 {
+	background-color: rgb(93, 190, 250);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item13 {
+	background-color: rgb(93, 190, 250);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+	border-bottom-color: red;
+}
+.ship-item14 {
+	background-color: transparent;
+	visibility: hidden;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.ship-item15 {
+	background-color: rgb(93, 190, 250);
+	border: 1px solid rgba(0, 0, 0, 0.8);
+	border-bottom-color: red;
 }
 
 .gameboy__display__bottom__start {
@@ -843,21 +906,21 @@
 .bullet__left {
 	margin: 0%;
 	margin-top: 0%;
-	width: 3.33%;
+	width: 2%;
 	background-color: yellow;
 }
 
 .bullet__right {
 	margin: 0%;
 	margin-top: 0%;
-	width: 3.33%;
+	width: 2%;
 	background-color: yellow;
 }
 .bullet__middle {
 	z-index: inherit;
 	margin: 0%;
 	margin-top: 0%;
-	width: 3.33%;
+	width: 2%;
 	background-color: yellow;
 }
 

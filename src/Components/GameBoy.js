@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useReducer } from "react";
+import React, { useEffect, useState, useRef, useReducer } from "react";
 import Bullets from "../Components/Bullets";
 import UFO from "../images/gameboy__ufo.png";
 import $ from "jquery";
@@ -16,6 +16,12 @@ function GameBoy({
 	var bulletRows;
 	var bullets;
 	var barrier;
+	const [shipState, setShipState] = useState(0);
+	const [erasedBullets, setErasedBullets] = useState([]);
+
+	useEffect(() => {
+		console.log(shipState);
+	}, [shipState]);
 
 	const handleKeyDown = (event) => {
 		if (event.key === "ArrowUp") {
@@ -262,6 +268,9 @@ function GameBoy({
 	}
 
 	function updateTime() {
+		/* let elem = document.getElementById("ship__container");
+		let ht = window.getComputedStyle(elem, null).getPropertyValue("width");
+		console.log(ht); */
 		dispatch({
 			type: "update",
 			field: "time",
@@ -299,7 +308,7 @@ function GameBoy({
 		return Math.floor(Math.random() * (max - min) + min);
 	}
 	function renderRandom() {
-		for (let i = 0; i < 7; i++) {
+		for (let i = 0; i < 5; i++) {
 			dispatch({
 				type: "updateSpaceShipsLengths",
 				value: getRandomArbitrary(80, 120),
@@ -393,7 +402,7 @@ function GameBoy({
 	}
 
 	function randomizeMiddleBullet(el) {
-		var randomnumber2 = Math.floor(Math.random() * 20);
+		var randomnumber2 = Math.floor(Math.random() * 3);
 
 		$(el).css({
 			"margin-right": randomnumber2 + "px",
@@ -444,8 +453,53 @@ function GameBoy({
 		return item;
 	}
 	useEffect(() => {
+		if (state.paused == false) {
+			$(function () {
+				var pane = $("#ship__container"),
+					box = $("#ship"),
+					wh = pane.width() - box.width(),
+					wv = pane.height() - box.height(),
+					d = {},
+					x = 2;
+
+				function newh(v, a, b) {
+					var n = parseInt(v, 10) - (d[a] ? x : 0) + (d[b] ? x : 0);
+					return n < 0 ? 0 : n > wh ? wh : n;
+				}
+
+				function newv(v, a, b) {
+					var n = parseInt(v, 10) - (d[a] ? x : 0) + (d[b] ? x : 0);
+					return n < 0 ? 0 : n > wv ? wv : n;
+				}
+
+				$(window).keydown(function (e) {
+					d[e.which] = true;
+				});
+				$(window).keyup(function (e) {
+					d[e.which] = false;
+				});
+				let interval;
+				setShipState(
+					setInterval(function () {
+						box.css({
+							left: function (i, v) {
+								return newh(v, 37, 39);
+							},
+							top: function (i, v) {
+								return newv(v, 38, 40);
+							},
+						});
+						wh = pane.width() - box.width();
+						wv = pane.height() - box.height();
+					}, 20)
+				);
+			});
+		} else {
+			setShipState(clearInterval(shipState));
+		}
+
 		console.log(state.start);
-	}, [state.start]);
+	}, [state.start, state.paused]);
 
 	function menuOnUnPause() {
 		let hitBarrier;
@@ -469,15 +523,25 @@ function GameBoy({
 				hitShip = checkCollision($(this), $(".ship"));
 				if (hitShip) {
 					console.log("hit ship");
+					$(this).hide();
+					setErasedBullets((prevState) => {
+						return [...prevState, $(this)];
+					});
 				}
 			});
 
 			if (hitBarrier) {
+				console.log("hit barrier");
+				erasedBullets.forEach((oneBullet) => {
+					oneBullet.show();
+				});
 				$(this).css({ top: "0px" });
 			}
 		});
 	}
-
+	useEffect(() => {
+		console.log(erasedBullets);
+	}, [erasedBullets]);
 	function bulletOnUnPause() {
 		createNewBullets();
 	}
@@ -507,7 +571,6 @@ function GameBoy({
 
 	function startPause() {
 		if (!state.paused && state.start) {
-			console.log("here1");
 			dispatch({
 				type: "toggleMenuInterval",
 				value: setInterval(menuOnUnPause, 1000),
@@ -546,7 +609,14 @@ function GameBoy({
 											id="ship__container"
 											className="gameboy__display__top__start"
 										>
-											<div className="star__wrapper3">
+											<div
+												style={
+													state.paused
+														? { animationPlayState: "paused" }
+														: { animationPlayState: "running" }
+												}
+												className="star__wrapper3"
+											>
 												<div className="star5"></div>
 												<div className="star"></div>
 												<div className="star5"></div>
@@ -560,7 +630,14 @@ function GameBoy({
 												<div className="star6"></div>
 												<div className="star"></div>
 											</div>
-											<div className="star__wrapper">
+											<div
+												style={
+													state.paused
+														? { animationPlayState: "paused" }
+														: { animationPlayState: "running" }
+												}
+												className="star__wrapper"
+											>
 												<div className="star5"></div>
 												<div className="star"></div>
 												<div className="star5"></div>
@@ -574,7 +651,14 @@ function GameBoy({
 												<div className="star6"></div>
 												<div className="star"></div>
 											</div>
-											<div className="star__wrapper4">
+											<div
+												style={
+													state.paused
+														? { animationPlayState: "paused" }
+														: { animationPlayState: "running" }
+												}
+												className="star__wrapper4"
+											>
 												<div className="star5"></div>
 												<div className="star"></div>
 												<div className="star5"></div>
@@ -588,7 +672,14 @@ function GameBoy({
 												<div className="star6"></div>
 												<div className="star"></div>
 											</div>
-											<div className="star__wrapper5">
+											<div
+												style={
+													state.paused
+														? { animationPlayState: "paused" }
+														: { animationPlayState: "running" }
+												}
+												className="star__wrapper5"
+											>
 												<div className="star5"></div>
 												<div className="star"></div>
 												<div className="star5"></div>
@@ -603,8 +694,22 @@ function GameBoy({
 												<div className="star"></div>
 											</div>
 
-											<div id="ship__wrapper" className="ship__wrapper">
-												<div id="ship" className="ship"></div>
+											<div id="ship" className="ship">
+												<div className="ship-item1">&nbsp;</div>
+												<div className="ship-item2">&nbsp;</div>
+												<div className="ship-item3">&nbsp;</div>
+												<div className="ship-item4">&nbsp;</div>
+												<div className="ship-item5">&nbsp;</div>
+												<div className="ship-item6">&nbsp;</div>
+												<div className="ship-item7">&nbsp;</div>
+												<div className="ship-item8">&nbsp;</div>
+												<div className="ship-item9">&nbsp;</div>
+												<div className="ship-item10">&nbsp;</div>
+												<div className="ship-item11">&nbsp;</div>
+												<div className="ship-item12">&nbsp;</div>
+												<div className="ship-item13">&nbsp;</div>
+												<div className="ship-item14">&nbsp;</div>
+												<div className="ship-item15">&nbsp;</div>
 											</div>
 											{state.bulletCountArr.map((count, index1) => {
 												return (
@@ -612,7 +717,7 @@ function GameBoy({
 														<div
 															className={`bullets__wrapper__row${index1 + 1}`}
 														>
-															{state.spaceShipsLengths.length === 7
+															{state.spaceShipsLengths.length === 5
 																? state.spaceShipsLengths.map(
 																		(height, index) => {
 																			let randomHeight = getRandomHeight(
