@@ -17,31 +17,49 @@ function GameBoy({
 	var bullets;
 	var barrier;
 	const [shipState, setShipState] = useState(0);
-	const [erasedBullets, setErasedBullets] = useState([]);
-
-	useEffect(() => {
-		console.log(shipState);
-	}, [shipState]);
 
 	const handleKeyDown = (event) => {
 		if (event.key === "ArrowUp") {
-			moveSoundRef.current.load();
-			moveSoundRef.current.play();
+			if (state.paused == false) {
+				console.log(state.paused);
+				moveSoundRef.current.load();
+				moveSoundRef.current.play();
+			} else {
+				console.log(state.paused);
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
+
 			document.getElementById("uparrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowRight") {
-			moveSoundRef.current.load();
-			moveSoundRef.current.play();
+			if (state.paused == false) {
+				moveSoundRef.current.load();
+				moveSoundRef.current.play();
+			} else {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
 			document.getElementById("rightarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowDown") {
-			moveSoundRef.current.load();
-			moveSoundRef.current.play();
+			if (state.paused == false) {
+				moveSoundRef.current.load();
+				moveSoundRef.current.play();
+			} else {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
 			document.getElementById("downarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowLeft") {
-			moveSoundRef.current.load();
-			moveSoundRef.current.play();
+			if (state.paused == false) {
+				moveSoundRef.current.load();
+				moveSoundRef.current.play();
+			} else {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
 			document.getElementById("leftarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "s" || event.key === "S") {
@@ -102,8 +120,13 @@ function GameBoy({
 	};
 
 	const handleButtonPress = (e) => {
-		moveSoundRef.current.load();
-		moveSoundRef.current.play();
+		if (state.paused == false) {
+			moveSoundRef.current.load();
+			moveSoundRef.current.play();
+		} else {
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
+		}
 	};
 
 	const handleStartButtonPress = (e) => {
@@ -311,7 +334,7 @@ function GameBoy({
 		for (let i = 0; i < 5; i++) {
 			dispatch({
 				type: "updateSpaceShipsLengths",
-				value: getRandomArbitrary(80, 120),
+				value: getRandomArbitrary(50, 100),
 			});
 		}
 	}
@@ -453,6 +476,8 @@ function GameBoy({
 		return item;
 	}
 	useEffect(() => {
+		document.addEventListener("keydown", handleKeyDown);
+		document.addEventListener("keyup", handleKeyUp);
 		if (state.paused == false) {
 			$(function () {
 				var pane = $("#ship__container"),
@@ -499,11 +524,16 @@ function GameBoy({
 		}
 
 		console.log(state.start);
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown);
+			document.removeEventListener("keyup", handleKeyUp);
+		};
 	}, [state.start, state.paused]);
 
 	function menuOnUnPause() {
 		let hitBarrier;
 		let hitShip;
+		let bullet;
 
 		updateTimer();
 		updateScore();
@@ -524,24 +554,19 @@ function GameBoy({
 				if (hitShip) {
 					console.log("hit ship");
 					$(this).hide();
-					setErasedBullets((prevState) => {
-						return [...prevState, $(this)];
-					});
+					setTimeout(() => {
+						$(this).show();
+					}, 8000);
 				}
 			});
 
 			if (hitBarrier) {
 				console.log("hit barrier");
-				erasedBullets.forEach((oneBullet) => {
-					oneBullet.show();
-				});
 				$(this).css({ top: "0px" });
 			}
 		});
 	}
-	useEffect(() => {
-		console.log(erasedBullets);
-	}, [erasedBullets]);
+
 	function bulletOnUnPause() {
 		createNewBullets();
 	}
@@ -558,13 +583,8 @@ function GameBoy({
 			renderRandom();
 		}
 
-		document.addEventListener("keydown", handleKeyDown);
-		document.addEventListener("keyup", handleKeyUp);
 		return () => {
-			document.removeEventListener("keydown", handleKeyDown);
-			document.removeEventListener("keyup", handleKeyUp);
 			clearInterval(state.menuInterval);
-			clearInterval(state.bulletIntervalinterval);
 			clearInterval(state.timeInterval);
 		};
 	}, [state.start]);
@@ -587,6 +607,7 @@ function GameBoy({
 
 	useEffect(() => {
 		console.log(state.paused);
+
 		startPause();
 	}, [state.paused]);
 
