@@ -12,20 +12,32 @@ function GameBoy({
 	muteSoundRef,
 	startSoundRef,
 	buttonClickSoundRef,
+	crashSoundRef,
 }) {
 	var bulletRows;
 	var bullets;
 	var barrier;
 	const [shipState, setShipState] = useState(0);
+	const [highScore, setHighScore] = useStickyState(0, "totalScore");
+
+	function useStickyState(defaultValue, key) {
+		const [value, setValue] = useState(() => {
+			const stickyValue = window.localStorage.getItem(key);
+			return stickyValue !== null ? JSON.parse(stickyValue) : defaultValue;
+		});
+		//keeps local storage in sync
+		React.useEffect(() => {
+			window.localStorage.setItem(key, JSON.stringify(value));
+		}, [key, value]);
+		return [value, setValue];
+	}
 
 	const handleKeyDown = (event) => {
 		if (event.key === "ArrowUp") {
 			if (state.paused == false) {
-				console.log(state.paused);
 				moveSoundRef.current.load();
 				moveSoundRef.current.play();
 			} else {
-				console.log(state.paused);
 				buttonClickSoundRef.current.load();
 				buttonClickSoundRef.current.play();
 			}
@@ -182,6 +194,7 @@ function GameBoy({
 						seconds: 0,
 						score: 0,
 						totalSeconds: 0,
+						lives: 3,
 					};
 				} else {
 					return { ...state };
@@ -249,10 +262,11 @@ function GameBoy({
 					...state,
 					timeInterval: action.value,
 				};
-			case "updateHighScore":
+
+			case "shipCollision":
 				return {
 					...state,
-					highScore: action.value,
+					lives: state.lives - 1,
 				};
 
 			default:
@@ -278,7 +292,7 @@ function GameBoy({
 		timeInterval: 0,
 		bulletInterval: 0,
 		restart: 0,
-		highScore: 0,
+		lives: 3,
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -298,12 +312,12 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		console.log(state.highScore);
-	}, [state.highScore]);
+		console.log(highScore);
+	}, [highScore]);
 
 	useEffect(() => {
-		if (state.score > state.highScore) {
-			dispatch({ type: "updateHighScore", value: state.score });
+		if (state.score > highScore) {
+			setHighScore(state.score);
 		}
 	}, [state.score]);
 
@@ -550,7 +564,6 @@ function GameBoy({
 	function menuOnUnPause() {
 		let hitBarrier;
 		let hitShip;
-		let bullet;
 
 		updateTimer();
 		updateScore();
@@ -569,7 +582,7 @@ function GameBoy({
 			let bullets = $(this.children).each(function () {
 				hitShip = checkCollision($(this), $(".ship"));
 				if (hitShip) {
-					console.log("hit ship");
+					dispatch({ type: "shipCollision" });
 					$(this).hide();
 					setTimeout(() => {
 						$(this).show();
@@ -587,6 +600,25 @@ function GameBoy({
 	function bulletOnUnPause() {
 		createNewBullets();
 	}
+
+	useEffect(() => {
+		console.log("hit ship");
+		console.log(state.lives);
+		if (state.lives != 3) {
+			crashSoundRef.current.load();
+			crashSoundRef.current.play();
+		}
+
+		if (state.lives == 2) {
+			document.getElementById("life1").remove();
+		}
+		if (state.lives == 1) {
+			document.getElementById("life2").remove();
+		}
+		if (state.lives == 0) {
+			document.getElementById("life3").remove();
+		}
+	}, [state.lives]);
 
 	useEffect(() => {
 		if (state.start) {
@@ -807,16 +839,57 @@ function GameBoy({
 										<div className="gameboy__display__bottom__start">
 											{state.showMenu ? (
 												<div className="gameboy__menu">
-													<div className="gameboy__timer">
-														<div className="timer__minutes">
-															{state.minutes == 0 ? "00" : state.minutes}
+													<div className="lives__wrapper">
+														<div id="life1" className="lives__wrapper__ship">
+															<div className="ship-item1">&nbsp;</div>
+															<div className="ship-item2">&nbsp;</div>
+															<div className="ship-item3">&nbsp;</div>
+															<div className="ship-item4">&nbsp;</div>
+															<div className="ship-item5">&nbsp;</div>
+															<div className="ship-item6">&nbsp;</div>
+															<div className="ship-item7">&nbsp;</div>
+															<div className="ship-item8">&nbsp;</div>
+															<div className="ship-item9">&nbsp;</div>
+															<div className="ship-item10">&nbsp;</div>
+															<div className="ship-item11">&nbsp;</div>
+															<div className="ship-item12">&nbsp;</div>
+															<div className="ship-item13">&nbsp;</div>
+															<div className="ship-item14">&nbsp;</div>
+															<div className="ship-item15">&nbsp;</div>
 														</div>
-														<div className="colon__wrapper2">
-															<div className="timer__colon">:</div>
-															<div className="timer__colon__off">:</div>
+														<div id="life2" className="lives__wrapper__ship">
+															<div className="ship-item1">&nbsp;</div>
+															<div className="ship-item2">&nbsp;</div>
+															<div className="ship-item3">&nbsp;</div>
+															<div className="ship-item4">&nbsp;</div>
+															<div className="ship-item5">&nbsp;</div>
+															<div className="ship-item6">&nbsp;</div>
+															<div className="ship-item7">&nbsp;</div>
+															<div className="ship-item8">&nbsp;</div>
+															<div className="ship-item9">&nbsp;</div>
+															<div className="ship-item10">&nbsp;</div>
+															<div className="ship-item11">&nbsp;</div>
+															<div className="ship-item12">&nbsp;</div>
+															<div className="ship-item13">&nbsp;</div>
+															<div className="ship-item14">&nbsp;</div>
+															<div className="ship-item15">&nbsp;</div>
 														</div>
-														<div className="timer__seconds">
-															{state.seconds == 0 ? "00" : state.seconds}
+														<div id="life3" className="lives__wrapper__ship">
+															<div className="ship-item1">&nbsp;</div>
+															<div className="ship-item2">&nbsp;</div>
+															<div className="ship-item3">&nbsp;</div>
+															<div className="ship-item4">&nbsp;</div>
+															<div className="ship-item5">&nbsp;</div>
+															<div className="ship-item6">&nbsp;</div>
+															<div className="ship-item7">&nbsp;</div>
+															<div className="ship-item8">&nbsp;</div>
+															<div className="ship-item9">&nbsp;</div>
+															<div className="ship-item10">&nbsp;</div>
+															<div className="ship-item11">&nbsp;</div>
+															<div className="ship-item12">&nbsp;</div>
+															<div className="ship-item13">&nbsp;</div>
+															<div className="ship-item14">&nbsp;</div>
+															<div className="ship-item15">&nbsp;</div>
 														</div>
 													</div>
 													<div className="score__wrapper">
@@ -843,6 +916,31 @@ function GameBoy({
 														)}
 
 														<div className="score">{state.score}</div>
+													</div>
+													<div className="score__wrapper">
+														{highScore >= 100000 ? null : (
+															<div className="placeholder__hundred__thousands">
+																0
+															</div>
+														)}
+														{highScore >= 10000 ? null : (
+															<div className="placeholder__ten__thousands">
+																0
+															</div>
+														)}
+														{highScore >= 1000 ? null : (
+															<div className="placeholder__thousands">0</div>
+														)}
+
+														{highScore >= 100 ? null : (
+															<div className="placeholder__hundreds">0</div>
+														)}
+
+														{highScore >= 10 ? null : (
+															<div className="placeholder__tenths">0</div>
+														)}
+
+														<div className="score">{highScore}</div>
 													</div>
 													<div className="gameboy__time">
 														<div className="time__hours">
