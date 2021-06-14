@@ -249,6 +249,11 @@ function GameBoy({
 					...state,
 					timeInterval: action.value,
 				};
+			case "updateHighScore":
+				return {
+					...state,
+					highScore: action.value,
+				};
 
 			default:
 				break;
@@ -272,6 +277,8 @@ function GameBoy({
 		menuInterval: 0,
 		timeInterval: 0,
 		bulletInterval: 0,
+		restart: 0,
+		highScore: 0,
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -289,6 +296,16 @@ function GameBoy({
 			type: "updateMinutes",
 		});
 	}
+
+	useEffect(() => {
+		console.log(state.highScore);
+	}, [state.highScore]);
+
+	useEffect(() => {
+		if (state.score > state.highScore) {
+			dispatch({ type: "updateHighScore", value: state.score });
+		}
+	}, [state.score]);
 
 	function updateTime() {
 		/* let elem = document.getElementById("ship__container");
