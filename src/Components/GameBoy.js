@@ -189,7 +189,7 @@ function GameBoy({
 				if (state.start) {
 					return {
 						...state,
-						time: "",
+
 						minutes: 0,
 						seconds: 0,
 						score: 0,
@@ -584,6 +584,8 @@ function GameBoy({
 				if (hitShip) {
 					dispatch({ type: "shipCollision" });
 					$(this).hide();
+					crashSoundRef.current.load();
+					crashSoundRef.current.play();
 					setTimeout(() => {
 						$(this).show();
 					}, 8000);
@@ -604,9 +606,44 @@ function GameBoy({
 	useEffect(() => {
 		console.log("hit ship");
 		console.log(state.lives);
-		if (state.lives != 3) {
-			crashSoundRef.current.load();
-			crashSoundRef.current.play();
+		if (state.lives == 3) {
+			if (
+				$("#life1.lives__wrapper__ship").length > 0 &&
+				$("#life2.lives__wrapper__ship").length > 0 &&
+				$("#life3.lives__wrapper__ship").length > 0
+			) {
+				return;
+			} else {
+				if ($("#life1.lives__wrapper__ship").length > 0) {
+					document.getElementById("life1").remove();
+				}
+				if ($("#life2.lives__wrapper__ship").length > 0) {
+					document.getElementById("life2").remove();
+				}
+				if ($("#life3.lives__wrapper__ship").length > 0) {
+					document.getElementById("life3").remove();
+				}
+
+				$(".lives__wrapper").append(
+					'<div class="lives__wrapper__ship" id="life1">&nbsp;</div>'
+				);
+				$(".lives__wrapper").append(
+					'<div class="lives__wrapper__ship" id="life2">&nbsp;</div>'
+				);
+				$(".lives__wrapper").append(
+					'<div class="lives__wrapper__ship" id="life3">&nbsp;</div>'
+				);
+
+				$("#life1.lives__wrapper__ship").prepend(
+					'<div className="ship-item1">&nbsp;</div><div class="ship-item2">&nbsp;</div><div class="ship-item3">&nbsp;</div><div class="ship-item4">&nbsp;</div><div class="ship-item5">&nbsp;</div><div class="ship-item6">&nbsp;</div><div class="ship-item7">&nbsp;</div><div class="ship-item8">&nbsp;</div><div class="ship-item9">&nbsp;</div><div class="ship-item10">&nbsp;</div><div class="ship-item11">&nbsp;</div><div class="ship-item12">&nbsp;</div><div class="ship-item13">&nbsp;</div><div class="ship-item14">&nbsp;</div><div class="ship-item15">&nbsp;</div>'
+				);
+				$("#life2.lives__wrapper__ship").prepend(
+					'<div className="ship-item1">&nbsp;</div><div class="ship-item2">&nbsp;</div><div class="ship-item3">&nbsp;</div><div class="ship-item4">&nbsp;</div><div class="ship-item5">&nbsp;</div><div class="ship-item6">&nbsp;</div><div class="ship-item7">&nbsp;</div><div class="ship-item8">&nbsp;</div><div class="ship-item9">&nbsp;</div><div class="ship-item10">&nbsp;</div><div class="ship-item11">&nbsp;</div><div class="ship-item12">&nbsp;</div><div class="ship-item13">&nbsp;</div><div class="ship-item14">&nbsp;</div><div class="ship-item15">&nbsp;</div>'
+				);
+				$("#life3.lives__wrapper__ship").prepend(
+					'<div className="ship-item1">&nbsp;</div><div class="ship-item2">&nbsp;</div><div class="ship-item3">&nbsp;</div><div class="ship-item4">&nbsp;</div><div class="ship-item5">&nbsp;</div><div class="ship-item6">&nbsp;</div><div class="ship-item7">&nbsp;</div><div class="ship-item8">&nbsp;</div><div class="ship-item9">&nbsp;</div><div class="ship-item10">&nbsp;</div><div class="ship-item11">&nbsp;</div><div class="ship-item12">&nbsp;</div><div class="ship-item13">&nbsp;</div><div class="ship-item14">&nbsp;</div><div class="ship-item15">&nbsp;</div>'
+				);
+			}
 		}
 
 		if (state.lives == 2) {
@@ -839,57 +876,150 @@ function GameBoy({
 										<div className="gameboy__display__bottom__start">
 											{state.showMenu ? (
 												<div className="gameboy__menu">
-													<div className="lives__wrapper">
+													<div id="lives__wrapper" className="lives__wrapper">
 														<div id="life1" className="lives__wrapper__ship">
-															<div className="ship-item1">&nbsp;</div>
-															<div className="ship-item2">&nbsp;</div>
-															<div className="ship-item3">&nbsp;</div>
-															<div className="ship-item4">&nbsp;</div>
-															<div className="ship-item5">&nbsp;</div>
-															<div className="ship-item6">&nbsp;</div>
-															<div className="ship-item7">&nbsp;</div>
-															<div className="ship-item8">&nbsp;</div>
-															<div className="ship-item9">&nbsp;</div>
-															<div className="ship-item10">&nbsp;</div>
-															<div className="ship-item11">&nbsp;</div>
-															<div className="ship-item12">&nbsp;</div>
-															<div className="ship-item13">&nbsp;</div>
-															<div className="ship-item14">&nbsp;</div>
-															<div className="ship-item15">&nbsp;</div>
+															<div id="ship-item1" className="ship-item1">
+																&nbsp;
+															</div>
+
+															<div id="ship-item2" className="ship-item2">
+																&nbsp;
+															</div>
+															<div id="ship-item3" className="ship-item3">
+																&nbsp;
+															</div>
+															<div id="ship-item4" className="ship-item4">
+																&nbsp;
+															</div>
+															<div id="ship-item5" className="ship-item5">
+																&nbsp;
+															</div>
+															<div id="ship-item6" className="ship-item6">
+																&nbsp;
+															</div>
+															<div id="ship-item7" className="ship-item7">
+																&nbsp;
+															</div>
+															<div id="ship-item8" className="ship-item8">
+																&nbsp;
+															</div>
+															<div id="ship-item9" className="ship-item9">
+																&nbsp;
+															</div>
+															<div id="ship-item10" className="ship-item10">
+																&nbsp;
+															</div>
+															<div id="ship-item11" className="ship-item11">
+																&nbsp;
+															</div>
+															<div id="ship-item12" className="ship-item12">
+																&nbsp;
+															</div>
+															<div id="ship-item13" className="ship-item13">
+																&nbsp;
+															</div>
+															<div id="ship-item14" className="ship-item14">
+																&nbsp;
+															</div>
+															<div id="ship-item15" className="ship-item15">
+																&nbsp;
+															</div>
 														</div>
 														<div id="life2" className="lives__wrapper__ship">
-															<div className="ship-item1">&nbsp;</div>
-															<div className="ship-item2">&nbsp;</div>
-															<div className="ship-item3">&nbsp;</div>
-															<div className="ship-item4">&nbsp;</div>
-															<div className="ship-item5">&nbsp;</div>
-															<div className="ship-item6">&nbsp;</div>
-															<div className="ship-item7">&nbsp;</div>
-															<div className="ship-item8">&nbsp;</div>
-															<div className="ship-item9">&nbsp;</div>
-															<div className="ship-item10">&nbsp;</div>
-															<div className="ship-item11">&nbsp;</div>
-															<div className="ship-item12">&nbsp;</div>
-															<div className="ship-item13">&nbsp;</div>
-															<div className="ship-item14">&nbsp;</div>
-															<div className="ship-item15">&nbsp;</div>
+															<div id="ship-item1" className="ship-item1">
+																&nbsp;
+															</div>
+
+															<div id="ship-item2" className="ship-item2">
+																&nbsp;
+															</div>
+															<div id="ship-item3" className="ship-item3">
+																&nbsp;
+															</div>
+															<div id="ship-item4" className="ship-item4">
+																&nbsp;
+															</div>
+															<div id="ship-item5" className="ship-item5">
+																&nbsp;
+															</div>
+															<div id="ship-item6" className="ship-item6">
+																&nbsp;
+															</div>
+															<div id="ship-item7" className="ship-item7">
+																&nbsp;
+															</div>
+															<div id="ship-item8" className="ship-item8">
+																&nbsp;
+															</div>
+															<div id="ship-item9" className="ship-item9">
+																&nbsp;
+															</div>
+															<div id="ship-item10" className="ship-item10">
+																&nbsp;
+															</div>
+															<div id="ship-item11" className="ship-item11">
+																&nbsp;
+															</div>
+															<div id="ship-item12" className="ship-item12">
+																&nbsp;
+															</div>
+															<div id="ship-item13" className="ship-item13">
+																&nbsp;
+															</div>
+															<div id="ship-item14" className="ship-item14">
+																&nbsp;
+															</div>
+															<div id="ship-item15" className="ship-item15">
+																&nbsp;
+															</div>
 														</div>
 														<div id="life3" className="lives__wrapper__ship">
-															<div className="ship-item1">&nbsp;</div>
-															<div className="ship-item2">&nbsp;</div>
-															<div className="ship-item3">&nbsp;</div>
-															<div className="ship-item4">&nbsp;</div>
-															<div className="ship-item5">&nbsp;</div>
-															<div className="ship-item6">&nbsp;</div>
-															<div className="ship-item7">&nbsp;</div>
-															<div className="ship-item8">&nbsp;</div>
-															<div className="ship-item9">&nbsp;</div>
-															<div className="ship-item10">&nbsp;</div>
-															<div className="ship-item11">&nbsp;</div>
-															<div className="ship-item12">&nbsp;</div>
-															<div className="ship-item13">&nbsp;</div>
-															<div className="ship-item14">&nbsp;</div>
-															<div className="ship-item15">&nbsp;</div>
+															<div id="ship-item1" className="ship-item1">
+																&nbsp;
+															</div>
+
+															<div id="ship-item2" className="ship-item2">
+																&nbsp;
+															</div>
+															<div id="ship-item3" className="ship-item3">
+																&nbsp;
+															</div>
+															<div id="ship-item4" className="ship-item4">
+																&nbsp;
+															</div>
+															<div id="ship-item5" className="ship-item5">
+																&nbsp;
+															</div>
+															<div id="ship-item6" className="ship-item6">
+																&nbsp;
+															</div>
+															<div id="ship-item7" className="ship-item7">
+																&nbsp;
+															</div>
+															<div id="ship-item8" className="ship-item8">
+																&nbsp;
+															</div>
+															<div id="ship-item9" className="ship-item9">
+																&nbsp;
+															</div>
+															<div id="ship-item10" className="ship-item10">
+																&nbsp;
+															</div>
+															<div id="ship-item11" className="ship-item11">
+																&nbsp;
+															</div>
+															<div id="ship-item12" className="ship-item12">
+																&nbsp;
+															</div>
+															<div id="ship-item13" className="ship-item13">
+																&nbsp;
+															</div>
+															<div id="ship-item14" className="ship-item14">
+																&nbsp;
+															</div>
+															<div id="ship-item15" className="ship-item15">
+																&nbsp;
+															</div>
 														</div>
 													</div>
 													<div className="score__wrapper">
