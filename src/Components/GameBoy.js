@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useReducer } from "react";
-import Bullets from "../Components/Bullets";
 import UFO from "../images/gameboy__ufo.png";
 import $ from "jquery";
 import { Fragment } from "react";
@@ -15,10 +14,10 @@ function GameBoy({
 	crashSoundRef,
 }) {
 	var bulletRows;
-	var bullets;
 	var barrier;
 	const [shipState, setShipState] = useState(0);
 	const [highScore, setHighScore] = useStickyState(0, "totalScore");
+	const menu = useRef(null);
 
 	function useStickyState(defaultValue, key) {
 		const [value, setValue] = useState(() => {
@@ -31,147 +30,6 @@ function GameBoy({
 		}, [key, value]);
 		return [value, setValue];
 	}
-
-	const handleKeyDown = (event) => {
-		if (event.key === "ArrowUp") {
-			if (state.paused == false) {
-				moveSoundRef.current.load();
-				moveSoundRef.current.play();
-			} else {
-				buttonClickSoundRef.current.load();
-				buttonClickSoundRef.current.play();
-			}
-
-			document.getElementById("uparrow").className =
-				"gameboy__uparrow1__active";
-		} else if (event.key === "ArrowRight") {
-			if (state.paused == false) {
-				moveSoundRef.current.load();
-				moveSoundRef.current.play();
-			} else {
-				buttonClickSoundRef.current.load();
-				buttonClickSoundRef.current.play();
-			}
-			document.getElementById("rightarrow").className =
-				"gameboy__uparrow1__active";
-		} else if (event.key === "ArrowDown") {
-			if (state.paused == false) {
-				moveSoundRef.current.load();
-				moveSoundRef.current.play();
-			} else {
-				buttonClickSoundRef.current.load();
-				buttonClickSoundRef.current.play();
-			}
-			document.getElementById("downarrow").className =
-				"gameboy__uparrow1__active";
-		} else if (event.key === "ArrowLeft") {
-			if (state.paused == false) {
-				moveSoundRef.current.load();
-				moveSoundRef.current.play();
-			} else {
-				buttonClickSoundRef.current.load();
-				buttonClickSoundRef.current.play();
-			}
-			document.getElementById("leftarrow").className =
-				"gameboy__uparrow1__active";
-		} else if (event.key === "s" || event.key === "S") {
-			if (!state.startButtonActivated) {
-				startSoundRef.current.play();
-				dispatch({ type: "start" });
-			} else {
-				buttonClickSoundRef.current.load();
-				buttonClickSoundRef.current.play();
-			}
-
-			document.getElementById("start").className = "gameboy__start__active";
-		} else if (event.key === "r" || event.key === "R") {
-			if (!state.startButtonActivated) {
-				buttonClickSoundRef.current.load();
-				buttonClickSoundRef.current.play();
-			} else {
-				restartSoundRef.current.play();
-				dispatch({ type: "restart" });
-			}
-
-			document.getElementById("restart").className = "gameboy__restart__active";
-		} else if (event.key === "p" || event.key === "P") {
-			dispatch({ type: "pause" });
-
-			moveSoundRef.current.load();
-			moveSoundRef.current.play();
-
-			document.getElementById("pause").className = "gameboy__pause__active";
-		} else if (event.key === "m" || event.key === "M") {
-			buttonClickSoundRef.current.load();
-			buttonClickSoundRef.current.play();
-			document.getElementById("mute").className = "gameboy__mute__active";
-			startSoundRef.current.muted = !startSoundRef.current.muted;
-			restartSoundRef.current.muted = !restartSoundRef.current.muted;
-			buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
-			moveSoundRef.current.muted = !moveSoundRef.current.muted;
-			crashSoundRef.current.muted = !crashSoundRef.current.muted;
-		}
-	};
-	const handleKeyUp = (event) => {
-		if (event.key === "ArrowUp") {
-			document.getElementById("uparrow").className = "gameboy__uparrow1";
-		} else if (event.key === "ArrowRight") {
-			document.getElementById("rightarrow").className = "gameboy__uparrow1";
-		} else if (event.key === "ArrowDown") {
-			document.getElementById("downarrow").className = "gameboy__uparrow1";
-		} else if (event.key === "ArrowLeft") {
-			document.getElementById("leftarrow").className = "gameboy__uparrow1";
-		} else if (event.key === "S" || event.key === "s") {
-			document.getElementById("start").className = "gameboy__start";
-		} else if (event.key === "R" || event.key === "r") {
-			document.getElementById("restart").className = "gameboy__restart";
-		} else if (event.key === "P" || event.key === "p") {
-			document.getElementById("pause").className = "gameboy__pause";
-		} else if (event.key === "M" || event.key === "m") {
-			document.getElementById("mute").className = "gameboy__mute";
-		}
-	};
-
-	const handleButtonPress = (e) => {
-		if (state.paused == false) {
-			moveSoundRef.current.load();
-			moveSoundRef.current.play();
-		} else {
-			buttonClickSoundRef.current.load();
-			buttonClickSoundRef.current.play();
-		}
-	};
-
-	const handleStartButtonPress = (e) => {
-		if (!state.startButtonActivated) {
-			startSoundRef.current.play();
-			dispatch({ type: "start" });
-		} else {
-			buttonClickSoundRef.current.load();
-			buttonClickSoundRef.current.play();
-		}
-	};
-	const handleRestartButtonPress = (e) => {
-		if (!state.startButtonActivated) {
-			buttonClickSoundRef.current.load();
-			buttonClickSoundRef.current.play();
-		} else {
-			restartSoundRef.current.play();
-			dispatch({ type: "restart" });
-			resetBoard();
-		}
-	};
-
-	const handleMuteButtonPress = (e) => {
-		muteSoundRef.current.load();
-		muteSoundRef.current.play();
-
-		startSoundRef.current.muted = !startSoundRef.current.muted;
-		restartSoundRef.current.muted = !restartSoundRef.current.muted;
-		crashSoundRef.current.muted = !crashSoundRef.current.muted;
-		buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
-		moveSoundRef.current.muted = !moveSoundRef.current.muted;
-	};
 
 	function loginReducer(state, action) {
 		switch (action.type) {
@@ -191,6 +49,8 @@ function GameBoy({
 				if (state.start) {
 					return {
 						...state,
+						shrinkScreen: false,
+						gameOver: false,
 						minutes: 0,
 						seconds: 0,
 						score: 0,
@@ -207,6 +67,13 @@ function GameBoy({
 						paused: !state.paused,
 					};
 				}
+
+			case "GameOver":
+				return {
+					...state,
+					gameOver: true,
+					shrinkScreen: true,
+				};
 
 			case "update":
 				return {
@@ -294,9 +161,189 @@ function GameBoy({
 		bulletInterval: 0,
 		restart: 0,
 		lives: 3,
+		gameOver: false,
+		shrinkScreen: false,
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
+
+	const handleKeyDown = (event) => {
+		if (event.key === "ArrowUp") {
+			if (state.paused == false && state.start == true) {
+				moveSoundRef.current.load();
+				moveSoundRef.current.play();
+			} else {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
+
+			document.getElementById("uparrow").className =
+				"gameboy__uparrow1__active";
+		} else if (event.key === "ArrowRight") {
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
+			if (state.paused == false && state.start == true) {
+				moveSoundRef.current.load();
+				moveSoundRef.current.play();
+			} else {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
+			document.getElementById("rightarrow").className =
+				"gameboy__uparrow1__active";
+		} else if (event.key === "ArrowDown") {
+			if (state.paused == false && state.start == true) {
+				moveSoundRef.current.load();
+				moveSoundRef.current.play();
+			} else {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
+			document.getElementById("downarrow").className =
+				"gameboy__uparrow1__active";
+		} else if (event.key === "ArrowLeft") {
+			if (state.paused == false && state.start == true) {
+				moveSoundRef.current.load();
+				moveSoundRef.current.play();
+			} else {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
+			document.getElementById("leftarrow").className =
+				"gameboy__uparrow1__active";
+		} else if (event.key === "s" || event.key === "S") {
+			if (!state.startButtonActivated) {
+				startSoundRef.current.play();
+				dispatch({ type: "start" });
+			} else {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			}
+
+			document.getElementById("start").className = "gameboy__start__active";
+		} else if (event.key === "r" || event.key === "R") {
+			if (!state.startButtonActivated) {
+				buttonClickSoundRef.current.load();
+				buttonClickSoundRef.current.play();
+			} else {
+				restartSoundRef.current.play();
+				dispatch({ type: "restart" });
+			}
+
+			document.getElementById("restart").className = "gameboy__restart__active";
+		} else if (event.key === "p" || event.key === "P") {
+			dispatch({ type: "pause" });
+
+			moveSoundRef.current.load();
+			moveSoundRef.current.play();
+
+			document.getElementById("pause").className = "gameboy__pause__active";
+		} else if (event.key === "m" || event.key === "M") {
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
+			document.getElementById("mute").className = "gameboy__mute__active";
+			startSoundRef.current.muted = !startSoundRef.current.muted;
+			restartSoundRef.current.muted = !restartSoundRef.current.muted;
+			buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
+			moveSoundRef.current.muted = !moveSoundRef.current.muted;
+			crashSoundRef.current.muted = !crashSoundRef.current.muted;
+		}
+	};
+	const handleKeyUp = (event) => {
+		if (event.key === "ArrowUp") {
+			document.getElementById("uparrow").className = "gameboy__uparrow1";
+		} else if (event.key === "ArrowRight") {
+			document.getElementById("rightarrow").className = "gameboy__uparrow1";
+		} else if (event.key === "ArrowDown") {
+			document.getElementById("downarrow").className = "gameboy__uparrow1";
+		} else if (event.key === "ArrowLeft") {
+			document.getElementById("leftarrow").className = "gameboy__uparrow1";
+		} else if (event.key === "S" || event.key === "s") {
+			document.getElementById("start").className = "gameboy__start";
+		} else if (event.key === "R" || event.key === "r") {
+			document.getElementById("restart").className = "gameboy__restart";
+		} else if (event.key === "P" || event.key === "p") {
+			document.getElementById("pause").className = "gameboy__pause";
+		} else if (event.key === "M" || event.key === "m") {
+			document.getElementById("mute").className = "gameboy__mute";
+		}
+	};
+
+	const handleButtonPress = () => {
+		if (
+			state.paused == false &&
+			state.start == true &&
+			state.gameOver == false
+		) {
+			console.log("here");
+			moveSoundRef.current.load();
+			moveSoundRef.current.play();
+		} else {
+			console.log("here1");
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
+		}
+	};
+
+	const handleStartButtonPress = (e) => {
+		if (!state.startButtonActivated) {
+			startSoundRef.current.play();
+			dispatch({ type: "start" });
+		} else {
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
+		}
+	};
+	const handleRestartButtonPress = (e) => {
+		if (!state.startButtonActivated) {
+			buttonClickSoundRef.current.load();
+			buttonClickSoundRef.current.play();
+		} else {
+			restartSoundRef.current.play();
+			dispatch({ type: "restart" });
+			resetBoard();
+		}
+	};
+
+	const handleMuteButtonPress = (e) => {
+		muteSoundRef.current.load();
+		muteSoundRef.current.play();
+
+		startSoundRef.current.muted = !startSoundRef.current.muted;
+		restartSoundRef.current.muted = !restartSoundRef.current.muted;
+		crashSoundRef.current.muted = !crashSoundRef.current.muted;
+		buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
+		moveSoundRef.current.muted = !moveSoundRef.current.muted;
+	};
+
+	const shrinkMenu = {
+		backgroundColor: "red",
+		position: "absolute",
+		top: "0px",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "spaceBetween",
+		alignItems: "flexStart",
+		background: "transparent",
+		width: "100%",
+		height: "75%",
+		animation: "blink 0.5s step-start 0s, shrink 2s 1s",
+		webkitAnimation: "blink 0.5s step-start 0s, shrink 2s 1s",
+		animationIterationCount: "3, 1",
+		webkitAnimationIterationCount: "3, 1",
+	};
+
+	const defaultMenu = {
+		position: "absolute",
+		top: "0px",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "spaceBetween",
+		alignItems: "flexStart",
+		background: "transparent",
+		width: "100%",
+		height: "75%",
+	};
 
 	function updateTimer() {
 		dispatch({
@@ -585,8 +632,11 @@ function GameBoy({
 				if (hitShip) {
 					dispatch({ type: "shipCollision" });
 					$(this).hide();
-					if (!state.muted) crashSoundRef.current.load();
-					crashSoundRef.current.play();
+					if (!state.muted) {
+						crashSoundRef.current.load();
+						crashSoundRef.current.play();
+					}
+
 					setTimeout(() => {
 						$(this).show();
 					}, 8000);
@@ -655,6 +705,8 @@ function GameBoy({
 		}
 		if (state.lives == 0) {
 			document.getElementById("life3").remove();
+
+			dispatch({ type: "GameOver" });
 		}
 	}, [state.lives]);
 
@@ -675,6 +727,16 @@ function GameBoy({
 			clearInterval(state.timeInterval);
 		};
 	}, [state.start]);
+
+	useEffect(() => {
+		if (state.gameOver === true) {
+			setTimeout(() => {
+				menu.current = $("#ship__container").detach();
+			}, 1600);
+		} else {
+			$(".gameboy__display").append(menu.current);
+		}
+	}, [state.gameOver]);
 
 	function startPause() {
 		if (!state.paused && state.start) {
@@ -714,6 +776,7 @@ function GameBoy({
 								{state.start ? (
 									<>
 										<div
+											style={state.shrinkScreen ? shrinkMenu : { defaultMenu }}
 											id="ship__container"
 											className="gameboy__display__top__start"
 										>

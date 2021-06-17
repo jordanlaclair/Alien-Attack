@@ -943,6 +943,23 @@
 	}
 }
 
+@keyframes shrink {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(0);
+	}
+}
+@-webkit-keyframes shrink {
+	from {
+		transform: scale(1);
+	}
+	to {
+		transform: scale(0);
+	}
+}
+
 @keyframes left-to-right {
 	100% {
 		transform: translateX(100%);
