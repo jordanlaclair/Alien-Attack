@@ -15,7 +15,9 @@ function GameBoy({
 }) {
 	var bulletRows;
 	var barrier;
+	var gameBoy;
 	const [shipState, setShipState] = useState(0);
+	const [immune, setImmune] = useState(false);
 	const [highScore, setHighScore] = useStickyState(0, "totalScore");
 	const menu = useRef(null);
 
@@ -30,6 +32,10 @@ function GameBoy({
 		}, [key, value]);
 		return [value, setValue];
 	}
+
+	useEffect(() => {
+		console.log("immune", immune);
+	}, [immune]);
 
 	function loginReducer(state, action) {
 		switch (action.type) {
@@ -275,11 +281,11 @@ function GameBoy({
 			state.start == true &&
 			state.gameOver == false
 		) {
-			console.log("here");
+			//console.log("here");
 			moveSoundRef.current.load();
 			moveSoundRef.current.play();
 		} else {
-			console.log("here1");
+			//console.log("here1");
 			buttonClickSoundRef.current.load();
 			buttonClickSoundRef.current.play();
 		}
@@ -327,10 +333,10 @@ function GameBoy({
 		background: "transparent",
 		width: "100%",
 		height: "75%",
-		animation: "blink 0.5s step-start 0s, shrink 2s 1s",
-		webkitAnimation: "blink 0.5s step-start 0s, shrink 2s 1s",
-		animationIterationCount: "3, 1",
-		webkitAnimationIterationCount: "3, 1",
+		animation: "blink 1 step-start 0s",
+		webkitAnimation: "blink 1s step-start 0s",
+		animationIterationCount: "3",
+		webkitAnimationIterationCount: "3",
 	};
 
 	const defaultMenu = {
@@ -360,7 +366,7 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		console.log(highScore);
+		//console.log(highScore);
 	}, [highScore]);
 
 	useEffect(() => {
@@ -602,7 +608,7 @@ function GameBoy({
 			setShipState(clearInterval(shipState));
 		}
 
-		console.log(state.start);
+		//(state.start);
 		return () => {
 			document.removeEventListener("keydown", handleKeyDown);
 			document.removeEventListener("keyup", handleKeyUp);
@@ -627,6 +633,7 @@ function GameBoy({
 
 		bulletRows.each(function () {
 			hitBarrier = checkCollision($(this), $(barrier));
+
 			let bullets = $(this.children).each(function () {
 				hitShip = checkCollision($(this), $(".ship"));
 				if (hitShip) {
@@ -644,7 +651,7 @@ function GameBoy({
 			});
 
 			if (hitBarrier) {
-				console.log("hit barrier");
+				//console.log("hit barrier");
 				$(this).css({ top: "0px" });
 			}
 		});
@@ -655,8 +662,8 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		console.log("hit ship");
-		console.log(state.lives);
+		//console.log("hit ship");
+		//console.log(state.lives);
 		if (state.lives == 3) {
 			if (
 				$("#life1.lives__wrapper__ship").length > 0 &&
@@ -733,8 +740,27 @@ function GameBoy({
 			setTimeout(() => {
 				menu.current = $("#ship__container").detach();
 			}, 1600);
+			setImmune(true);
 		} else {
 			$(".gameboy__display").append(menu.current);
+			$("#ship").hide();
+
+			setTimeout(() => {
+				$("#ship").css({
+					top: "50%",
+					left: "50%",
+					margin:
+						"-" +
+						$("#ship").height() / 2 +
+						"px 0 0 -" +
+						$("#ship").width() / 2 +
+						"px",
+				});
+				$("#ship").show();
+				setTimeout(() => {
+					setImmune(false);
+				}, 5000);
+			}, 100);
 		}
 	}, [state.gameOver]);
 
@@ -755,13 +781,13 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		console.log(state.paused);
+		//console.log(state.paused);
 
 		startPause();
 	}, [state.paused]);
 
 	useEffect(() => {
-		console.log(state.bulletInterval);
+		//console.log(state.bulletInterval);
 	}, [state.bulletInterval]);
 
 	return (

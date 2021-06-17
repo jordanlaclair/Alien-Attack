@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 .App {
-	z-index: 8;
 	font-family: "VT323", monospace;
 	background: #63856a; /* Old browsers */
 	background: -moz-radial-gradient(
