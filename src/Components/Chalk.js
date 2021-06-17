@@ -1,6 +1,5 @@
 import React from "react";
 import HeartChalk from "../images/chalk__heart.png";
-import ScribbleChalk from "../images/chalk__scribble.png";
 import CrossChalk from "../images/chalk__cross.png";
 import MathChalk from "../images/chalk__math.png";
 import EquationsChalk from "../images/chalk__equations.png";
@@ -29,12 +28,7 @@ function Chalk() {
 					src={EquationsChalk}
 					alt="chalk of equations"
 				/>
-				<img
-					draggable="false"
-					className="chalk__scribble1"
-					src={ScribbleChalk}
-					alt="chalk of scribble"
-				/>
+
 				<img
 					draggable="false"
 					className="chalk__scribble2"

@@ -54,9 +54,9 @@
 .chalk__heart {
 	top: 10%;
 	left: 5%;
-
 	position: absolute;
 	width: 6vw;
+	max-width: 100%;
 	height: auto;
 }
 
@@ -64,19 +64,18 @@
 	transform: rotate(20deg);
 	top: 8.5%;
 	left: 7%;
-
 	position: absolute;
 	width: 2vw;
+	max-width: 100%;
 	height: auto;
 }
 
 .chalk__equations {
 	top: 20%;
 	left: 45%;
-
 	position: absolute;
-
 	width: 15vw;
+	max-width: 100%;
 	image-rendering: crisp-edges;
 	height: auto;
 }
@@ -85,9 +84,9 @@
 	bottom: 20%;
 	left: 47%;
 	transform: rotate(-45deg);
-
 	position: absolute;
 	width: 7vw;
+	max-width: 100%;
 	height: auto;
 }
 
@@ -96,37 +95,37 @@
 	bottom: 35%;
 	transform: rotate(45deg);
 	right: 5%;
-
 	position: absolute;
 	width: 8vw;
+	max-width: 100%;
 	height: auto;
 }
 
 .chalk__math {
 	bottom: 10%;
 	left: 4%;
-
 	position: absolute;
 	width: 8vw;
+	max-width: 100%;
 	height: auto;
 }
 .chalk__cross {
 	bottom: 12%;
 	left: 4%;
 	opacity: 0.9;
-
 	position: absolute;
 	width: 8vw;
+	max-width: 100%;
 	height: auto;
 }
 .chalk__cross1 {
 	top: 17%;
 	opacity: 0.9;
 	left: 45%;
-
 	position: absolute;
 	transform: rotate(-1deg);
 	width: 9vw;
+	max-width: 100%;
 	image-rendering: crisp-edges;
 	height: auto;
 }
@@ -135,27 +134,25 @@
 	font-size: 2rem;
 	top: 35%;
 	left: 5%;
-
 	position: absolute;
 	width: 5vw;
+	max-width: 100%;
 	height: auto;
 	transform: rotate(-25deg);
 }
 .chalk__hate__school__wrapper2 {
 	font-size: 2rem;
 	opacity: 0.9;
-
 	top: 40%;
 	left: 5%;
-
 	position: absolute;
 	width: 5vw;
+	max-width: 100%;
 	height: auto;
 	transform: rotate(-15deg);
 }
 .rotate1 {
 	position: absolute;
-
 	left: 0%;
 	transform: rotate(-25deg);
 }

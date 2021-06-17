@@ -109,6 +109,7 @@ function GameBoy({
 			restartSoundRef.current.muted = !restartSoundRef.current.muted;
 			buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
 			moveSoundRef.current.muted = !moveSoundRef.current.muted;
+			crashSoundRef.current.muted = !crashSoundRef.current.muted;
 		}
 	};
 	const handleKeyUp = (event) => {
@@ -167,6 +168,7 @@ function GameBoy({
 
 		startSoundRef.current.muted = !startSoundRef.current.muted;
 		restartSoundRef.current.muted = !restartSoundRef.current.muted;
+		crashSoundRef.current.muted = !crashSoundRef.current.muted;
 		buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
 		moveSoundRef.current.muted = !moveSoundRef.current.muted;
 	};
@@ -189,7 +191,6 @@ function GameBoy({
 				if (state.start) {
 					return {
 						...state,
-
 						minutes: 0,
 						seconds: 0,
 						score: 0,
@@ -584,7 +585,7 @@ function GameBoy({
 				if (hitShip) {
 					dispatch({ type: "shipCollision" });
 					$(this).hide();
-					crashSoundRef.current.load();
+					if (!state.muted) crashSoundRef.current.load();
 					crashSoundRef.current.play();
 					setTimeout(() => {
 						$(this).show();
@@ -1189,7 +1190,9 @@ function GameBoy({
 							<div className="gameboy__buttons">
 								<div className="gameboy__start__wrapper">
 									<button
+										name="start"
 										id="start"
+										aria-label="start"
 										onMouseDown={handleStartButtonPress}
 										className="gameboy__start"
 									></button>
@@ -1199,6 +1202,8 @@ function GameBoy({
 								</div>
 								<div className="gameboy__start__wrapper">
 									<button
+										name="restart"
+										aria-label="restart"
 										id="restart"
 										onMouseDown={handleRestartButtonPress}
 										className="gameboy__restart"
@@ -1212,7 +1217,9 @@ function GameBoy({
 						<div className="gameboy__lowerhalf__left__bottom">
 							<div className="gameboy__pause__wrapper">
 								<button
+									name="pause"
 									id="pause"
+									aria-label="pause"
 									onMouseDown={handleButtonPress}
 									className="gameboy__pause"
 								></button>
@@ -1227,7 +1234,9 @@ function GameBoy({
 						<div className="lowerhalf__right__top">
 							<div className="gameboy__start__wrapper">
 								<button
+									name="mute"
 									id="mute"
+									aria-label="mute"
 									onMouseDown={handleMuteButtonPress}
 									className="gameboy__mute"
 								></button>
@@ -1239,6 +1248,8 @@ function GameBoy({
 						<div className="gameboy__controls__wrapper">
 							<div className="gameboy__controls__row1">
 								<button
+									name="up arrow"
+									aria-label="arrow up"
 									id="uparrow"
 									onMouseDown={handleButtonPress}
 									className="gameboy__uparrow1"
@@ -1246,31 +1257,53 @@ function GameBoy({
 							</div>
 							<div className="gameboy__controls__row2">
 								<button
+									name="left arrow"
+									aria-label="left arrow"
 									id="leftarrow"
 									onMouseDown={handleButtonPress}
 									className="gameboy__uparrow1"
 								></button>
 								<div className="gameboy__arrows__wrapper">
 									<div className="gameboy__arrows__row1">
-										<button className="gameboy__arrow__up"></button>
+										<div
+											name="uparrow1"
+											aria-label="up arrow"
+											className="gameboy__arrow__up"
+										></div>
 									</div>
 									<div className="gameboy__arrows__row2">
-										<button className="gameboy__arrow__left"></button>
+										<div
+											name="arrow left"
+											aria-label="arrow left"
+											className="gameboy__arrow__left"
+										></div>
 										&nbsp;
-										<button className="gameboy__arrow__right"></button>
+										<div
+											name="arrow right"
+											aria-label="arrow right"
+											className="gameboy__arrow__right"
+										></div>
 									</div>
 									<div className="gameboy__arrows__row3">
-										<button className="gameboy__arrow__down"></button>
+										<div
+											name="arrow down"
+											aria-label="down arrow1"
+											className="gameboy__arrow__down"
+										></div>
 									</div>
 								</div>
 								<button
 									id="rightarrow"
+									name="right arrow"
+									aria-label="right arrow"
 									onMouseDown={handleButtonPress}
 									className="gameboy__uparrow1"
 								></button>
 							</div>
 							<div className="gameboy__controls__row3">
 								<button
+									name="down arrow"
+									aria-label="down arrow"
 									id="downarrow"
 									onMouseDown={handleButtonPress}
 									className="gameboy__uparrow1"
