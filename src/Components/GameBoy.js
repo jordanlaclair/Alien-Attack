@@ -55,6 +55,7 @@ function GameBoy({
 				if (state.start) {
 					return {
 						...state,
+						restarted: state.restarted + 1,
 						shrinkScreen: false,
 						gameOver: false,
 						minutes: 0,
@@ -138,10 +139,18 @@ function GameBoy({
 				};
 
 			case "shipCollision":
-				return {
-					...state,
-					lives: state.lives - 1,
-				};
+				if (!immune) {
+					return {
+						...state,
+						immuneBullets: false,
+						lives: state.lives - 1,
+					};
+				} else {
+					return {
+						...state,
+						immuneBullets: true,
+					};
+				}
 
 			default:
 				break;
@@ -151,6 +160,7 @@ function GameBoy({
 
 	const initialState = {
 		start: false,
+		restarted: 0,
 		startButtonActivated: false,
 		menu: true,
 		paused: false,
@@ -169,6 +179,7 @@ function GameBoy({
 		lives: 3,
 		gameOver: false,
 		shrinkScreen: false,
+		immuneBullets: false,
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -631,14 +642,23 @@ function GameBoy({
 			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
 		).children();
 
+		reCheckCollisions(bulletRows, hitBarrier, hitShip);
+	}
+
+	function bulletOnUnPause() {
+		createNewBullets();
+	}
+
+	function reCheckCollisions(bulletRows, hitBarrier, hitShip) {
 		bulletRows.each(function () {
 			hitBarrier = checkCollision($(this), $(barrier));
 
-			let bullets = $(this.children).each(function () {
+			$(this.children).each(function () {
 				hitShip = checkCollision($(this), $(".ship"));
 				if (hitShip) {
 					dispatch({ type: "shipCollision" });
 					$(this).hide();
+
 					if (!state.muted) {
 						crashSoundRef.current.load();
 						crashSoundRef.current.play();
@@ -655,10 +675,6 @@ function GameBoy({
 				$(this).css({ top: "0px" });
 			}
 		});
-	}
-
-	function bulletOnUnPause() {
-		createNewBullets();
 	}
 
 	useEffect(() => {
@@ -740,8 +756,7 @@ function GameBoy({
 			setTimeout(() => {
 				menu.current = $("#ship__container").detach();
 			}, 1600);
-			setImmune(true);
-		} else {
+		} /* else {
 			$(".gameboy__display").append(menu.current);
 			$("#ship").hide();
 
@@ -757,12 +772,43 @@ function GameBoy({
 						"px",
 				});
 				$("#ship").show();
-				setTimeout(() => {
-					setImmune(false);
-				}, 5000);
 			}, 100);
-		}
+
+			setTimeout(() => {
+				$("#ship").addClass("ship-remove-class");
+				setImmune(false);
+			}, 5000);
+		} */
 	}, [state.gameOver]);
+
+	useEffect(() => {
+		if (state.restarted > 0) {
+			setImmune(true);
+			$(".gameboy__display").append(menu.current);
+			$("#ship").hide();
+
+			setTimeout(() => {
+				$("#ship").css({
+					top: "50%",
+					left: "50%",
+					margin:
+						"-" +
+						$("#ship").height() / 2 +
+						"px 0 0 -" +
+						$("#ship").width() / 2 +
+						"px",
+				});
+				$("#ship").show();
+				$("#ship").removeClass("ship-remove-class");
+				$("#ship").addClass("ship-add-class");
+			}, 100);
+
+			setTimeout(() => {
+				$("#ship").addClass("ship-remove-class");
+				setImmune(false);
+			}, 5000);
+		}
+	}, [state.restarted]);
 
 	function startPause() {
 		if (!state.paused && state.start) {
@@ -890,7 +936,6 @@ function GameBoy({
 												<div className="star6"></div>
 												<div className="star"></div>
 											</div>
-
 											<div id="ship" className="ship">
 												<div className="ship-item1">&nbsp;</div>
 												<div className="ship-item2">&nbsp;</div>

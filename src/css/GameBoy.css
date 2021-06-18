@@ -745,6 +745,24 @@
 	background-color: transparent;
 }
 
+.ship-add-class::after {
+	position: absolute;
+	display: block;
+	border-radius: 50%;
+	left: 50%;
+	top: 50%;
+	content: "";
+	transform: translate(-50%, -50%);
+	text-align: center;
+	width: 2rem;
+	height: 2rem;
+	opacity: 0.5;
+	background-color: lightblue;
+}
+
+.ship-remove-class::after {
+	content: none;
+}
 .ship-item1 {
 	background: transparent;
 	visibility: hidden;
@@ -1473,6 +1491,10 @@
 @media screen and (min-width: 1024px) {
 	.gameboy__uparrow1 {
 		width: 29%;
+	}
+	.ship-add-class::after {
+		width: 2.5rem;
+		height: 2.5rem;
 	}
 }
 
