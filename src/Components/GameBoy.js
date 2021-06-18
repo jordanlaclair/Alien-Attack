@@ -187,43 +187,34 @@ function GameBoy({
 	const handleKeyDown = (event) => {
 		if (event.key === "ArrowUp") {
 			if (state.paused == false && state.start == true) {
-				moveSoundRef.current.load();
 				moveSoundRef.current.play();
 			} else {
-				buttonClickSoundRef.current.load();
 				buttonClickSoundRef.current.play();
 			}
 
 			document.getElementById("uparrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowRight") {
-			buttonClickSoundRef.current.load();
 			buttonClickSoundRef.current.play();
 			if (state.paused == false && state.start == true) {
-				moveSoundRef.current.load();
 				moveSoundRef.current.play();
 			} else {
-				buttonClickSoundRef.current.load();
 				buttonClickSoundRef.current.play();
 			}
 			document.getElementById("rightarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowDown") {
 			if (state.paused == false && state.start == true) {
-				moveSoundRef.current.load();
 				moveSoundRef.current.play();
 			} else {
-				buttonClickSoundRef.current.load();
 				buttonClickSoundRef.current.play();
 			}
 			document.getElementById("downarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowLeft") {
 			if (state.paused == false && state.start == true) {
-				moveSoundRef.current.load();
 				moveSoundRef.current.play();
 			} else {
-				buttonClickSoundRef.current.load();
 				buttonClickSoundRef.current.play();
 			}
 			document.getElementById("leftarrow").className =
@@ -233,14 +224,12 @@ function GameBoy({
 				startSoundRef.current.play();
 				dispatch({ type: "start" });
 			} else {
-				buttonClickSoundRef.current.load();
 				buttonClickSoundRef.current.play();
 			}
 
 			document.getElementById("start").className = "gameboy__start__active";
 		} else if (event.key === "r" || event.key === "R") {
 			if (!state.startButtonActivated) {
-				buttonClickSoundRef.current.load();
 				buttonClickSoundRef.current.play();
 			} else {
 				restartSoundRef.current.play();
@@ -251,7 +240,6 @@ function GameBoy({
 		} else if (event.key === "p" || event.key === "P") {
 			dispatch({ type: "pause" });
 
-			moveSoundRef.current.load();
 			moveSoundRef.current.play();
 
 			document.getElementById("pause").className = "gameboy__pause__active";
@@ -293,11 +281,9 @@ function GameBoy({
 			state.gameOver == false
 		) {
 			//console.log("here");
-			moveSoundRef.current.load();
 			moveSoundRef.current.play();
 		} else {
 			//console.log("here1");
-			buttonClickSoundRef.current.load();
 			buttonClickSoundRef.current.play();
 		}
 	};
@@ -307,13 +293,11 @@ function GameBoy({
 			startSoundRef.current.play();
 			dispatch({ type: "start" });
 		} else {
-			buttonClickSoundRef.current.load();
 			buttonClickSoundRef.current.play();
 		}
 	};
 	const handleRestartButtonPress = (e) => {
 		if (!state.startButtonActivated) {
-			buttonClickSoundRef.current.load();
 			buttonClickSoundRef.current.play();
 		} else {
 			restartSoundRef.current.play();
@@ -435,16 +419,24 @@ function GameBoy({
 		}
 	}
 
-	function randomMargin() {
-		$(".bullet__left").each(function () {
-			randomizeLeftBullet(this);
-		});
-		$(".bullet__right").each(function () {
-			randomizeRightBullet(this);
-		});
-		$(".bullet__middle").each(function () {
-			randomizeMiddleBullet(this);
-		});
+	function randomMargin(el) {
+		//console.log($(el).children(".bullet__middle"));
+
+		$(el)
+			.children(".bullet__left")
+			.each(function () {
+				randomizeLeftBullet(this);
+			});
+		$(el)
+			.children(".bullet__middle")
+			.each(function () {
+				randomizeMiddleBullet(this);
+			});
+		$(el)
+			.children(".bullet__right")
+			.each(function () {
+				randomizeRightBullet(this);
+			});
 	}
 
 	function moveElementsDown() {
@@ -506,26 +498,26 @@ function GameBoy({
 	}
 
 	function randomizeLeftBullet(el) {
-		var randomnumber2 = Math.floor(Math.random() * 3);
+		var randomnumber2 = getRandomArbitrary(5, 15);
 
 		$(el).css({
-			"margin-left": randomnumber2 + "px",
+			left: randomnumber2 + "%",
 		});
 	}
 	function randomizeRightBullet(el) {
-		var randomnumber2 = Math.floor(Math.random() * 3);
+		var randomnumber2 = getRandomArbitrary(5, 15);
 
 		$(el).css({
-			"margin-right": randomnumber2 + "px",
+			right: randomnumber2 + "%",
 		});
 	}
 
 	function randomizeMiddleBullet(el) {
-		var randomnumber2 = Math.floor(Math.random() * 3);
+		var randomnumber2 = Math.floor(Math.random() * 15);
 
 		$(el).css({
-			"margin-right": randomnumber2 + "px",
-			"margin-left": randomnumber2 + "px",
+			left: randomnumber2 + "%",
+			right: randomnumber2 + "%",
 		});
 	}
 
@@ -632,7 +624,7 @@ function GameBoy({
 
 		updateTimer();
 		updateScore();
-		randomMargin();
+
 		moveElementsDown();
 		barrier = $(".bullets__barrier");
 		bulletRows = $(
@@ -660,7 +652,6 @@ function GameBoy({
 					$(this).hide();
 
 					if (!state.muted) {
-						crashSoundRef.current.load();
 						crashSoundRef.current.play();
 					}
 
@@ -673,6 +664,7 @@ function GameBoy({
 			if (hitBarrier) {
 				//console.log("hit barrier");
 				$(this).css({ top: "0px" });
+				randomMargin(this);
 			}
 		});
 	}
@@ -954,6 +946,8 @@ function GameBoy({
 												<div className="ship-item15">&nbsp;</div>
 											</div>
 											{state.bulletCountArr.map((count, index1) => {
+												randomMargin($(`.bullets__wrapper__row${index1 + 1}`));
+
 												return (
 													<Fragment key={index1}>
 														<div
