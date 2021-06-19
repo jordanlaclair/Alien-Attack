@@ -53,9 +53,9 @@
 	flex-direction: row;
 }
 .gameboy__display__wrapper {
+	z-index: 50 !important;
 	width: 100%;
 	border: 3px groove rgb(134, 131, 131);
-
 	border-radius: 35px;
 	border-bottom-right-radius: 90px;
 	box-shadow: inset 0 0 40px rgb(68, 66, 66);
@@ -609,6 +609,27 @@
 	width: 100%;
 	height: 75%;
 }
+.gameboy__display__top__gameover {
+	-webkit-animation: grow 2s; /* Safari, Chrome and Opera > 12.1 */
+	-moz-animation: grow 2s; /* Firefox < 16 */
+	-ms-animation: grow 2s; /* Internet Explorer */
+	-o-animation: grow 2s; /* Opera < 12.1 */
+	animation: grow 2s;
+	position: absolute;
+	top: 0px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	background: transparent;
+	width: 100%;
+	height: 75%;
+}
+
+.gameboy__display__top__gameover__title {
+	font-size: 1.5rem;
+}
+
 .star__wrapper {
 	position: absolute;
 	display: flex;
@@ -870,13 +891,12 @@
 	position: absolute;
 	bottom: -20%;
 	width: 100%;
-	height: 50%;
+	height: 100%;
 	background: transparent;
 	z-index: 0;
 }
 .bullets__wrapper__row1 {
 	position: absolute;
-	z-index: 6 !important;
 	opacity: 0.99;
 	top: 0px;
 	display: flex;
@@ -888,7 +908,6 @@
 }
 .bullets__wrapper__row2 {
 	position: absolute;
-	z-index: 6 !important;
 	top: 0px;
 	display: flex;
 	justify-content: space-between;
@@ -900,7 +919,6 @@
 
 .bullets__wrapper__row3 {
 	position: absolute;
-	z-index: 6 !important;
 	top: 0px;
 	display: flex;
 	justify-content: space-between;
@@ -911,7 +929,6 @@
 }
 .bullets__wrapper__row4 {
 	position: absolute;
-	z-index: 6 !important;
 	top: 0px;
 	display: flex;
 	justify-content: space-between;
@@ -922,7 +939,6 @@
 }
 .bullets__wrapper__row5 {
 	position: absolute;
-	z-index: 6 !important;
 	top: 0px;
 	display: flex;
 	justify-content: space-between;
@@ -1022,6 +1038,25 @@
 @-webkit-keyframes left-to-right {
 	100% {
 		transform: translateX(100%);
+	}
+}
+
+@keyframes grow {
+	from {
+		transform: scale(0);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+@-webkit-keyframes grow {
+	from {
+		transform: scale(0);
+	}
+	to {
+		transform: scale(1);
 	}
 }
 
@@ -1532,6 +1567,15 @@
 	.ship-add-class::after {
 		width: 2.5rem;
 		height: 2.5rem;
+	}
+	.gameboy__display__top__gameover__title {
+		font-size: 2rem;
+	}
+	.gameboy__display__top__gameover__score {
+		font-size: 1.2rem;
+	}
+	.gameboy__display__top__gameover__highscore {
+		font-size: 1.2rem;
 	}
 }
 

@@ -63,6 +63,7 @@ function GameBoy({
 						score: 0,
 						totalSeconds: 0,
 						lives: 3,
+						paused: false,
 					};
 				} else {
 					return { ...state };
@@ -132,6 +133,13 @@ function GameBoy({
 						bulletInterval: action.value,
 					};
 				}
+			case "shipSpeed":
+				if (state.start) {
+					return {
+						...state,
+						shipSpeedInterval: action.value,
+					};
+				}
 			case "setTimeInterval":
 				return {
 					...state,
@@ -180,6 +188,7 @@ function GameBoy({
 		gameOver: false,
 		shrinkScreen: false,
 		immuneBullets: false,
+		shipSpeedInterval: 0,
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -238,9 +247,12 @@ function GameBoy({
 
 			document.getElementById("restart").className = "gameboy__restart__active";
 		} else if (event.key === "p" || event.key === "P") {
-			dispatch({ type: "pause" });
-
-			moveSoundRef.current.play();
+			if (!state.gameOver) {
+				dispatch({ type: "pause" });
+				moveSoundRef.current.play();
+			} else {
+				buttonClickSoundRef.current.play();
+			}
 
 			document.getElementById("pause").className = "gameboy__pause__active";
 		} else if (event.key === "m" || event.key === "M") {
@@ -288,6 +300,15 @@ function GameBoy({
 		}
 	};
 
+	const handlePauseButtonPress = () => {
+		if (!state.gameOver) {
+			dispatch({ type: "pause" });
+			moveSoundRef.current.play();
+		} else {
+			buttonClickSoundRef.current.play();
+		}
+	};
+
 	const handleStartButtonPress = (e) => {
 		if (!state.startButtonActivated) {
 			startSoundRef.current.play();
@@ -315,35 +336,6 @@ function GameBoy({
 		crashSoundRef.current.muted = !crashSoundRef.current.muted;
 		buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
 		moveSoundRef.current.muted = !moveSoundRef.current.muted;
-	};
-
-	const shrinkMenu = {
-		backgroundColor: "red",
-		position: "absolute",
-		top: "0px",
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "spaceBetween",
-		alignItems: "flexStart",
-		background: "transparent",
-		width: "100%",
-		height: "75%",
-		animation: "blink 1 step-start 0s",
-		webkitAnimation: "blink 1s step-start 0s",
-		animationIterationCount: "3",
-		webkitAnimationIterationCount: "3",
-	};
-
-	const defaultMenu = {
-		position: "absolute",
-		top: "0px",
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "spaceBetween",
-		alignItems: "flexStart",
-		background: "transparent",
-		width: "100%",
-		height: "75%",
 	};
 
 	function updateTimer() {
@@ -472,7 +464,7 @@ function GameBoy({
 			0,
 			previousTopPosition.length - 2
 		);
-		newPosition = parseInt(previousTopPosition) + 10;
+		newPosition = parseInt(previousTopPosition) + 20;
 		//console.log("new top", newPosition);
 		$(el).css({
 			top: newPosition + "px",
@@ -498,14 +490,14 @@ function GameBoy({
 	}
 
 	function randomizeLeftBullet(el) {
-		var randomnumber2 = getRandomArbitrary(5, 15);
+		var randomnumber2 = getRandomArbitrary(5, 10);
 
 		$(el).css({
 			left: randomnumber2 + "%",
 		});
 	}
 	function randomizeRightBullet(el) {
-		var randomnumber2 = getRandomArbitrary(5, 15);
+		var randomnumber2 = getRandomArbitrary(5, 10);
 
 		$(el).css({
 			right: randomnumber2 + "%",
@@ -625,7 +617,7 @@ function GameBoy({
 		updateTimer();
 		updateScore();
 
-		moveElementsDown();
+		//moveElementsDown();
 		barrier = $(".bullets__barrier");
 		bulletRows = $(
 			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
@@ -721,6 +713,7 @@ function GameBoy({
 		if (state.lives == 0) {
 			document.getElementById("life3").remove();
 
+			dispatch({ type: "pause" });
 			dispatch({ type: "GameOver" });
 		}
 	}, [state.lives]);
@@ -745,9 +738,7 @@ function GameBoy({
 
 	useEffect(() => {
 		if (state.gameOver === true) {
-			setTimeout(() => {
-				menu.current = $("#ship__container").detach();
-			}, 1600);
+			menu.current = $("#ship__container").detach();
 		} /* else {
 			$(".gameboy__display").append(menu.current);
 			$("#ship").hide();
@@ -805,9 +796,14 @@ function GameBoy({
 	function startPause() {
 		if (!state.paused && state.start) {
 			dispatch({
+				type: "shipSpeed",
+				value: setInterval(moveElementsDown, 500),
+			});
+			dispatch({
 				type: "toggleMenuInterval",
 				value: setInterval(menuOnUnPause, 1000),
 			});
+
 			dispatch({
 				type: "toggleBulletInterval",
 				value: setInterval(bulletOnUnPause, 5000),
@@ -815,11 +811,12 @@ function GameBoy({
 		} else {
 			clearInterval(state.menuInterval);
 			clearInterval(state.bulletInterval);
+			clearInterval(state.shipSpeedInterval);
 		}
 	}
 
 	useEffect(() => {
-		//console.log(state.paused);
+		console.log(state.paused);
 
 		startPause();
 	}, [state.paused]);
@@ -836,11 +833,25 @@ function GameBoy({
 						<div className="gameboy__display__circle">&nbsp;</div>
 						<div className="gameboy__display__borderwrapper">
 							<div className="gameboy__display">
+								{state.gameOver ? (
+									<div className="gameboy__display__top__gameover">
+										<>
+											<div className="gameboy__display__top__gameover__title">
+												GAME OVER!
+											</div>
+											<div className="gameboy__display__top__gameover__score">
+												Score: {state.score}
+											</div>
+											<div className="gameboy__display__top__gameover__highscore">
+												High Score: {highScore}
+											</div>
+										</>
+									</div>
+								) : null}
 								&nbsp;
 								{state.start ? (
 									<>
 										<div
-											style={state.shrinkScreen ? shrinkMenu : { defaultMenu }}
 											id="ship__container"
 											className="gameboy__display__top__start"
 										>
@@ -946,7 +957,7 @@ function GameBoy({
 												<div className="ship-item15">&nbsp;</div>
 											</div>
 											{state.bulletCountArr.map((count, index1) => {
-												randomMargin($(`.bullets__wrapper__row${index1 + 1}`));
+												//randomMargin($(`.bullets__wrapper__row${index1 + 1}`));
 
 												return (
 													<Fragment key={index1}>
@@ -1348,7 +1359,7 @@ function GameBoy({
 									name="pause"
 									id="pause"
 									aria-label="pause"
-									onMouseDown={handleButtonPress}
+									onMouseDown={handlePauseButtonPress}
 									className="gameboy__pause"
 								></button>
 								<div className="gameboy__pause__borderwrapper">
