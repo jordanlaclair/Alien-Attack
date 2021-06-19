@@ -133,6 +133,14 @@ function GameBoy({
 						bulletInterval: action.value,
 					};
 				}
+			case "toggleCrashInterval":
+				if (state.start) {
+					return {
+						...state,
+						crashInterval: action.value,
+					};
+				}
+
 			case "shipSpeed":
 				if (state.start) {
 					return {
@@ -189,6 +197,7 @@ function GameBoy({
 		shrinkScreen: false,
 		immuneBullets: false,
 		shipSpeedInterval: 0,
+		crashInterval: 0,
 	};
 
 	const [state, dispatch] = useReducer(loginReducer, initialState);
@@ -530,6 +539,17 @@ function GameBoy({
 		return true;
 	}
 
+	function overlaps(a, b) {
+		const rect1 = a.getBoundingClientRect();
+		const rect2 = b.getBoundingClientRect();
+		const isInHoriztonalBounds =
+			rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x;
+		const isInVerticalBounds =
+			rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y;
+		const isOverlapping = isInHoriztonalBounds && isInVerticalBounds;
+		return isOverlapping;
+	}
+
 	function shuffle(array) {
 		var currentIndex = array.length,
 			randomIndex;
@@ -611,29 +631,23 @@ function GameBoy({
 	}, [state.start, state.paused]);
 
 	function menuOnUnPause() {
-		let hitBarrier;
-		let hitShip;
-
 		updateTimer();
 		updateScore();
-
-		//moveElementsDown();
-		barrier = $(".bullets__barrier");
-		bulletRows = $(
-			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
-		);
-		let bullets = $(
-			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
-		).children();
-
-		reCheckCollisions(bulletRows, hitBarrier, hitShip);
 	}
 
 	function bulletOnUnPause() {
 		createNewBullets();
 	}
 
-	function reCheckCollisions(bulletRows, hitBarrier, hitShip) {
+	function reCheckCollisions() {
+		let hitBarrier;
+		let hitShip;
+		barrier = $(".bullets__barrier");
+
+		bulletRows = $(
+			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
+		);
+
 		bulletRows.each(function () {
 			hitBarrier = checkCollision($(this), $(barrier));
 
@@ -797,21 +811,26 @@ function GameBoy({
 		if (!state.paused && state.start) {
 			dispatch({
 				type: "shipSpeed",
-				value: setInterval(moveElementsDown, 500),
+				value: setInterval(moveElementsDown, 400),
 			});
 			dispatch({
 				type: "toggleMenuInterval",
 				value: setInterval(menuOnUnPause, 1000),
 			});
+			dispatch({
+				type: "toggleCrashInterval",
+				value: setInterval(reCheckCollisions, 200),
+			});
 
 			dispatch({
 				type: "toggleBulletInterval",
-				value: setInterval(bulletOnUnPause, 5000),
+				value: setInterval(bulletOnUnPause, 1000),
 			});
 		} else {
 			clearInterval(state.menuInterval);
 			clearInterval(state.bulletInterval);
 			clearInterval(state.shipSpeedInterval);
+			clearInterval(state.crashInterval);
 		}
 	}
 
@@ -957,8 +976,6 @@ function GameBoy({
 												<div className="ship-item15">&nbsp;</div>
 											</div>
 											{state.bulletCountArr.map((count, index1) => {
-												//randomMargin($(`.bullets__wrapper__row${index1 + 1}`));
-
 												return (
 													<Fragment key={index1}>
 														<div
@@ -1230,7 +1247,9 @@ function GameBoy({
 												</div>
 											) : null}
 
-											<div className="bullets__barrier">&nbsp;</div>
+											<div id="bullets__barrier" className="bullets__barrier">
+												&nbsp;
+											</div>
 										</div>
 									</>
 								) : (
