@@ -17,6 +17,7 @@ function GameBoy({
 	var barrier;
 	var gameBoy;
 	const [shipState, setShipState] = useState(0);
+
 	const [immune, setImmune] = useState(false);
 	const [highScore, setHighScore] = useStickyState(0, "totalScore");
 	const menu = useRef(null);
@@ -642,6 +643,7 @@ function GameBoy({
 	function reCheckCollisions() {
 		let hitBarrier;
 		let hitShip;
+
 		barrier = $(".bullets__barrier");
 
 		bulletRows = $(
@@ -661,14 +663,19 @@ function GameBoy({
 						crashSoundRef.current.play();
 					}
 
-					setTimeout(() => {
+					/* setTimeout(() => {
+						
 						$(this).show();
-					}, 8000);
+					}, 8000); */
+				}
+				if (hitBarrier) {
+					$(this).show();
 				}
 			});
 
 			if (hitBarrier) {
 				//console.log("hit barrier");
+
 				$(this).css({ top: "0px" });
 				randomMargin(this);
 			}

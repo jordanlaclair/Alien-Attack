@@ -67,8 +67,8 @@
 	border: 3px groove rgb(134, 131, 131);
 }
 .gameboy__display__circle {
-	width: 5px;
-	height: 5px;
+	width: 1%;
+	height: 1%;
 	margin: 0px;
 	background-color: rgb(43, 41, 41);
 	border-radius: 50%;
@@ -200,7 +200,7 @@
 	-webkit-animation: blink 1.5s step-start 0s infinite;
 	color: rgb(83, 42, 32) !important ;
 	text-transform: uppercase;
-	font-size: 1.3em;
+	font-size: 1rem;
 	width: 75%;
 	margin-left: auto !important;
 	margin-bottom: 3%;
@@ -553,13 +553,12 @@
 	z-index: 7;
 	width: 100%;
 	height: 25%;
+	font-size: 2.5rem;
 
 	-webkit-text-stroke: 1px rgba(255, 255, 255, 0.747); /* width and color */
 }
 .year {
 	color: rgb(180, 64, 35);
-
-	font-size: 2.5em;
 
 	margin: 3%;
 	margin-bottom: 1%;
@@ -570,7 +569,6 @@
 	color: rgb(180, 64, 35);
 	margin: 3%;
 	margin-bottom: 1%;
-	font-size: 2.5em;
 	transform: scale(2, 1);
 }
 .gameboy__display__bottom__line1 {
@@ -1325,8 +1323,8 @@
 }
 .gameboy__pause {
 	cursor: pointer;
-	width: 150px;
-	height: 150px;
+	width: 70%;
+	height: 50%;
 	box-shadow: inset 0px -5px 5px black;
 
 	border: 1px solid black;
@@ -1561,7 +1559,15 @@
 	border-top: 500px solid black;
 	background-color: transparent;
 }
+
 @media screen and (min-width: 1024px) {
+	.start__wrapper {
+		font-size: 1.3rem;
+	}
+	.gameboy__pause {
+		width: 50%;
+		height: 50%;
+	}
 	.gameboy__uparrow1 {
 		width: 29%;
 	}
@@ -1580,38 +1586,21 @@
 	}
 }
 
-@media screen and (max-width: 1867px) {
+@media screen and (max-width: 720px) {
 	.gameboy__outer__shell {
-		width: 50vw; /* change later with media query */
+		min-width: 80vw;
 	}
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (min-width: 721px) {
 	.gameboy__outer__shell {
-		width: 100vw; /* change later with media query */
-	}
-	.gameboy__upperhalf {
-		width: 90%;
-	}
-	.gameboy__display__borderwrapper {
-		width: 65%;
-	}
-}
-@media screen and (min-width: 600px) and (max-width: 1024px) {
-	.gameboy__outer__shell {
-		width: 70vw; /* change later with media query */
-	}
-}
-@media screen and (min-width: 900px) and (max-width: 1867px) {
-	.gameboy__outer__shell {
-		width: 45vw; /* change later with media query */
+		min-width: 422px;
 	}
 }
 
 @media screen and (max-width: 420px) {
-	.start__wrapper {
-		white-space: nowrap;
-		font-size: 0.9em;
+	.gameboy__display__bottom__menu {
+		font-size: 1.5rem;
 	}
 	.gameboy__menu {
 		font-size: 1rem;
@@ -1644,10 +1633,8 @@
 	.gameboy__title {
 		font-size: 0.8em;
 	}
-
 	.start__wrapper {
-		font-size: 0.7em;
-		white-space: nowrap;
+		font-size: 0.8rem;
 	}
 
 	.gameboy__pause {
