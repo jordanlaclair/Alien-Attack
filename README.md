@@ -1,8 +1,10 @@
-# Alien Attack Game
+# Alien Attack Game 👾
 
 ## Description
 
-You are in a classroom during detention and decide to play Alien Attack 👾 instead of doing your homework. The game is simple. To win, you simply dodge the lasers from hitting your ships for as long as possible.
+You are in a classroom during detention and decide to play Alien Attack instead of doing your homework. ❌🗒️✏️❌
+
+The game is simple. To win, you simply dodge the lasers from hitting your ships for as long as possible.
 
 ## Features
 
