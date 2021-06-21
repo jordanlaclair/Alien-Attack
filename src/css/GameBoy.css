@@ -10,6 +10,7 @@
 	box-shadow: inset 0 0 10px rgb(209, 194, 194);
 	width: 30vw; /* change later with media query */
 	display: flex;
+	/* min-height: 640px; */
 	align-items: center;
 	justify-content: center;
 	-webkit-touch-callout: none; /* iOS Safari */
@@ -19,6 +20,7 @@
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none;
 	position: relative;
+	overflow: visible;
 }
 
 .gameboy__inner__shell {
@@ -1257,7 +1259,7 @@
 	border-style: solid;
 	border-color: #494536;
 	text-align: center;
-	font-size: 1.35rem;
+	font-size: 1.4rem;
 }
 
 .gameboy__start:hover {
@@ -1560,6 +1562,22 @@
 	background-color: transparent;
 }
 
+@media screen and (min-width: 320px) and (max-width: 420px) {
+	.gameboy__title {
+		font-size: 0.9em;
+	}
+
+	.gameboy__restart__label {
+		font-size: 0.9rem;
+	}
+	.gameboy__start__label {
+		font-size: 0.9rem;
+	}
+	.gameboy__pause__label {
+		font-size: 0.9rem;
+	}
+}
+
 @media screen and (min-width: 1024px) {
 	.start__wrapper {
 		font-size: 1.3rem;
@@ -1595,6 +1613,7 @@
 @media screen and (min-width: 721px) {
 	.gameboy__outer__shell {
 		min-width: 422px;
+		/* min-height: 640px; */
 	}
 }
 
@@ -1617,6 +1636,7 @@
 		width: 2rem;
 		height: 2rem;
 	}
+
 	@keyframes glow {
 		from {
 			box-shadow: 0px 0px 0.5rem 0.2rem rgb(70, 170, 170),
@@ -1634,6 +1654,15 @@
 		font-size: 0.8em;
 	}
 	.start__wrapper {
+		font-size: 0.8rem;
+	}
+	.gameboy__restart__label {
+		font-size: 0.8rem;
+	}
+	.gameboy__start__label {
+		font-size: 0.8rem;
+	}
+	.gameboy__pause__label {
 		font-size: 0.8rem;
 	}
 
@@ -1669,22 +1698,14 @@
 	}
 }
 
-@media screen and (min-width: 320px) and (max-width: 420px) {
-	.gameboy__title {
-		font-size: 0.9em;
-	}
-	.gameboy__start__label {
-		font-size: 1.1rem;
-	}
-	.gameboy__restart__label {
-		font-size: 1rem;
-	}
-}
 @media screen and (max-width: 280px) {
 	.gameboy__restart__label {
-		font-size: 0.9rem;
+		font-size: 0.7rem;
 	}
 	.gameboy__start__label {
-		font-size: 0.9rem;
+		font-size: 0.7rem;
+	}
+	.gameboy__pause__label {
+		font-size: 0.7rem;
 	}
 }
