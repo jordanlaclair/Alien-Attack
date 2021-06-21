@@ -1325,7 +1325,7 @@
 }
 .gameboy__pause {
 	cursor: pointer;
-	width: 70%;
+	width: 60%;
 	height: 50%;
 	box-shadow: inset 0px -5px 5px black;
 
@@ -1345,7 +1345,7 @@
 }
 .gameboy__pause__active {
 	cursor: pointer;
-	width: 70%;
+	width: 60%;
 	height: 50%;
 	box-shadow: inset 0px -5px 5px black;
 
@@ -1410,7 +1410,7 @@
 
 .gameboy__uparrow1 {
 	cursor: pointer;
-	width: 35%;
+	width: 33%;
 	height: 95%;
 	box-shadow: inset 0px -5px 5px black;
 	border: 1px solid black;
@@ -1429,7 +1429,7 @@
 }
 
 .gameboy__uparrow1__active {
-	width: 35%;
+	width: 33%;
 	height: 95%;
 	box-shadow: inset 0px -5px 5px black;
 	border: 1px solid black;
@@ -1440,7 +1440,7 @@
 }
 
 .gameboy__uparrow1__active__1 {
-	width: 35%;
+	width: 33%;
 	height: 95%;
 	box-shadow: inset 0px -5px 5px black;
 	border: 1px solid black;
@@ -1589,6 +1589,57 @@
 }
 
 @media screen and (min-width: 1024px) {
+	.gameboy__uparrow1 {
+		cursor: pointer;
+		width: 30%;
+		height: 95%;
+		box-shadow: inset 0px -5px 5px black;
+		border: 1px solid black;
+		background-color: rgb(170, 5, 5);
+		border-radius: 50%;
+	}
+	.gameboy__uparrow1__active {
+		width: 30%;
+		height: 95%;
+		box-shadow: inset 0px -5px 5px black;
+		border: 1px solid black;
+		border-radius: 50%;
+		background-color: rgb(194, 30, 30);
+		outline: 0;
+		box-shadow: inset 0 5px 8px rgb(0 0 0 / 80%);
+	}
+	.gameboy__uparrow1__active__1 {
+		width: 30%;
+		height: 95%;
+		box-shadow: inset 0px -5px 5px black;
+		border: 1px solid black;
+		border-radius: 50%;
+		background-color: rgb(194, 30, 30);
+		outline: 0;
+		box-shadow: inset 0 5px 8px rgb(0 0 0 / 80%);
+	}
+
+	.gameboy__pause {
+		width: 55%;
+		height: 50%;
+		box-shadow: inset 0px -5px 5px black;
+
+		border: 1px solid black;
+		background-color: rgb(170, 5, 5);
+		border-radius: 50%;
+	}
+	.gameboy__pause__active {
+		cursor: pointer;
+		width: 55%;
+		height: 50%;
+		box-shadow: inset 0px -5px 5px black;
+
+		border: 1px solid black;
+		border-radius: 50%;
+		background-color: rgb(194, 30, 30);
+		outline: 0;
+		box-shadow: inset 0 10px 3px rgb(0 0 0 / 80%);
+	}
 	.start__wrapper {
 		font-size: 1.3rem;
 	}
@@ -1670,10 +1721,6 @@
 		font-size: 0.8rem;
 	}
 
-	.gameboy__pause {
-		width: 100px;
-		height: 100px; /* change later with media query */
-	}
 	.gameboy__pause__wrapper {
 		height: 75%;
 		margin-top: 20%;
