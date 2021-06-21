@@ -34,10 +34,6 @@ function GameBoy({
 		return [value, setValue];
 	}
 
-	useEffect(() => {
-		console.log("immune", immune);
-	}, [immune]);
-
 	function loginReducer(state, action) {
 		switch (action.type) {
 			case "start":
@@ -221,7 +217,7 @@ function GameBoy({
 				buttonClickSoundRef.current.play();
 			}
 			document.getElementById("rightarrow").className =
-				"gameboy__uparrow1__active";
+				"gameboy__uparrow1__active__1";
 		} else if (event.key === "ArrowDown") {
 			if (state.paused == false && state.start == true) {
 				moveSoundRef.current.play();
@@ -237,7 +233,7 @@ function GameBoy({
 				buttonClickSoundRef.current.play();
 			}
 			document.getElementById("leftarrow").className =
-				"gameboy__uparrow1__active";
+				"gameboy__uparrow1__active__1";
 		} else if (event.key === "s" || event.key === "S") {
 			if (!state.startButtonActivated) {
 				startSoundRef.current.play();
@@ -302,10 +298,8 @@ function GameBoy({
 			state.start == true &&
 			state.gameOver == false
 		) {
-			//console.log("here");
 			moveSoundRef.current.play();
 		} else {
-			//console.log("here1");
 			buttonClickSoundRef.current.play();
 		}
 	};
@@ -363,19 +357,12 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		//console.log(highScore);
-	}, [highScore]);
-
-	useEffect(() => {
 		if (state.score > highScore) {
 			setHighScore(state.score);
 		}
 	}, [state.score]);
 
 	function updateTime() {
-		/* let elem = document.getElementById("ship__container");
-		let ht = window.getComputedStyle(elem, null).getPropertyValue("width");
-		console.log(ht); */
 		dispatch({
 			type: "update",
 			field: "time",
@@ -422,8 +409,6 @@ function GameBoy({
 	}
 
 	function randomMargin(el) {
-		//console.log($(el).children(".bullet__middle"));
-
 		$(el)
 			.children(".bullet__left")
 			.each(function () {
@@ -467,7 +452,6 @@ function GameBoy({
 
 	function moveElementDown(el) {
 		let previousTopPosition = el.css("top");
-		//console.log("original top", previousTopPosition);
 		let newPosition;
 
 		previousTopPosition = previousTopPosition.slice(
@@ -475,7 +459,6 @@ function GameBoy({
 			previousTopPosition.length - 2
 		);
 		newPosition = parseInt(previousTopPosition) + 20;
-		//console.log("new top", newPosition);
 		$(el).css({
 			top: newPosition + "px",
 		});
@@ -662,11 +645,6 @@ function GameBoy({
 					if (!state.muted) {
 						crashSoundRef.current.play();
 					}
-
-					/* setTimeout(() => {
-						
-						$(this).show();
-					}, 8000); */
 				}
 				if (hitBarrier) {
 					$(this).show();
@@ -674,8 +652,6 @@ function GameBoy({
 			});
 
 			if (hitBarrier) {
-				//console.log("hit barrier");
-
 				$(this).css({ top: "0px" });
 				randomMargin(this);
 			}
@@ -683,8 +659,6 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		//console.log("hit ship");
-		//console.log(state.lives);
 		if (state.lives == 3) {
 			if (
 				$("#life1.lives__wrapper__ship").length > 0 &&
@@ -842,14 +816,8 @@ function GameBoy({
 	}
 
 	useEffect(() => {
-		console.log(state.paused);
-
 		startPause();
 	}, [state.paused]);
-
-	useEffect(() => {
-		//console.log(state.bulletInterval);
-	}, [state.bulletInterval]);
 
 	return (
 		<div className="gameboy__outer__shell">

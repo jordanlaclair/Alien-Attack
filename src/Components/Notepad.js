@@ -13,8 +13,6 @@ function Notepad1() {
 		setWidth(window.innerWidth);
 	};
 
-	//console.log(width);
-
 	if (width > 1867) {
 		return (
 			<div className="notepad__wrapper">
