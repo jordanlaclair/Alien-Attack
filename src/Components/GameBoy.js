@@ -13,9 +13,6 @@ function GameBoy({
 	buttonClickSoundRef,
 	crashSoundRef,
 }) {
-	var bulletRows;
-	var barrier;
-	var gameBoy;
 	const [shipState, setShipState] = useState(0);
 
 	const [immune, setImmune] = useState(false);
@@ -53,7 +50,6 @@ function GameBoy({
 					return {
 						...state,
 						restarted: state.restarted + 1,
-						shrinkScreen: false,
 						gameOver: false,
 						minutes: 0,
 						seconds: 0,
@@ -77,7 +73,6 @@ function GameBoy({
 				return {
 					...state,
 					gameOver: true,
-					shrinkScreen: true,
 				};
 
 			case "update":
@@ -191,7 +186,6 @@ function GameBoy({
 		restart: 0,
 		lives: 3,
 		gameOver: false,
-		shrinkScreen: false,
 		immuneBullets: false,
 		shipSpeedInterval: 0,
 		crashInterval: 0,
@@ -483,14 +477,14 @@ function GameBoy({
 	}
 
 	function randomizeLeftBullet(el) {
-		var randomnumber2 = getRandomArbitrary(5, 10);
+		var randomnumber2 = getRandomArbitrary(0, 15);
 
 		$(el).css({
 			left: randomnumber2 + "%",
 		});
 	}
 	function randomizeRightBullet(el) {
-		var randomnumber2 = getRandomArbitrary(5, 10);
+		var randomnumber2 = getRandomArbitrary(0, 15);
 
 		$(el).css({
 			right: randomnumber2 + "%",
@@ -498,8 +492,7 @@ function GameBoy({
 	}
 
 	function randomizeMiddleBullet(el) {
-		var randomnumber2 = Math.floor(Math.random() * 15);
-
+		var randomnumber2 = getRandomArbitrary(0, 15);
 		$(el).css({
 			left: randomnumber2 + "%",
 			right: randomnumber2 + "%",
@@ -507,24 +500,25 @@ function GameBoy({
 	}
 
 	function checkCollision($div1, $div2) {
-		var x1 = $div1.offset().left;
-		var y1 = $div1.offset().top;
-		var h1 = $div1.outerHeight(true);
-		var w1 = $div1.outerWidth(true);
-		var b1 = y1 + h1;
-		var r1 = x1 + w1;
-		var x2 = $div2.offset().left;
-		var y2 = $div2.offset().top;
-		var h2 = $div2.outerHeight(true);
-		var w2 = $div2.outerWidth(true);
-		var b2 = y2 + h2;
-		var r2 = x2 + w2;
-		if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
-		return true;
+		if ($div2.length > 0) {
+			var x1 = $div1.offset().left;
+			var y1 = $div1.offset().top;
+			var h1 = $div1.outerHeight(true);
+			var w1 = $div1.outerWidth(true);
+			var b1 = y1 + h1;
+			var r1 = x1 + w1;
+			var x2 = $div2.offset().left;
+			var y2 = $div2.offset().top;
+			var h2 = $div2.outerHeight(true);
+			var w2 = $div2.outerWidth(true);
+			var b2 = y2 + h2;
+			var r2 = x2 + w2;
+			if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
+			return true;
+		} else {
+			return false;
+		}
 	}
-
-	
-
 
 	function createNewBullets() {
 		dispatch({ type: "renderNewBullet", value: 0 });
@@ -537,6 +531,7 @@ function GameBoy({
 	useEffect(() => {
 		document.addEventListener("keydown", handleKeyDown);
 		document.addEventListener("keyup", handleKeyUp);
+
 		if (state.paused == false) {
 			$(function () {
 				var pane = $("#ship__container"),
@@ -544,7 +539,7 @@ function GameBoy({
 					wh = pane.width() - box.width(),
 					wv = pane.height() - box.height(),
 					d = {},
-					x = 2;
+					x = 3;
 
 				function newh(v, a, b) {
 					var n = parseInt(v, 10) - (d[a] ? x : 0) + (d[b] ? x : 0);
@@ -559,18 +554,49 @@ function GameBoy({
 				$(window).keydown(function (e) {
 					d[e.which] = true;
 				});
+
 				$(window).keyup(function (e) {
 					d[e.which] = false;
 				});
+
+				$("#leftarrow").on("mousedown touchstart", function (e) {
+					d[37] = true;
+				});
+				$("#leftarrow").on("mouseup touchend", function (e) {
+					d[37] = false;
+				});
+
+				$("#rightarrow").on("mousedown touchstart", function (e) {
+					d[39] = true;
+				});
+				$("#rightarrow").on("mouseup touchend", function (e) {
+					d[39] = false;
+				});
+
+				$("#uparrow").on("mousedown touchstart", function (e) {
+					d[38] = true;
+				});
+				$("#uparrow").on("mouseup touchend", function (e) {
+					d[38] = false;
+				});
+
+				$("#downarrow").on("mousedown touchstart", function (e) {
+					d[40] = true;
+				});
+				$("#downarrow").on("mouseup touchend", function (e) {
+					d[40] = false;
+				});
+
 				let interval;
+
 				setShipState(
 					setInterval(function () {
 						box.css({
 							left: function (i, v) {
-								return newh(v, 37, 39);
+								return newh(v, 37, 39); //left, right
 							},
 							top: function (i, v) {
-								return newv(v, 38, 40);
+								return newv(v, 38, 40); // up, down
 							},
 						});
 						wh = pane.width() - box.width();
@@ -599,8 +625,10 @@ function GameBoy({
 	}
 
 	function reCheckCollisions() {
+		let bulletRows;
 		let hitBarrier;
 		let hitShip;
+		let barrier;
 
 		barrier = $(".bullets__barrier");
 
@@ -744,12 +772,6 @@ function GameBoy({
 				$("#ship").css({
 					top: "50%",
 					left: "50%",
-					margin:
-						"-" +
-						$("#ship").height() / 2 +
-						"px 0 0 -" +
-						$("#ship").width() / 2 +
-						"px",
 				});
 				$("#ship").show();
 				$("#ship").removeClass("ship-remove-class");
@@ -925,6 +947,7 @@ function GameBoy({
 												<div className="ship-item14">&nbsp;</div>
 												<div className="ship-item15">&nbsp;</div>
 											</div>
+
 											{state.bulletCountArr.map((count, index1) => {
 												return (
 													<Fragment key={index1}>

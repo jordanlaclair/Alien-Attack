@@ -880,7 +880,7 @@
 	color: white;
 	width: 100%;
 	height: 100%;
-	
+
 	background: transparent;
 	animation-name: blink;
 	animation-duration: 0.7s;
@@ -906,6 +906,7 @@
 	background: transparent;
 	width: 100%;
 	height: 10%;
+	overflow: hidden;
 }
 .bullets__wrapper__row2 {
 	position: absolute;
@@ -916,6 +917,7 @@
 	background: transparent;
 	width: 100%;
 	height: 10%;
+	overflow: hidden;
 }
 
 .bullets__wrapper__row3 {
@@ -927,6 +929,7 @@
 	background: transparent;
 	width: 100%;
 	height: 10%;
+	overflow: hidden;
 }
 .bullets__wrapper__row4 {
 	position: absolute;
@@ -937,6 +940,7 @@
 	background: transparent;
 	width: 100%;
 	height: 10%;
+	overflow: hidden;
 }
 .bullets__wrapper__row5 {
 	position: absolute;
@@ -947,6 +951,7 @@
 	background: transparent;
 	width: 100%;
 	height: 10%;
+	overflow: hidden;
 }
 .bullet__left {
 	position: relative;
@@ -1590,13 +1595,11 @@
 	}
 }
 @media screen and (max-width: 1680px) {
-	.gameboy__menu
-	{
+	.gameboy__menu {
 		font-size: 1rem;
 	}
 }
 @media screen and (min-width: 1024px) {
-	
 	.gameboy__uparrow1 {
 		cursor: pointer;
 		width: 30%;
@@ -1687,7 +1690,7 @@
 	.gameboy__menu {
 		font-size: 0.8rem;
 	}
-	
+
 	.ship::after {
 		width: 2rem;
 		height: 2rem;
@@ -1710,7 +1713,6 @@
 }
 
 @media screen and (max-width: 320px) {
-	
 	.gameboy__title {
 		font-size: 0.8em;
 	}
