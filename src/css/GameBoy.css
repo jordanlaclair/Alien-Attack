@@ -2,6 +2,7 @@
 
 .gameboy__outer__shell {
 	height: 90vh;
+	min-height: 500px;
 	background-color: rgb(116, 117, 113);
 	border-radius: 35px;
 	border-bottom-right-radius: 90px;
@@ -20,7 +21,6 @@
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none;
 	position: relative;
-	overflow: visible;
 }
 
 .gameboy__inner__shell {
@@ -880,6 +880,7 @@
 	color: white;
 	width: 100%;
 	height: 100%;
+	
 	background: transparent;
 	animation-name: blink;
 	animation-duration: 0.7s;
@@ -1065,6 +1066,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin: 10px;
 }
 .colon__wrapper1 {
 	margin: 8%;
@@ -1572,7 +1574,7 @@
 	background-color: transparent;
 }
 
-@media screen and (min-width: 320px) and (max-width: 420px) {
+@media screen and (min-width: 320px) and (max-width: 515px) {
 	.gameboy__title {
 		font-size: 0.9em;
 	}
@@ -1587,8 +1589,14 @@
 		font-size: 0.9rem;
 	}
 }
-
+@media screen and (max-width: 1680px) {
+	.gameboy__menu
+	{
+		font-size: 1rem;
+	}
+}
 @media screen and (min-width: 1024px) {
+	
 	.gameboy__uparrow1 {
 		cursor: pointer;
 		width: 30%;
@@ -1677,12 +1685,9 @@
 		font-size: 1.5rem;
 	}
 	.gameboy__menu {
-		font-size: 1rem;
+		font-size: 0.8rem;
 	}
-	.lives__wrapper__ship {
-		width: 35%;
-		height: 85%;
-	}
+	
 	.ship::after {
 		width: 2rem;
 		height: 2rem;
@@ -1705,6 +1710,7 @@
 }
 
 @media screen and (max-width: 320px) {
+	
 	.gameboy__title {
 		font-size: 0.8em;
 	}
