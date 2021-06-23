@@ -14,7 +14,6 @@ function GameBoy({
 	crashSoundRef,
 }) {
 	const [shipState, setShipState] = useState(0);
-
 	const [immune, setImmune] = useState(false);
 	const [highScore, setHighScore] = useStickyState(0, "totalScore");
 	const menu = useRef(null);
@@ -350,11 +349,7 @@ function GameBoy({
 		});
 	}
 
-	useEffect(() => {
-		if (state.score > highScore) {
-			setHighScore(state.score);
-		}
-	}, [state.score]);
+	
 
 	function updateTime() {
 		dispatch({
@@ -418,6 +413,11 @@ function GameBoy({
 			.each(function () {
 				randomizeRightBullet(this);
 			});
+	}
+
+	function getRandomHeight(arr) {
+		var item = arr[Math.floor(Math.random() * arr.length)];
+		return item;
 	}
 
 	function moveElementsDown() {
@@ -524,10 +524,60 @@ function GameBoy({
 		dispatch({ type: "renderNewBullet", value: 0 });
 	}
 
-	function getRandomHeight(arr) {
-		var item = arr[Math.floor(Math.random() * arr.length)];
-		return item;
+	
+	
+
+	function menuOnUnPause() {
+		updateTimer();
+		updateScore();
 	}
+
+	function bulletOnUnPause() {
+		createNewBullets();
+	}
+
+	function reCheckCollisions() {
+		let bulletRows;
+		let hitBarrier;
+		let hitShip;
+		let barrier;
+
+		barrier = $(".bullets__barrier");
+
+		bulletRows = $(
+			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
+		);
+
+		bulletRows.each(function () {
+			hitBarrier = checkCollision($(this), $(barrier));
+
+			$(this.children).each(function () {
+				hitShip = checkCollision($(this), $(".ship"));
+				if (hitShip) {
+					dispatch({ type: "shipCollision" });
+					$(this).hide();
+
+					if (!state.muted) {
+						crashSoundRef.current.play();
+					}
+				}
+				if (hitBarrier) {
+					$(this).show();
+				}
+			});
+
+			if (hitBarrier) {
+				$(this).css({ top: "0px" });
+				randomMargin(this);
+			}
+		});
+	}
+	useEffect(() => {
+		if (state.score > highScore) {
+			setHighScore(state.score);
+		}
+	}, [state.score]);
+	
 	useEffect(() => {
 		document.addEventListener("keydown", handleKeyDown);
 		document.addEventListener("keyup", handleKeyUp);
@@ -614,52 +664,6 @@ function GameBoy({
 			document.removeEventListener("keyup", handleKeyUp);
 		};
 	}, [state.start, state.paused]);
-
-	function menuOnUnPause() {
-		updateTimer();
-		updateScore();
-	}
-
-	function bulletOnUnPause() {
-		createNewBullets();
-	}
-
-	function reCheckCollisions() {
-		let bulletRows;
-		let hitBarrier;
-		let hitShip;
-		let barrier;
-
-		barrier = $(".bullets__barrier");
-
-		bulletRows = $(
-			".bullets__wrapper__row1, .bullets__wrapper__row2, .bullets__wrapper__row3, .bullets__wrapper__row4, .bullets__wrapper__row5"
-		);
-
-		bulletRows.each(function () {
-			hitBarrier = checkCollision($(this), $(barrier));
-
-			$(this.children).each(function () {
-				hitShip = checkCollision($(this), $(".ship"));
-				if (hitShip) {
-					dispatch({ type: "shipCollision" });
-					$(this).hide();
-
-					if (!state.muted) {
-						crashSoundRef.current.play();
-					}
-				}
-				if (hitBarrier) {
-					$(this).show();
-				}
-			});
-
-			if (hitBarrier) {
-				$(this).css({ top: "0px" });
-				randomMargin(this);
-			}
-		});
-	}
 
 	useEffect(() => {
 		if (state.lives == 3) {
@@ -785,6 +789,10 @@ function GameBoy({
 		}
 	}, [state.restarted]);
 
+	useEffect(() => {
+		startPause();
+	}, [state.paused]);
+
 	function startPause() {
 		if (!state.paused && state.start) {
 			dispatch({
@@ -812,9 +820,7 @@ function GameBoy({
 		}
 	}
 
-	useEffect(() => {
-		startPause();
-	}, [state.paused]);
+	
 
 	return (
 		<div className="gameboy__outer__shell">

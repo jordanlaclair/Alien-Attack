@@ -6,6 +6,9 @@ You are in a classroom during detention and decide to play Alien Attack instead 
 
 The game is simple. To win, you simply dodge the lasers from hitting your ships for as long as possible.
 
+## Live Demo
+🟢 [Live Link](https://alien-attack-39e82.web.app) 🟢
+
 ## Features
 
 - 3 lives 👾 🚀
