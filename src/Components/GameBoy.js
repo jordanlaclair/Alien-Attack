@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef, useReducer } from "react";
+import useSound from "use-sound";
 import UFO from "../images/gameboy__ufo.png";
 import $ from "jquery";
+import moveSound from "../sounds/gameboy__arrowkey.mp3";
 import { Fragment } from "react";
 
 import "../css/GameBoy.css";
 
 function GameBoy({
-	moveSoundRef,
 	restartSoundRef,
 	muteSoundRef,
 	startSoundRef,
@@ -14,8 +15,15 @@ function GameBoy({
 	crashSoundRef,
 }) {
 	const [shipState, setShipState] = useState(0);
+	const [muted, setMuted] = useState(false);
 	const [immune, setImmune] = useState(false);
 	const [highScore, setHighScore] = useStickyState(0, "totalScore");
+	const [moveButton] = useSound(moveSound, {
+		interrupt: true,
+		soundEnabled: !muted,
+		volume: !muted ? 1.0 : 0,
+	});
+
 	const menu = useRef(null);
 
 	function useStickyState(defaultValue, key) {
@@ -67,7 +75,7 @@ function GameBoy({
 						paused: !state.paused,
 					};
 				}
-
+			/* falls through */
 			case "GameOver":
 				return {
 					...state,
@@ -117,6 +125,7 @@ function GameBoy({
 						menuInterval: action.value,
 					};
 				}
+			/* falls through */
 			case "toggleBulletInterval":
 				if (state.start) {
 					return {
@@ -124,6 +133,7 @@ function GameBoy({
 						bulletInterval: action.value,
 					};
 				}
+			/* falls through */
 			case "toggleCrashInterval":
 				if (state.start) {
 					return {
@@ -131,7 +141,7 @@ function GameBoy({
 						crashInterval: action.value,
 					};
 				}
-
+			/* falls through */
 			case "shipSpeed":
 				if (state.start) {
 					return {
@@ -139,6 +149,7 @@ function GameBoy({
 						shipSpeedInterval: action.value,
 					};
 				}
+			/* falls through */
 			case "setTimeInterval":
 				return {
 					...state,
@@ -194,8 +205,8 @@ function GameBoy({
 
 	const handleKeyDown = (event) => {
 		if (event.key === "ArrowUp") {
-			if (state.paused == false && state.start == true) {
-				moveSoundRef.current.play();
+			if (state.paused === false && state.start === true) {
+				moveButton();
 			} else {
 				buttonClickSoundRef.current.play();
 			}
@@ -203,25 +214,24 @@ function GameBoy({
 			document.getElementById("uparrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowRight") {
-			buttonClickSoundRef.current.play();
-			if (state.paused == false && state.start == true) {
-				moveSoundRef.current.play();
+			if (state.paused === false && state.start === true) {
+				moveButton();
 			} else {
 				buttonClickSoundRef.current.play();
 			}
 			document.getElementById("rightarrow").className =
 				"gameboy__uparrow1__active__1";
 		} else if (event.key === "ArrowDown") {
-			if (state.paused == false && state.start == true) {
-				moveSoundRef.current.play();
+			if (state.paused === false && state.start === true) {
+				moveButton();
 			} else {
 				buttonClickSoundRef.current.play();
 			}
 			document.getElementById("downarrow").className =
 				"gameboy__uparrow1__active";
 		} else if (event.key === "ArrowLeft") {
-			if (state.paused == false && state.start == true) {
-				moveSoundRef.current.play();
+			if (state.paused === false && state.start === true) {
+				moveButton();
 			} else {
 				buttonClickSoundRef.current.play();
 			}
@@ -248,20 +258,22 @@ function GameBoy({
 		} else if (event.key === "p" || event.key === "P") {
 			if (!state.gameOver) {
 				dispatch({ type: "pause" });
-				moveSoundRef.current.play();
+				moveButton();
 			} else {
 				buttonClickSoundRef.current.play();
 			}
 
 			document.getElementById("pause").className = "gameboy__pause__active";
 		} else if (event.key === "m" || event.key === "M") {
+			setMuted((prevState) => {
+				return !prevState;
+			});
 			buttonClickSoundRef.current.load();
 			buttonClickSoundRef.current.play();
 			document.getElementById("mute").className = "gameboy__mute__active";
 			startSoundRef.current.muted = !startSoundRef.current.muted;
 			restartSoundRef.current.muted = !restartSoundRef.current.muted;
 			buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
-			moveSoundRef.current.muted = !moveSoundRef.current.muted;
 			crashSoundRef.current.muted = !crashSoundRef.current.muted;
 		}
 	};
@@ -287,11 +299,12 @@ function GameBoy({
 
 	const handleButtonPress = () => {
 		if (
-			state.paused == false &&
-			state.start == true &&
-			state.gameOver == false
+			state.paused === false &&
+			state.start === true &&
+			state.gameOver === false
 		) {
-			moveSoundRef.current.play();
+			moveButton();
+			//moveSoundRef.current.play();
 		} else {
 			buttonClickSoundRef.current.play();
 		}
@@ -300,7 +313,7 @@ function GameBoy({
 	const handlePauseButtonPress = () => {
 		if (!state.gameOver) {
 			dispatch({ type: "pause" });
-			moveSoundRef.current.play();
+			moveButton();
 		} else {
 			buttonClickSoundRef.current.play();
 		}
@@ -320,11 +333,13 @@ function GameBoy({
 		} else {
 			restartSoundRef.current.play();
 			dispatch({ type: "restart" });
-			resetBoard();
 		}
 	};
 
 	const handleMuteButtonPress = (e) => {
+		setMuted((prevState) => {
+			return !prevState;
+		});
 		muteSoundRef.current.load();
 		muteSoundRef.current.play();
 
@@ -332,7 +347,6 @@ function GameBoy({
 		restartSoundRef.current.muted = !restartSoundRef.current.muted;
 		crashSoundRef.current.muted = !crashSoundRef.current.muted;
 		buttonClickSoundRef.current.muted = !buttonClickSoundRef.current.muted;
-		moveSoundRef.current.muted = !moveSoundRef.current.muted;
 	};
 
 	function updateTimer() {
@@ -348,8 +362,6 @@ function GameBoy({
 			type: "updateMinutes",
 		});
 	}
-
-	
 
 	function updateTime() {
 		dispatch({
@@ -458,24 +470,6 @@ function GameBoy({
 		});
 	}
 
-	function resetBoard() {
-		$(".bullet__left").each(function () {
-			bringElementToTop(this);
-		});
-		$(".bullet__right").each(function () {
-			bringElementToTop(this);
-		});
-		$(".bullet__middle").each(function () {
-			bringElementToTop(this);
-		});
-	}
-
-	function bringElementToTop(el) {
-		$(el).css({
-			"margin-top": "0px",
-		});
-	}
-
 	function randomizeLeftBullet(el) {
 		var randomnumber2 = getRandomArbitrary(0, 15);
 
@@ -523,9 +517,6 @@ function GameBoy({
 	function createNewBullets() {
 		dispatch({ type: "renderNewBullet", value: 0 });
 	}
-
-	
-	
 
 	function menuOnUnPause() {
 		updateTimer();
@@ -577,12 +568,16 @@ function GameBoy({
 			setHighScore(state.score);
 		}
 	}, [state.score]);
-	
+
+	useEffect(() => {
+		console.log(muted);
+	}, [muted]);
+
 	useEffect(() => {
 		document.addEventListener("keydown", handleKeyDown);
 		document.addEventListener("keyup", handleKeyUp);
 
-		if (state.paused == false) {
+		if (state.paused === false) {
 			$(function () {
 				var pane = $("#ship__container"),
 					box = $("#ship"),
@@ -637,8 +632,6 @@ function GameBoy({
 					d[40] = false;
 				});
 
-				let interval;
-
 				setShipState(
 					setInterval(function () {
 						box.css({
@@ -666,7 +659,7 @@ function GameBoy({
 	}, [state.start, state.paused]);
 
 	useEffect(() => {
-		if (state.lives == 3) {
+		if (state.lives === 3) {
 			if (
 				$("#life1.lives__wrapper__ship").length > 0 &&
 				$("#life2.lives__wrapper__ship").length > 0 &&
@@ -706,13 +699,13 @@ function GameBoy({
 			}
 		}
 
-		if (state.lives == 2) {
+		if (state.lives === 2) {
 			document.getElementById("life1").remove();
 		}
-		if (state.lives == 1) {
+		if (state.lives === 1) {
 			document.getElementById("life2").remove();
 		}
-		if (state.lives == 0) {
+		if (state.lives === 0) {
 			document.getElementById("life3").remove();
 
 			dispatch({ type: "pause" });
@@ -819,8 +812,6 @@ function GameBoy({
 			clearInterval(state.crashInterval);
 		}
 	}
-
-	
 
 	return (
 		<div className="gameboy__outer__shell">
