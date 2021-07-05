@@ -1,7 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 .gameboy__outer__shell {
-	height: 90vh;
+	position: relative;
+	height: 90%;
+
+	min-height: -webkit-fill-available;
 	min-height: 500px;
 	background-color: rgb(116, 117, 113);
 	border-radius: 35px;
@@ -20,7 +23,7 @@
 	-moz-user-select: none; /* Old versions of Firefox */
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none;
-	position: relative;
+	overflow: hidden;
 }
 
 .gameboy__inner__shell {

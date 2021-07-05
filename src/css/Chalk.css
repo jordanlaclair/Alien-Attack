@@ -1,7 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Give+You+Glory&display=swap");
 .chalk__wrapper {
-	min-height: 100vh;
-	max-height: 100vh;
 	font-family: "Give You Glory", cursive;
 	position: absolute;
 	z-index: 0 !important;

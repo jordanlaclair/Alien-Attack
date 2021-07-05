@@ -10,6 +10,13 @@ import Crash from "./sounds/gameboy__crash.mp3";
 import "./App.css";
 
 function App() {
+	const appHeight = () => {
+		const doc = document.documentElement;
+		doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+	};
+	window.addEventListener("resize", appHeight);
+	appHeight();
+
 	const buttonClickSoundRef = useRef(new Audio(ButtonPress));
 	const muteSoundRef = useRef(new Audio(ButtonPress));
 	const crashSoundRef = useRef(new Audio(Crash));
